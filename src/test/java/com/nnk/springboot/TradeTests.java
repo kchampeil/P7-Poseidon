@@ -19,6 +19,7 @@ public class TradeTests {
 	@Autowired
 	private TradeRepository tradeRepository;
 
+	/* KC
 	@Test
 	public void tradeTest() {
 		Trade trade = new Trade("Trade Account", "Type");
@@ -43,4 +44,6 @@ public class TradeTests {
 		Optional<Trade> tradeList = tradeRepository.findById(id);
 		Assert.assertFalse(tradeList.isPresent());
 	}
+
+	 */
 }
