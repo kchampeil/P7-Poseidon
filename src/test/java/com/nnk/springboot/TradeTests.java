@@ -1,7 +1,6 @@
 package com.nnk.springboot;
 
 import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.repositories.TradeRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +15,10 @@ import java.util.Optional;
 @SpringBootTest
 public class TradeTests {
 
+	/* KC
 	@Autowired
 	private TradeRepository tradeRepository;
 
-	/* KC
 	@Test
 	public void tradeTest() {
 		Trade trade = new Trade("Trade Account", "Type");

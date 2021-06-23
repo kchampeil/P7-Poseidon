@@ -1,6 +1,6 @@
 package com.nnk.springboot;
 
-import com.nnk.springboot.repositories.RuleNameRepository;
+import com.nnk.springboot.domain.RuleName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,10 +10,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class RuleTests {
 
+    /* KC
     @Autowired
     private RuleNameRepository ruleNameRepository;
 
-    /* KC
 	@Test
 	public void ruleTest() {
 		RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");

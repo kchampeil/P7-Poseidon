@@ -1,7 +1,6 @@
 package com.nnk.springboot;
 
 import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.repositories.BidListRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,10 +15,11 @@ import java.util.Optional;
 @SpringBootTest
 public class BidTests {
 
+	/* KC
 	@Autowired
 	private BidListRepository bidListRepository;
 
-	/* KC
+
 	@Test
 	public void bidListTest() {
 		BidList bid = new BidList("Account Test", "Type Test", 10d);
