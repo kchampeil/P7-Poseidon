@@ -13,12 +13,14 @@ public class LogConstants {
     public static final String FIND_BID_LIST_OK = "List of bidList retrieved with () values: ";
 
     /* Controllers */
+    public static final String CURRENT_USER_UNKNOWN = "Current user unknown";
+
+    public static final String BIDLIST_CREATION_FORM_REQUEST_RECEIVED = "GET request on endpoint /bidList/add received";
     public static final String BIDLIST_CREATION_REQUEST_RECEIVED = "POST request on endpoint /bidList/validate received for (BidList): ";
     public static final String BIDLIST_CREATION_REQUEST_NOT_VALID = "Bid list information not valid";
     public static final String BIDLIST_CREATION_REQUEST_KO = "New bid list has not been added";
     public static final String BIDLIST_CREATION_REQUEST_OK = "New bid list has been added with id: ";
 
     public static final String BIDLIST_LIST_REQUEST_RECEIVED = "Request on endpoint /bidList/list received";
-
 
 }

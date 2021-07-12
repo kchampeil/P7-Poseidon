@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.nnk</groupId><!--TOASK changé pour conformité avec readme ? -->
-    <artifactId>springboot</artifactId><!--TOASK changé pour conformité avec readme ? -->
+    <groupId>com.nnk</groupId>
+    <artifactId>springboot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -27,12 +27,18 @@
         <surefire.version>2.22.2</surefire.version>
         <junit-jupiter-api.version>5.7.2</junit-jupiter-api.version>
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
+        <modelmapper.version>2.4.4</modelmapper.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -72,9 +78,9 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.0.17.Final</version>
         </dependency>
 
         <dependency>
@@ -88,6 +94,13 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit-jupiter-api.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- ==== mapper to/from DTO ==== -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelmapper.version}</version>
         </dependency>
     </dependencies>
 

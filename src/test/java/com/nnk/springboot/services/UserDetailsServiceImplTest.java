@@ -109,7 +109,7 @@ class UserDetailsServiceImplTest {
             assertEquals(PoseidonExceptionsConstants.DOES_NOT_EXISTS_USER, exception.getMessage());
 
             verify(userRepositoryMock, Mockito.times(1))
-                    .findByUsernameIgnoreCase(anyString());
+                    .findByUsernameIgnoreCase(null);
         }
     }
 }

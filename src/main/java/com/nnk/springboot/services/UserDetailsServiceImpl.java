@@ -2,6 +2,7 @@ package com.nnk.springboot.services;
 
 import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.constants.PoseidonExceptionsConstants;
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         log.info(LogConstants.USER_LOAD_CALL + username);
 
+        return userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> {
+                    log.error(PoseidonExceptionsConstants.DOES_NOT_EXISTS_USER + " for: " + username);
+                    return new UsernameNotFoundException(PoseidonExceptionsConstants.DOES_NOT_EXISTS_USER);
+                });
+    }
+
+    public User getUserInfoByUsername(String username) {
         return userRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> {
                     log.error(PoseidonExceptionsConstants.DOES_NOT_EXISTS_USER + " for: " + username);
