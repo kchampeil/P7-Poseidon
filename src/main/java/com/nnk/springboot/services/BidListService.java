@@ -2,6 +2,7 @@ package com.nnk.springboot.services;
 
 import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.constants.LogConstants;
+import com.nnk.springboot.constants.PoseidonExceptionsConstants;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.services.contracts.IBidListService;
@@ -30,25 +31,23 @@ public class BidListService implements IBidListService {
     /**
      * Create a bidList
      *
-     * @param bidListToCreate a bidList to create
+     * @param bidListDTOToCreate a bidList to create
      * @return the created bidList
      */
     @Override
-    public Optional<BidListDTO> createBidList(BidListDTO bidListToCreate) {
+    public Optional<BidListDTO> createBidList(BidListDTO bidListDTOToCreate) {
 
-        //TOASK passage par un DTO ?
-
-        log.info(LogConstants.CREATE_BID_LIST_CALL + bidListToCreate.toStringForLogs());
+        log.info(LogConstants.CREATE_BID_LIST_CALL + bidListDTOToCreate.toStringForLogs());
 
         ModelMapper modelMapper = new ModelMapper();
         BidList bidListCreated;
 
         try {
-            bidListCreated = bidListRepository.save(modelMapper.map(bidListToCreate, BidList.class));
+            bidListCreated = bidListRepository.save(modelMapper.map(bidListDTOToCreate, BidList.class));
             log.info(LogConstants.CREATE_BID_LIST_OK + bidListCreated.getBidListId());
 
         } catch (Exception exception) {
-            log.error(LogConstants.CREATE_BID_LIST_ERROR + bidListToCreate.toStringForLogs());
+            log.error(LogConstants.CREATE_BID_LIST_ERROR + bidListDTOToCreate.toStringForLogs());
             throw exception;
         }
 
@@ -63,15 +62,67 @@ public class BidListService implements IBidListService {
      */
     @Override
     public List<BidListDTO> findAllBidList() {
-        log.info(LogConstants.FIND_BID_LIST_CALL);
+        log.info(LogConstants.FIND_BID_LIST_ALL_CALL);
 
         List<BidList> bidListList = bidListRepository.findAll();
         List<BidListDTO> bidListDTOList = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         bidListList.forEach(bidList ->
                 bidListDTOList.add(modelMapper.map(bidList, BidListDTO.class)));
-        log.info(LogConstants.FIND_BID_LIST_OK + bidListDTOList.size() + "\n");
+        log.info(LogConstants.FIND_BID_LIST_ALL_OK + bidListDTOList.size() + "\n");
 
         return bidListDTOList;
+    }
+
+
+    /**
+     * Get a bitList by its id
+     *
+     * @param id of the bidList we want to retrieve
+     * @return a BidListDTO filled with BidList informations
+     * @throws IllegalArgumentException if no bidList found
+     */
+    @Override
+    public BidListDTO findBidListById(Integer id) {
+        log.info(LogConstants.FIND_BID_LIST_BY_ID_CALL);
+
+        Optional<BidList> bidList = bidListRepository.findById(id);
+
+        if (bidList.isPresent()) {
+            ModelMapper modelMapper = new ModelMapper();
+            BidListDTO bidListDTO = modelMapper.map(bidList.get(), BidListDTO.class);
+
+            log.info(LogConstants.FIND_BID_LIST_BY_ID_OK + id + "\n");
+            return bidListDTO;
+        } else {
+            log.error(PoseidonExceptionsConstants.BID_LIST_ID_NOT_VALID + id);
+            throw new IllegalArgumentException(PoseidonExceptionsConstants.BID_LIST_ID_NOT_VALID + id);
+        }
+    }
+
+
+    /**
+     * Update a bidList
+     *
+     * @param bidListDTOToUpdate a bidList to update
+     * @return the created bidList
+     */
+    @Override
+    public BidListDTO updateBidList(BidListDTO bidListDTOToUpdate) {
+        log.info(LogConstants.UPDATE_BID_LIST_CALL + bidListDTOToUpdate.toStringForLogs());
+
+        ModelMapper modelMapper = new ModelMapper();
+        BidList bidListUpdated;
+
+        try {
+            bidListUpdated = bidListRepository.save(modelMapper.map(bidListDTOToUpdate, BidList.class));
+            log.info(LogConstants.UPDATE_BID_LIST_OK + bidListUpdated.getBidListId());
+
+        } catch (Exception exception) {
+            log.error(LogConstants.UPDATE_BID_LIST_ERROR + bidListDTOToUpdate.toStringForLogs());
+            throw exception;
+        }
+
+        return modelMapper.map(bidListUpdated, BidListDTO.class);
     }
 }

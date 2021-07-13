@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "bidlist")
 public class BidList {
-    // KC-done: Map columns in data table BIDLIST with corresponding java fields
+    //DONE: Map columns in data table BIDLIST with corresponding java fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -9,4 +9,8 @@ public interface IBidListService {
     Optional<BidListDTO> createBidList(BidListDTO bankAccountDTOToCreate);
 
     List<BidListDTO> findAllBidList();
+
+    BidListDTO findBidListById(Integer id);
+
+    BidListDTO updateBidList(BidListDTO bidListDTOToUpdate);
 }

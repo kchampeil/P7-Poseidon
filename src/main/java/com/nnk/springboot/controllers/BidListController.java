@@ -2,7 +2,6 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.constants.LogConstants;
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.contracts.IBidListService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import java.util.Optional;
 @Slf4j
 @Controller
 public class BidListController {
-    // KC-done: Inject Bid service
+    //DONE: Inject Bid service
     private final IBidListService bidListService;
 
     @Autowired
@@ -29,9 +28,15 @@ public class BidListController {
         this.bidListService = bidListService;
     }
 
+    /**
+     * shows the bidList list
+     *
+     * @param model current model
+     * @return list bidList page
+     */
     @RequestMapping("/bidList/list")
     public String home(Model model) {
-        // KC-done: call service find all bids to show to the view
+        //DONE: call service find all bids to show to the view
         log.info(LogConstants.BIDLIST_LIST_REQUEST_RECEIVED
                 + " for user: " + model.getAttribute("currentUsername"));
         model.addAttribute("bidListAll", bidListService.findAllBidList());
@@ -42,7 +47,7 @@ public class BidListController {
     /**
      * shows the add form for bidList
      *
-     * @param model a bidList to create/add
+     * @param model current model
      * @return add bidList page
      */
     @GetMapping("/bidList/add")
@@ -60,11 +65,11 @@ public class BidListController {
      * creates a bidList
      *
      * @param bid bidList to create
-     * @return go to Bid List Screen if bid has been created, otherwise stay at bidList/add page
+     * @return bidList/list page if bid has been created, otherwise stay at bidList/add page
      */
     @PostMapping("/bidList/validate")
     public String validate(@ModelAttribute("bidList") @Valid BidListDTO bid, BindingResult result, Model model) {
-        // KC-done: check data valid and save to db
+        //DONE: check data valid and save to db
 
         log.info(LogConstants.BIDLIST_CREATION_REQUEST_RECEIVED
                 + bid.getAccount() + " // " + bid.getType() + " // " + bid.getBidQuantity());
@@ -79,9 +84,9 @@ public class BidListController {
 
             if (bidListDTOCreated.isPresent()) {
                 log.info(LogConstants.BIDLIST_CREATION_REQUEST_OK + bidListDTOCreated.get().getBidListId()
-                        + " by user: " + model.getAttribute("currentUsername")+ "\n");
+                        + " by user: " + model.getAttribute("currentUsername") + "\n");
 
-                //KC-DONE: after saving return bid list
+                //DONE: after saving return bid list
                 return "redirect:/bidList/list";
             } else {
                 log.error(LogConstants.BIDLIST_CREATION_REQUEST_KO + " \n");
@@ -94,17 +99,64 @@ public class BidListController {
         }
     }
 
+
+    /**
+     * shows the update form for bidList
+     *
+     * @param id    of the bidList to update
+     * @param model current model
+     * @return bidList/update page if bidList has been found, otherwise return to bidList/list page
+     */
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Bid by Id and to model then show to the form
-        return "bidList/update";
+        //DONE: get Bid by Id and to model then show to the form
+        log.info(LogConstants.BIDLIST_UPDATE_FORM_REQUEST_RECEIVED + id
+                + " for user: " + model.getAttribute("currentUsername") + "\n");
+
+        try {
+            model.addAttribute("bidList", bidListService.findBidListById(id));
+            return "bidList/update";
+
+        } catch (IllegalArgumentException illegalArgumentException) {
+            log.error(illegalArgumentException.getMessage());
+            //TODO afficher l'erreur ?
+            return "bidList/list";
+        }
     }
 
+
+    /**
+     * updates a bidList
+     *
+     * @param id      of the bidList to update
+     * @param bidList bidList informations to update
+     * @param result  got to bidList list page if bid has been updated, otherwise stay at bidList/update page
+     * @param model   current model
+     * @return bidList/list page if bid has been updated, otherwise stay at bidList/update page
+     */
     @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
+    public String updateBid(@PathVariable("id") Integer id, @ModelAttribute("bidList") @Valid BidListDTO bidList,
                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Bid and return list Bid
-        return "redirect:/bidList/list";
+        //DONE: check required fields, if valid call service to update Bid and return list Bid
+
+        log.info(LogConstants.BIDLIST_UPDATE_REQUEST_RECEIVED + id + " // "
+                + bidList.getAccount() + " // " + bidList.getType() + " // " + bidList.getBidQuantity());
+
+        if (result.hasErrors()) {
+            log.error(LogConstants.BIDLIST_UPDATE_REQUEST_NOT_VALID + "\n");
+            return "bidList/update";
+        }
+
+        try {
+            BidListDTO bidListDTOUpdated = bidListService.updateBidList(bidList);
+            log.info(LogConstants.BIDLIST_UPDATE_REQUEST_OK + bidListDTOUpdated.getBidListId()
+                    + " by user: " + model.getAttribute("currentUsername") + "\n");
+            return "redirect:/bidList/list";
+
+        } catch (Exception exception) {
+            log.error(LogConstants.BIDLIST_UPDATE_REQUEST_KO + ": " + exception.getMessage() + " \n");
+            return "bidList/update";
+        }
     }
 
     @GetMapping("/bidList/delete/{id}")
