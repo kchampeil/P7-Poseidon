@@ -18,7 +18,7 @@ public class TestConstants {
     public static final String EXISTING_USER_USERNAME = "myfirst";
     public static final String EXISTING_USER_PASSWORD = "password";
     public static final String EXISTING_USER_FULLNAME = "my first user";
-    public static final String EXISTING_USER_ROLE = "USER";
+    public static final String EXISTING_USER_ROLE_USER = "USER";
 
     public static final String UNKNOWN_USERNAME = "JohnDoe";
 }

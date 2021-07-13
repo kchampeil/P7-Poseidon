@@ -33,8 +33,11 @@ public class PoseidonControllerAdvice {
         } else {
             log.info(LogConstants.CURRENT_USER_UNKNOWN);
         }
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("currentUsername", currentUser.getUsername());
 
+        model.addAttribute("currentUser", currentUser);
+
+        if (currentUser != null) {
+            model.addAttribute("currentUsername", currentUser.getUsername());
+        }
     }
 }
