@@ -2,7 +2,6 @@ package com.nnk.springboot.services;
 
 import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.constants.LogConstants;
-import com.nnk.springboot.constants.PoseidonExceptionsConstants;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.services.contracts.IBidListService;
@@ -15,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.nnk.springboot.constants.PoseidonExceptionsConstants.BID_LIST_ID_NOT_VALID;
 
 @Slf4j
 @Service
@@ -95,8 +96,8 @@ public class BidListService implements IBidListService {
             log.info(LogConstants.FIND_BID_LIST_BY_ID_OK + id + "\n");
             return bidListDTO;
         } else {
-            log.error(PoseidonExceptionsConstants.BID_LIST_ID_NOT_VALID + id);
-            throw new IllegalArgumentException(PoseidonExceptionsConstants.BID_LIST_ID_NOT_VALID + id);
+            log.error(BID_LIST_ID_NOT_VALID + id);
+            throw new IllegalArgumentException(BID_LIST_ID_NOT_VALID + id);
         }
     }
 
@@ -124,5 +125,40 @@ public class BidListService implements IBidListService {
         }
 
         return modelMapper.map(bidListUpdated, BidListDTO.class);
+    }
+
+
+    /**
+     * delete a bidList
+     *
+     * @param id of the bidList to delete
+     */
+    @Override
+    public void deleteBidList(Integer id) {
+
+        log.info(LogConstants.DELETE_BID_LIST_CALL + id);
+
+        if (id == null) {
+            log.error(LogConstants.DELETE_BID_LIST_ERROR + id);
+            throw new IllegalArgumentException(BID_LIST_ID_NOT_VALID + id);
+        }
+
+        //Find bidList by Id
+        BidList bidList = bidListRepository
+                .findById(id)
+                .orElseThrow(() -> {
+                    log.error(BID_LIST_ID_NOT_VALID + id);
+                    return new IllegalArgumentException(BID_LIST_ID_NOT_VALID + id);
+                });
+
+        //Delete the bidList
+        try {
+            bidListRepository.delete(bidList);
+            log.info(LogConstants.DELETE_BID_LIST_OK + id);
+
+        } catch (Exception exception) {
+            log.error(LogConstants.DELETE_BID_LIST_ERROR + id);
+            throw exception;
+        }
     }
 }

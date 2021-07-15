@@ -154,14 +154,35 @@ public class BidListController {
             return "redirect:/bidList/list";
 
         } catch (Exception exception) {
-            log.error(LogConstants.BIDLIST_UPDATE_REQUEST_KO + ": " + exception.getMessage() + " \n");
+            log.error(LogConstants.BIDLIST_UPDATE_REQUEST_KO + id + ": " + exception.getMessage() + " \n");
             return "bidList/update";
         }
     }
 
+
+    /**
+     * deletes a bidList
+     *
+     * @param id    of the bidList to delete
+     * @param model current model
+     * @return bidList list page
+     */
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Bid by Id and delete the bid, return to Bid list
+        // DONE: Find Bid by Id and delete the bid, return to Bid list
+
+        log.info(LogConstants.BIDLIST_DELETE_REQUEST_RECEIVED + id);
+
+        try {
+            bidListService.deleteBidList(id);
+            log.info(LogConstants.BIDLIST_DELETE_REQUEST_OK + id
+                    + " by user: " + model.getAttribute("currentUsername") + "\n");
+
+        } catch (Exception exception) {
+            log.error(LogConstants.BIDLIST_DELETE_REQUEST_KO + id + ": " + exception.getMessage() + " \n");
+        }
+
+        //TODO voir si message erreur à afficher
         return "redirect:/bidList/list";
     }
 }

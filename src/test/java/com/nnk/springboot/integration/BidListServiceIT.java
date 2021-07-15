@@ -8,7 +8,9 @@ import com.nnk.springboot.testconstants.TestConstants;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,6 +20,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,7 +53,10 @@ public class BidListServiceIT {
     }
 
     @AfterEach
-    private void cleanPerTest() {
+    private void cleanPerTest(TestInfo testInfo) {
+        if (testInfo.getTags().contains("SkipCleanUp")) {
+            return;
+        }
         //clean DB at the end of the test by deleting the bidList created at initialization
         bidListRepository.deleteById(bidListInDb.getBidListId());
     }
@@ -125,5 +131,20 @@ public class BidListServiceIT {
 
         assertTrue(bidListUpdated.isPresent());
         assertEquals(bidListDTO.getBidQuantity(), bidListUpdated.get().getBidQuantity());
+    }
+
+
+    @Test
+    @Tag("SkipCleanUp")
+    @DisplayName("WHEN deleting a bidList with correct informations  " +
+            "THEN the bidList is deleted in DB")
+    public void deleteBidListIT_WithSuccess() {
+
+        //WHEN
+        bidListService.deleteBidList(bidListInDb.getBidListId());
+        Optional<BidList> bidListDeleted = bidListRepository.findById(bidListInDb.getBidListId());
+
+        //THEN
+        assertFalse(bidListDeleted.isPresent());
     }
 }

@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,7 +41,7 @@ class BidListServiceTest {
 
     private static BidListDTO bidListDTOWithValues;
 
-    private BidList bidListInDb;
+    private static BidList bidListInDb;
 
     @BeforeAll
     static void setUp() {
@@ -49,6 +50,12 @@ class BidListServiceTest {
         bidListDTOWithValues.setAccount(TestConstants.NEW_BID_LIST_ACCOUNT);
         bidListDTOWithValues.setType(TestConstants.NEW_BID_LIST_TYPE);
         bidListDTOWithValues.setBidQuantity(TestConstants.NEW_BID_LIST_BID_QUANTITY);
+
+        bidListInDb = new BidList();
+        bidListInDb.setBidListId(bidListDTOWithValues.getBidListId());
+        bidListInDb.setAccount(bidListDTOWithValues.getAccount());
+        bidListInDb.setType(bidListDTOWithValues.getType());
+        bidListInDb.setBidQuantity(bidListDTOWithValues.getBidQuantity());
     }
 
     @Nested
@@ -61,11 +68,6 @@ class BidListServiceTest {
                 "THEN the returned value is the added bidList (DTO)")
         void createBidListTest_WithSuccess() {
             //GIVEN
-            bidListInDb = new BidList();
-            bidListInDb.setBidListId(TestConstants.EXISTING_BID_LIST_ID);
-            bidListInDb.setAccount(bidListDTOWithValues.getAccount());
-            bidListInDb.setType(bidListDTOWithValues.getType());
-            bidListInDb.setBidQuantity(bidListDTOWithValues.getBidQuantity());
             when(bidListRepositoryMock.save(any(BidList.class))).thenReturn(bidListInDb);
 
             //WHEN
@@ -111,11 +113,6 @@ class BidListServiceTest {
                 "THEN the returned value is the list of bidList")
         void findAllBidListTest_WithDataInDB() {
             //GIVEN
-            bidListInDb = new BidList();
-            bidListInDb.setBidListId(TestConstants.EXISTING_BID_LIST_ID);
-            bidListInDb.setAccount(TestConstants.EXISTING_BID_LIST_ACCOUNT);
-            bidListInDb.setType(TestConstants.EXISTING_BID_LIST_TYPE);
-            bidListInDb.setBidQuantity(TestConstants.EXISTING_BID_LIST_BID_QUANTITY);
             List<BidList> bidListList = new ArrayList<>();
             bidListList.add(bidListInDb);
             when(bidListRepositoryMock.findAll()).thenReturn(bidListList);
@@ -156,11 +153,6 @@ class BidListServiceTest {
                 "THEN the returned value is the bidList")
         void findBidListByIdTest_WithDataInDB() {
             //GIVEN
-            bidListInDb = new BidList();
-            bidListInDb.setBidListId(TestConstants.EXISTING_BID_LIST_ID);
-            bidListInDb.setAccount(TestConstants.EXISTING_BID_LIST_ACCOUNT);
-            bidListInDb.setType(TestConstants.EXISTING_BID_LIST_TYPE);
-            bidListInDb.setBidQuantity(TestConstants.EXISTING_BID_LIST_BID_QUANTITY);
             when(bidListRepositoryMock.findById(anyInt())).thenReturn(Optional.of(bidListInDb));
 
             //THEN
@@ -200,11 +192,6 @@ class BidListServiceTest {
                 "THEN the returned value is the updated bidList")
         void updateBidListTest_WithSuccess() {
             //GIVEN
-            bidListInDb = new BidList();
-            bidListInDb.setBidListId(TestConstants.EXISTING_BID_LIST_ID);
-            bidListInDb.setAccount(bidListDTOWithValues.getAccount());
-            bidListInDb.setType(bidListDTOWithValues.getType());
-            bidListInDb.setBidQuantity(bidListDTOWithValues.getBidQuantity());
             when(bidListRepositoryMock.save(any(BidList.class))).thenReturn(bidListInDb);
 
             //WHEN
@@ -232,6 +219,85 @@ class BidListServiceTest {
 
             verify(bidListRepositoryMock, Mockito.times(1))
                     .save(any(BidList.class));
+        }
+    }
+
+
+    @Nested
+    @DisplayName("deleteBidList tests")
+    class DeleteBidListTest {
+
+        @Test
+        @DisplayName("GIVEN a bidList to delete " +
+                "WHEN deleting this bidList " +
+                "THEN nothing is returned")
+        void deleteBidListTest_WithSuccess() {
+            //GIVEN
+            when(bidListRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(bidListInDb));
+
+            //WHEN
+            bidListService.deleteBidList(bidListInDb.getBidListId());
+
+            //THEN
+            verify(bidListRepositoryMock, Mockito.times(1))
+                    .findById(anyInt());
+            verify(bidListRepositoryMock, Mockito.times(1))
+                    .delete(any(BidList.class));
+        }
+
+
+        @Test
+        @DisplayName("GIVEN an exception " +
+                "WHEN deleting a bidList " +
+                "THEN an exception is thrown")
+        void deleteBidListTest_WithException() {
+            //GIVEN
+            when(bidListRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(bidListInDb));
+            doThrow(new RuntimeException()).when(bidListRepositoryMock).delete(any(BidList.class));
+
+            //THEN
+            assertThrows(RuntimeException.class,
+                    () -> bidListService.deleteBidList(bidListInDb.getBidListId()));
+
+            verify(bidListRepositoryMock, Mockito.times(1))
+                    .findById(anyInt());
+            verify(bidListRepositoryMock, Mockito.times(1))
+                    .delete(any(BidList.class));
+        }
+
+
+        @Test
+        @DisplayName("GIVEN no bidList in DB for the specified id " +
+                "WHEN deleting a bidList " +
+                "THEN an exception is thrown")
+        void deleteBidListTest_WithNoDataInDb() {
+            //GIVEN
+            when(bidListRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
+
+            //THEN
+            assertThrows(IllegalArgumentException.class,
+                    () -> bidListService.deleteBidList(bidListInDb.getBidListId()));
+
+            verify(bidListRepositoryMock, Mockito.times(1))
+                    .findById(anyInt());
+            verify(bidListRepositoryMock, Mockito.times(0))
+                    .delete(any(BidList.class));
+        }
+
+
+        @Test
+        @DisplayName("GIVEN no id is specified " +
+                "WHEN asking for the deletion of a bidList " +
+                "THEN an exception is thrown")
+        void deleteBidListTest_WithNoGivenId() {
+            //THEN
+            assertThrows(IllegalArgumentException.class,
+                    () -> bidListService.deleteBidList(null));
+
+            verify(bidListRepositoryMock, Mockito.times(0))
+                    .findById(anyInt());
+            verify(bidListRepositoryMock, Mockito.times(0))
+                    .delete(any(BidList.class));
         }
     }
 }

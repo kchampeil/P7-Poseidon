@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.DTO.BidListDTO;
-import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import com.nnk.springboot.services.contracts.IBidListService;
 import com.nnk.springboot.testconstants.TestConstants;
@@ -22,6 +21,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -48,16 +48,15 @@ class BidListControllerTest {
     @MockBean
     private PasswordEncoder passwordEncoderMock;
 
-    private static User userInDb;
+    private static BidListDTO bidListDTO;
 
     @BeforeAll
     static void setUp() {
-        userInDb = new User();
-        userInDb.setId(TestConstants.EXISTING_USER_ID);
-        userInDb.setUsername(TestConstants.EXISTING_USER_USERNAME);
-        userInDb.setPassword(TestConstants.EXISTING_USER_PASSWORD);
-        userInDb.setFullname(TestConstants.EXISTING_USER_FULLNAME);
-        userInDb.setRole(TestConstants.EXISTING_USER_ROLE_USER);
+        bidListDTO = new BidListDTO();
+        bidListDTO.setBidListId(TestConstants.NEW_BID_LIST_ID);
+        bidListDTO.setAccount(TestConstants.NEW_BID_LIST_ACCOUNT);
+        bidListDTO.setType(TestConstants.NEW_BID_LIST_TYPE);
+        bidListDTO.setBidQuantity(TestConstants.NEW_BID_LIST_BID_QUANTITY);
     }
 
     @Nested
@@ -69,7 +68,7 @@ class BidListControllerTest {
         @DisplayName("WHEN asking for the bidList list page while logged in " +
                 " THEN return status is ok and the expected view is the bidList list page")
         void homeTest_LoggedIn() throws Exception {
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(get("/bidList/list"))
                     .andExpect(status().isOk())
                     .andExpect(model().attributeExists("bidListAll"))
@@ -84,6 +83,7 @@ class BidListControllerTest {
         @DisplayName("WHEN asking for the bidList list page while not logged in " +
                 " THEN return status is Found (302) and the expected view is the login page")
         void homeTest_NotLoggedIn() throws Exception {
+            //WHEN-THEN
             mockMvc.perform(get("/bidList/list"))
                     .andExpect(status().isFound())
                     .andExpect(redirectedUrlPattern("**/login"));
@@ -104,6 +104,7 @@ class BidListControllerTest {
                 "THEN return status is ok " +
                 "AND the expected view is the bidList add form initialized")
         void addBidFormTest_WithSuccess_LoggedIn() throws Exception {
+            //WHEN-THEN
             mockMvc.perform(get("/bidList/add"))
                     .andExpect(status().isOk())
                     .andExpect(model().attributeExists("bidList"))
@@ -115,6 +116,7 @@ class BidListControllerTest {
                 "THEN return status is found " +
                 "AND the expected view is login page")
         void addBidFormTest_NotLoggedIn() throws Exception {
+            //WHEN-THEN
             mockMvc.perform(get("/bidList/add"))
                     .andExpect(status().isFound())
                     .andExpect(redirectedUrlPattern("**/login"));
@@ -134,20 +136,14 @@ class BidListControllerTest {
                 "AND the expected view is the bidList list page with bidList list updated")
         void validateTest_WithSuccess() throws Exception {
             //GIVEN
-            BidListDTO bidListDTOAdded = new BidListDTO();
-            bidListDTOAdded.setBidListId(TestConstants.NEW_BID_LIST_ID);
-            bidListDTOAdded.setAccount(TestConstants.NEW_BID_LIST_ACCOUNT);
-            bidListDTOAdded.setType(TestConstants.NEW_BID_LIST_TYPE);
-            bidListDTOAdded.setBidQuantity(TestConstants.NEW_BID_LIST_BID_QUANTITY);
-
             when(bidListServiceMock.createBidList(any(BidListDTO.class)))
-                    .thenReturn(Optional.of(bidListDTOAdded));
+                    .thenReturn(Optional.of(bidListDTO));
 
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/validate")
-                    .param("account", bidListDTOAdded.getAccount())
-                    .param("type", bidListDTOAdded.getType())
-                    .param("bidQuantity", bidListDTOAdded.getBidQuantity().toString())
+                    .param("account", bidListDTO.getAccount())
+                    .param("type", bidListDTO.getType())
+                    .param("bidQuantity", bidListDTO.getBidQuantity().toString())
                     .with(csrf()))
                     .andExpect(model().hasNoErrors())
                     .andExpect(status().isFound())
@@ -165,7 +161,7 @@ class BidListControllerTest {
                 "THEN the returned code is ok " +
                 "AND the expected view is the bidList/add page filled with entered bidList")
         void validateTest_WithMissingInformation() throws Exception {
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/validate")
                     .param("account", "")
                     .param("type", TestConstants.NEW_BID_LIST_TYPE)
@@ -189,7 +185,7 @@ class BidListControllerTest {
                 "THEN the returned code is ok " +
                 "AND the expected view is the bidList/add page filled with entered bidList")
         void validateTest_WithInvalidInformation() throws Exception {
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/validate")
                     .param("account", TestConstants.NEW_BID_LIST_ACCOUNT)
                     .param("type", TestConstants.NEW_BID_LIST_TYPE_WITH_TOO_LONG_SIZE)
@@ -211,11 +207,11 @@ class BidListControllerTest {
         @DisplayName("GIVEN an SQL exception when saving the new bidList " +
                 "THEN the returned code is ok " +
                 "AND the expected view is the bidList/add page filled with entered bidList")
-        void validateTest_WithExceptionWhenSaving() throws Exception {
+        void validateTest_WithException() throws Exception {
             //GIVEN
             when(bidListServiceMock.createBidList(any(BidListDTO.class))).thenThrow(new RuntimeException());
 
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/validate")
                     .param("account", TestConstants.NEW_BID_LIST_ACCOUNT)
                     .param("type", TestConstants.NEW_BID_LIST_TYPE)
@@ -240,7 +236,7 @@ class BidListControllerTest {
             when(bidListServiceMock.createBidList(any(BidListDTO.class)))
                     .thenReturn(Optional.empty());
 
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/validate")
                     .param("account", TestConstants.NEW_BID_LIST_ACCOUNT)
                     .param("type", TestConstants.NEW_BID_LIST_TYPE)
@@ -251,6 +247,25 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/add"));
 
             verify(bidListServiceMock, Mockito.times(1))
+                    .createBidList(any(BidListDTO.class));
+        }
+
+
+        @Test
+        @DisplayName("WHEN processing a POST /bidList/validate request while not logged in " +
+                "THEN return status is found " +
+                "AND the expected view is the login page")
+        void validateTest_NotLoggedIn() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/bidList/validate")
+                    .param("account", TestConstants.NEW_BID_LIST_ACCOUNT)
+                    .param("type", TestConstants.NEW_BID_LIST_TYPE)
+                    .param("bidQuantity", TestConstants.NEW_BID_LIST_BID_QUANTITY.toString())
+                    .with(csrf()))
+                    .andExpect(status().isFound())
+                    .andExpect(redirectedUrlPattern("**/login"));
+
+            verify(bidListServiceMock, Mockito.times(0))
                     .createBidList(any(BidListDTO.class));
         }
     }
@@ -267,16 +282,11 @@ class BidListControllerTest {
                 "AND the expected view is the bidList update form initialized")
         void showUpdateFormTest_WithSuccess_LoggedIn() throws Exception {
             //GIVEN
-            BidListDTO bidListDTOToUpdate = new BidListDTO();
-            bidListDTOToUpdate.setBidListId(TestConstants.EXISTING_BID_LIST_ID);
-            bidListDTOToUpdate.setAccount(TestConstants.EXISTING_BID_LIST_ACCOUNT);
-            bidListDTOToUpdate.setType(TestConstants.EXISTING_BID_LIST_TYPE);
-            bidListDTOToUpdate.setBidQuantity(TestConstants.EXISTING_BID_LIST_BID_QUANTITY);
-            when(bidListServiceMock.findBidListById(TestConstants.EXISTING_BID_LIST_ID))
-                    .thenReturn(bidListDTOToUpdate);
+            when(bidListServiceMock.findBidListById(anyInt()))
+                    .thenReturn(bidListDTO);
 
             //WHEN-THEN
-            mockMvc.perform(get("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID))
+            mockMvc.perform(get("/bidList/update/{id}", anyInt()))
                     .andExpect(status().isOk())
                     .andExpect(model().attributeExists("bidList"))
                     .andExpect(view().name("bidList/update"));
@@ -334,20 +344,14 @@ class BidListControllerTest {
                 "AND the expected view is the bidList list page with bidList list updated")
         void updateBidTest_WithSuccess() throws Exception {
             //GIVEN
-            BidListDTO bidListDTOUpdated = new BidListDTO();
-            bidListDTOUpdated.setBidListId(TestConstants.EXISTING_BID_LIST_ID);
-            bidListDTOUpdated.setAccount(TestConstants.EXISTING_BID_LIST_ACCOUNT);
-            bidListDTOUpdated.setType(TestConstants.EXISTING_BID_LIST_TYPE);
-            bidListDTOUpdated.setBidQuantity(TestConstants.NEW_BID_LIST_BID_QUANTITY);
-
             when(bidListServiceMock.updateBidList(any(BidListDTO.class)))
-                    .thenReturn(bidListDTOUpdated);
+                    .thenReturn(bidListDTO);
 
-            //THEN
-            mockMvc.perform(post("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID)
-                    .param("account", bidListDTOUpdated.getAccount())
-                    .param("type", bidListDTOUpdated.getType())
-                    .param("bidQuantity", bidListDTOUpdated.getBidQuantity().toString())
+            //WHEN-THEN
+            mockMvc.perform(post("/bidList/update/{id}", anyInt())
+                    .param("account", bidListDTO.getAccount())
+                    .param("type", bidListDTO.getType())
+                    .param("bidQuantity", bidListDTO.getBidQuantity().toString())
                     .with(csrf()))
                     .andExpect(model().hasNoErrors())
                     .andExpect(status().isFound())
@@ -363,9 +367,9 @@ class BidListControllerTest {
         @DisplayName("GIVEN a bidList to update with missing account " +
                 "WHEN processing a POST /bidList/update/{id} request for this bidList " +
                 "THEN the returned code is ok " +
-                "AND the expected view is the bidList/add page filled with entered bidList")
+                "AND the expected view is the bidList/update page filled with entered bidList")
         void updateBidTest_WithMissingInformation() throws Exception {
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID)
                     .param("account", "")
                     .param("type", TestConstants.EXISTING_BID_LIST_TYPE)
@@ -389,7 +393,7 @@ class BidListControllerTest {
                 "THEN the returned code is ok " +
                 "AND the expected view is the bidList/update/{id} page filled with entered bidList")
         void updateBidTest_WithInvalidInformation() throws Exception {
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID)
                     .param("account", TestConstants.NEW_BID_LIST_ACCOUNT)
                     .param("type", TestConstants.NEW_BID_LIST_TYPE_WITH_TOO_LONG_SIZE)
@@ -408,14 +412,14 @@ class BidListControllerTest {
 
         @WithMockUser
         @Test
-        @DisplayName("GIVEN an SQL exception when saving the new bidList " +
+        @DisplayName("GIVEN an SQL exception when updating the bidList " +
                 "THEN the returned code is ok " +
                 "AND the expected view is the bidList/update/{id} page filled with entered bidList")
-        void updateBidTest_WithExceptionWhenSaving() throws Exception {
+        void updateBidTest_WithException() throws Exception {
             //GIVEN
             when(bidListServiceMock.updateBidList(any(BidListDTO.class))).thenThrow(new RuntimeException());
 
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID)
                     .param("account", TestConstants.EXISTING_BID_LIST_ACCOUNT)
                     .param("type", TestConstants.EXISTING_BID_LIST_TYPE)
@@ -440,7 +444,7 @@ class BidListControllerTest {
             when(bidListServiceMock.updateBidList(any(BidListDTO.class)))
                     .thenReturn(null);
 
-            //THEN
+            //WHEN-THEN
             mockMvc.perform(post("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID)
                     .param("account", TestConstants.EXISTING_BID_LIST_ACCOUNT)
                     .param("type", TestConstants.EXISTING_BID_LIST_TYPE)
@@ -453,9 +457,83 @@ class BidListControllerTest {
             verify(bidListServiceMock, Mockito.times(1))
                     .updateBidList(any(BidListDTO.class));
         }
+
+
+        @Test
+        @DisplayName("WHEN processing a POST /bidList/update/{id} request while not logged in " +
+                "THEN return status is found " +
+                "AND the expected view is the login page")
+        void updateBidTest_NotLoggedIn() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID)
+                    .param("account", TestConstants.EXISTING_BID_LIST_ACCOUNT)
+                    .param("type", TestConstants.EXISTING_BID_LIST_TYPE)
+                    .param("bidQuantity", TestConstants.NEW_BID_LIST_BID_QUANTITY.toString())
+                    .with(csrf()))
+                    .andExpect(status().isFound())
+                    .andExpect(redirectedUrlPattern("**/login"));
+
+            verify(bidListServiceMock, Mockito.times(0))
+                    .updateBidList(any(BidListDTO.class));
+        }
     }
 
-    @Test
-    void deleteBid() {
+    @Nested
+    @DisplayName("deleteBid tests")
+    class DeleteBidTest {
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a bidList to delete " +
+                "WHEN processing a GET /bidList/delete/{id} request for this bidList " +
+                "THEN return status is found (302) " +
+                "AND the expected view is the bidList list page with bidList list updated")
+        void deleteBidTest_WithSuccess() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(get("/bidList/delete/{id}", TestConstants.EXISTING_BID_LIST_ID)
+                    .with(csrf()))
+                    .andExpect(model().hasNoErrors())
+                    .andExpect(status().isFound())
+                    .andExpect(redirectedUrl("/bidList/list"));
+
+            verify(bidListServiceMock, Mockito.times(1))
+                    .deleteBidList(anyInt());
+        }
+
+
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a unknown bidList to delete " +
+                "WHEN processing a GET /bidList/delete/{id} request for this bidList " +
+                "THEN the returned code is found " +
+                "AND the expected view is the bidList/list page")
+            //TODO revoir texte
+        void deleteBidTest_WithMissingInformation() throws Exception {
+            //GIVEN
+            doThrow(new IllegalArgumentException()).when(bidListServiceMock).deleteBidList(anyInt());
+
+            //WHEN-THEN
+            mockMvc.perform(get("/bidList/delete/{id}", TestConstants.UNKNOWN_BID_LIST_ID)
+                    .with(csrf()))
+                    .andExpect(status().isFound())
+                    .andExpect(redirectedUrl("/bidList/list"));
+
+            verify(bidListServiceMock, Mockito.times(1))
+                    .deleteBidList(anyInt());
+        }
+
+
+        @Test
+        @DisplayName("WHEN processing a GET /bidList/delete/{id} request while not logged in " +
+                "THEN return status is found " +
+                "AND the expected view is the login page")
+        void deleteBidTest_NotLoggedIn() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(get("/bidList/delete/{id}", TestConstants.EXISTING_BID_LIST_ID))
+                    .andExpect(status().isFound())
+                    .andExpect(redirectedUrlPattern("**/login"));
+
+            verify(bidListServiceMock, Mockito.times(0))
+                    .findBidListById(anyInt());
+        }
     }
 }

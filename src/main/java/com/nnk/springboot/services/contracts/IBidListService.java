@@ -13,4 +13,6 @@ public interface IBidListService {
     BidListDTO findBidListById(Integer id);
 
     BidListDTO updateBidList(BidListDTO bidListDTOToUpdate);
+
+    void deleteBidList(Integer id);
 }
