@@ -148,6 +148,7 @@ public class BidListController {
         }
 
         try {
+            bidList.setBidListId(id);
             BidListDTO bidListDTOUpdated = bidListService.updateBidList(bidList);
             log.info(LogConstants.BIDLIST_UPDATE_REQUEST_OK + bidListDTOUpdated.getBidListId()
                     + " by user: " + model.getAttribute("currentUsername") + "\n");
