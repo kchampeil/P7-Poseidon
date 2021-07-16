@@ -5,6 +5,7 @@ import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import com.nnk.springboot.services.contracts.IBidListService;
+import com.nnk.springboot.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,9 @@ public class BidListService implements IBidListService {
         BidList bidListCreated;
 
         try {
-            bidListCreated = bidListRepository.save(modelMapper.map(bidListDTOToCreate, BidList.class));
+            BidList bidListToCreate = modelMapper.map(bidListDTOToCreate, BidList.class);
+            bidListToCreate.setCreationDate(DateUtil.getCurrentLocalDateTime());
+            bidListCreated = bidListRepository.save(bidListToCreate);
             log.debug(LogConstants.CREATE_BID_LIST_OK + bidListCreated.getBidListId());
 
         } catch (Exception exception) {
@@ -116,7 +119,9 @@ public class BidListService implements IBidListService {
         BidList bidListUpdated;
 
         try {
-            bidListUpdated = bidListRepository.save(modelMapper.map(bidListDTOToUpdate, BidList.class));
+            BidList bidListToUpdate = modelMapper.map(bidListDTOToUpdate, BidList.class);
+            bidListToUpdate.setRevisionDate(DateUtil.getCurrentLocalDateTime());
+            bidListUpdated = bidListRepository.save(bidListToUpdate);
             log.debug(LogConstants.UPDATE_BID_LIST_OK + bidListUpdated.getBidListId());
 
         } catch (Exception exception) {
