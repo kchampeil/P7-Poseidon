@@ -23,6 +23,24 @@ public class LogConstants {
     public static final String DELETE_BID_LIST_OK = "BidList deleted for id: ";
     public static final String DELETE_BID_LIST_ERROR = "Error when deleting bidList id: ";
 
+    public static final String CREATE_CURVE_POINT_CALL = "Call to createCurvePoint with CurvePoint: ";
+    public static final String CREATE_CURVE_POINT_OK = "CurvePoint created with id: ";
+    public static final String CREATE_CURVE_POINT_ERROR = "Error when saving curvePoint: ";
+
+    public static final String FIND_CURVE_POINT_ALL_CALL = "Call to findAllCurvePoint";
+    public static final String FIND_CURVE_POINT_ALL_OK = "List of curvePoint retrieved with {} values \n";
+
+    public static final String FIND_CURVE_POINT_BY_ID_CALL = "Call to findCurvePointById";
+    public static final String FIND_CURVE_POINT_BY_ID_OK = "CurvePoint retrieved for id: ";
+
+    public static final String UPDATE_CURVE_POINT_CALL = "Call to updateCurvePoint with CurvePoint: ";
+    public static final String UPDATE_CURVE_POINT_OK = "CurvePoint updated for id: ";
+    public static final String UPDATE_CURVE_POINT_ERROR = "Error when updating curvePoint: ";
+
+    public static final String DELETE_CURVE_POINT_CALL = "Call to deleteCurvePoint for id: ";
+    public static final String DELETE_CURVE_POINT_OK = "CurvePoint deleted for id: ";
+    public static final String DELETE_CURVE_POINT_ERROR = "Error when deleting curvePoint id: ";
+
     /* Controllers */
     public static final String CURRENT_USER_UNKNOWN = "Current user unknown";
 
@@ -57,4 +75,37 @@ public class LogConstants {
             "BidList id {} has been deleted by user: {} \n";
     public static final String BIDLIST_DELETE_REQUEST_KO =
             "BidList id {} has not been deleted: {} \n";
+
+    public static final String CURVEPOINT_CREATION_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /curvePoint/add received for user: {} \n";
+    public static final String CURVEPOINT_CREATION_REQUEST_RECEIVED =
+            "POST request on endpoint /curvePoint/validate received for CurvePoint: ";
+    public static final String CURVEPOINT_CREATION_REQUEST_NOT_VALID =
+            "CurvePoint information not valid";
+    public static final String CURVEPOINT_CREATION_REQUEST_KO =
+            "New curvePoint has not been added";
+    public static final String CURVEPOINT_CREATION_REQUEST_OK =
+            "New curvePoint has been added with id {} by user: {} \n";
+
+    public static final String CURVEPOINT_LIST_REQUEST_RECEIVED =
+            "Request on endpoint /curvePoint/list received for user: {}";
+
+    public static final String CURVEPOINT_UPDATE_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /curvePoint/update/{} received for user: {}";
+    public static final String CURVEPOINT_UPDATE_REQUEST_RECEIVED =
+            "POST request on endpoint /curvePoint/update/{} received with CurvePoint: {}, for user: {}";
+    public static final String CURVEPOINT_UPDATE_REQUEST_NOT_VALID =
+            "CurvePoint information not valid";
+    public static final String CURVEPOINT_UPDATE_REQUEST_OK =
+            "CurvePoint id {} has been updated by user: {} \n";
+    public static final String CURVEPOINT_UPDATE_REQUEST_KO =
+            "CurvePoint id {} has not been updated : {} \n";
+
+    public static final String CURVEPOINT_DELETE_REQUEST_RECEIVED =
+            "GET request on endpoint /curvePoint/delete/{} received for user: {}";
+    public static final String CURVEPOINT_DELETE_REQUEST_OK =
+            "CurvePoint id {} has been deleted by user: {} \n";
+    public static final String CURVEPOINT_DELETE_REQUEST_KO =
+            "CurvePoint id {} has not been deleted: {} \n";
+
 }

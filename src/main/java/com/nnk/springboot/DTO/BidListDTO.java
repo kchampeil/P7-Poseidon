@@ -12,11 +12,11 @@ import javax.validation.constraints.Size;
 public class BidListDTO {
     private Integer bidListId;
 
-    @NotBlank(message = "Account is mandatory")
-    @Size(max = 30, message = "Size should not exceed 30 characters")
+    @NotBlank(message = "{bidList.account.notBlank}")
+    @Size(max = 30, message = "{bidList.account.size}")
     private String account;
 
-    @NotBlank(message = "Type is mandatory")
+    @NotBlank(message = "{bidList.type.notBlank}")
     @Size(max = 30, message = "Size should not exceed 30 characters")
     private String type;
 

@@ -1,15 +1,45 @@
 package com.nnk.springboot.domain;
 
-//KC à revoir ensuite import org.hibernate.validator.constraints.Length;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
-//KC @Entity
+/**
+ * Curve Point Entity allows to register a Curve Point
+ */
+@Getter
+@Setter
+@Entity
 @Table(name = "curvepoint")
 public class CurvePoint {
-    // TODO: Map columns in data table CURVEPOINT with corresponding java fields
+    // DONE: Map columns in data table CURVEPOINT with corresponding java fields
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
+    @Column(name = "CurveId")
+    private Integer curveId;
+
+    @Column(name = "asOfDate")
+    private LocalDateTime asOfDate;
+
+    @Column(name = "term")
+    private Double term;
+
+    @Column(name = "value")
+    private Double value;
+
+    @Column(name = "creationDate")
+    private LocalDateTime creationDate;
 }

@@ -20,9 +20,6 @@ import java.util.Optional;
 
 import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 
-//IN-PROGRESS:
-//+ ajouter contrôle message dans test + bidTests
-
 @Slf4j
 @Controller
 public class BidListController {
@@ -152,7 +149,7 @@ public class BidListController {
         //DONE: check required fields, if valid call service to update Bid and return list Bid
 
         log.info(LogConstants.BIDLIST_UPDATE_REQUEST_RECEIVED, id,
-                bidList.getAccount() + " // " + bidList.getType() + " // " + bidList.getBidQuantity(),
+                bidList.toStringForLogs(),
                 model.getAttribute("currentUser"));
 
         if (result.hasErrors()) {

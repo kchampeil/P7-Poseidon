@@ -51,7 +51,7 @@ public class PoseidonSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/ruleName/**",
                         "/trade/**")
                 .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                //.hasAnyRole("ROLE_ADMIN", "ROLE_USER")
+                //TODO.hasAnyRole("ROLE_ADMIN", "ROLE_USER")
                 /* pages authorized for ADMIN role only */
                 .antMatchers("/user/**")
                 .hasAuthority("ROLE_ADMIN")

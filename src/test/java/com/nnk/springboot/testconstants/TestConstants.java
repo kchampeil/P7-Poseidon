@@ -15,6 +15,19 @@ public class TestConstants {
 
     public static final Integer UNKNOWN_BID_LIST_ID = 666;
 
+    /* curvePoint */
+    public static final Integer NEW_CURVE_POINT_ID = 2021;
+    public static final Integer NEW_CURVE_POINT_CURVE_ID = 2021;
+    public static final Double NEW_CURVE_POINT_TERM = 10D;
+    public static final Double NEW_CURVE_POINT_VALUE = 20D;
+
+    public static final Integer EXISTING_CURVE_POINT_ID = 1;
+    public static final Integer EXISTING_CURVE_POINT_CURVE_ID = 1;
+    public static final Double EXISTING_CURVE_POINT_TERM = 100D;
+    public static final Double EXISTING_CURVE_POINT_VALUE = 200D;
+
+    public static final Integer UNKNOWN_CURVE_POINT_ID = 666;
+
     /* user */
     public static final Integer EXISTING_USER_ID = 1;
     public static final String EXISTING_USER_USERNAME = "myfirst";
@@ -24,4 +37,5 @@ public class TestConstants {
     public static final String EXISTING_USER_ROLE_ADMIN = "ADMIN";
 
     public static final String UNKNOWN_USERNAME = "JohnDoe";
+
 }

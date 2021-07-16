@@ -302,7 +302,6 @@ class BidListControllerTest {
                 "THEN return status is found (302) " +
                 "AND the expected view is the bidList list page")
         void showUpdateFormTest_WithException() throws Exception {
-            //TODO à revoir si ajout message pour l'assertion correspondante
             //GIVEN
             when(bidListServiceMock.findBidListById(TestConstants.UNKNOWN_BID_LIST_ID))
                     .thenThrow(new IllegalArgumentException());
@@ -506,7 +505,6 @@ class BidListControllerTest {
                 "WHEN processing a GET /bidList/delete/{id} request for this bidList " +
                 "THEN the returned code is found " +
                 "AND the expected view is the bidList/list page")
-            //TODO revoir texte
         void deleteBidTest_WithMissingInformation() throws Exception {
             //GIVEN
             doThrow(new IllegalArgumentException()).when(bidListServiceMock).deleteBidList(anyInt());
