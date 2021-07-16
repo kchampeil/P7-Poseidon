@@ -13,9 +13,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Optional;
+
+import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
+
+//IN-PROGRESS:
+//+ ajouter contrôle message dans test + bidTests
 
 @Slf4j
 @Controller
@@ -37,12 +43,12 @@ public class BidListController {
     @RequestMapping("/bidList/list")
     public String home(Model model) {
         //DONE: call service find all bids to show to the view
-        log.info(LogConstants.BIDLIST_LIST_REQUEST_RECEIVED
-                + " for user: " + model.getAttribute("currentUsername"));
+        log.info(LogConstants.BIDLIST_LIST_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
         model.addAttribute("bidListAll", bidListService.findAllBidList());
 
         return "bidList/list";
     }
+
 
     /**
      * shows the add form for bidList
@@ -53,8 +59,7 @@ public class BidListController {
     @GetMapping("/bidList/add")
     public String addBidForm(Model model) {
 
-        log.info(LogConstants.BIDLIST_CREATION_FORM_REQUEST_RECEIVED
-                + " for user: " + model.getAttribute("currentUsername") + "\n");
+        log.info(LogConstants.BIDLIST_CREATION_FORM_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
         model.addAttribute("bidList", new BidListDTO());
 
         return "bidList/add";
@@ -68,11 +73,11 @@ public class BidListController {
      * @return bidList/list page if bid has been created, otherwise stay at bidList/add page
      */
     @PostMapping("/bidList/validate")
-    public String validate(@ModelAttribute("bidList") @Valid BidListDTO bid, BindingResult result, Model model) {
+    public String validate(@ModelAttribute("bidList") @Valid BidListDTO bid, BindingResult result,
+                           Model model, RedirectAttributes redirectAttributes) {
         //DONE: check data valid and save to db
 
-        log.info(LogConstants.BIDLIST_CREATION_REQUEST_RECEIVED
-                + bid.getAccount() + " // " + bid.getType() + " // " + bid.getBidQuantity());
+        log.info(LogConstants.BIDLIST_CREATION_REQUEST_RECEIVED + bid.toStringForLogs());
 
         if (result.hasErrors()) {
             log.error(LogConstants.BIDLIST_CREATION_REQUEST_NOT_VALID + "\n");
@@ -83,18 +88,24 @@ public class BidListController {
             Optional<BidListDTO> bidListDTOCreated = bidListService.createBidList(bid);
 
             if (bidListDTOCreated.isPresent()) {
-                log.info(LogConstants.BIDLIST_CREATION_REQUEST_OK + bidListDTOCreated.get().getBidListId()
-                        + " by user: " + model.getAttribute("currentUsername") + "\n");
+                log.info(LogConstants.BIDLIST_CREATION_REQUEST_OK, bidListDTOCreated.get().getBidListId(),
+                        model.getAttribute("currentUsername"));
 
                 //DONE: after saving return bid list
+                redirectAttributes.addFlashAttribute("infoMessage",
+                        formatOutputMessage("bidList.add.ok",
+                                bidListDTOCreated.get().getBidListId().toString()));
+
                 return "redirect:/bidList/list";
             } else {
                 log.error(LogConstants.BIDLIST_CREATION_REQUEST_KO + " \n");
+                redirectAttributes.addFlashAttribute("errorMessage", "bidList.add.ko");
                 return "bidList/add";
             }
 
         } catch (Exception exception) {
             log.error(LogConstants.BIDLIST_CREATION_REQUEST_KO + ": " + exception.getMessage() + " \n");
+            redirectAttributes.addFlashAttribute("errorMessage", "bidList.add.ko");
             return "bidList/add";
         }
     }
@@ -108,10 +119,10 @@ public class BidListController {
      * @return bidList/update page if bidList has been found, otherwise return to bidList/list page
      */
     @GetMapping("/bidList/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         //DONE: get Bid by Id and to model then show to the form
-        log.info(LogConstants.BIDLIST_UPDATE_FORM_REQUEST_RECEIVED + id
-                + " for user: " + model.getAttribute("currentUsername") + "\n");
+        log.info(LogConstants.BIDLIST_UPDATE_FORM_REQUEST_RECEIVED, id,
+                model.getAttribute("currentUsername"));
 
         try {
             model.addAttribute("bidList", bidListService.findBidListById(id));
@@ -119,8 +130,9 @@ public class BidListController {
 
         } catch (IllegalArgumentException illegalArgumentException) {
             log.error(illegalArgumentException.getMessage());
-            //TODO afficher l'erreur ?
-            return "bidList/list";
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    formatOutputMessage("bidList.id.not.valid", id.toString()));
+            return "redirect:/bidList/list";
         }
     }
 
@@ -136,11 +148,12 @@ public class BidListController {
      */
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @ModelAttribute("bidList") @Valid BidListDTO bidList,
-                            BindingResult result, Model model) {
+                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         //DONE: check required fields, if valid call service to update Bid and return list Bid
 
-        log.info(LogConstants.BIDLIST_UPDATE_REQUEST_RECEIVED + id + " // "
-                + bidList.getAccount() + " // " + bidList.getType() + " // " + bidList.getBidQuantity());
+        log.info(LogConstants.BIDLIST_UPDATE_REQUEST_RECEIVED, id,
+                bidList.getAccount() + " // " + bidList.getType() + " // " + bidList.getBidQuantity(),
+                model.getAttribute("currentUser"));
 
         if (result.hasErrors()) {
             log.error(LogConstants.BIDLIST_UPDATE_REQUEST_NOT_VALID + "\n");
@@ -150,12 +163,19 @@ public class BidListController {
         try {
             bidList.setBidListId(id);
             BidListDTO bidListDTOUpdated = bidListService.updateBidList(bidList);
-            log.info(LogConstants.BIDLIST_UPDATE_REQUEST_OK + bidListDTOUpdated.getBidListId()
-                    + " by user: " + model.getAttribute("currentUsername") + "\n");
+
+            log.info(LogConstants.BIDLIST_UPDATE_REQUEST_OK, bidListDTOUpdated.getBidListId(),
+                    model.getAttribute("currentUsername"));
+
+            redirectAttributes.addFlashAttribute("infoMessage",
+                    formatOutputMessage("bidList.update.ok", id.toString()));
             return "redirect:/bidList/list";
 
         } catch (Exception exception) {
-            log.error(LogConstants.BIDLIST_UPDATE_REQUEST_KO + id + ": " + exception.getMessage() + " \n");
+            log.error(LogConstants.BIDLIST_UPDATE_REQUEST_KO, id, exception.getMessage());
+
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    formatOutputMessage("bidList.update.ko", id.toString()));
             return "bidList/update";
         }
     }
@@ -169,21 +189,27 @@ public class BidListController {
      * @return bidList list page
      */
     @GetMapping("/bidList/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // DONE: Find Bid by Id and delete the bid, return to Bid list
 
-        log.info(LogConstants.BIDLIST_DELETE_REQUEST_RECEIVED + id);
+        log.info(LogConstants.BIDLIST_DELETE_REQUEST_RECEIVED, id, model.getAttribute("currentUsername"));
 
         try {
             bidListService.deleteBidList(id);
-            log.info(LogConstants.BIDLIST_DELETE_REQUEST_OK + id
-                    + " by user: " + model.getAttribute("currentUsername") + "\n");
+            log.info(LogConstants.BIDLIST_DELETE_REQUEST_OK, id, model.getAttribute("currentUsername"));
+            redirectAttributes.addFlashAttribute("infoMessage",
+                    formatOutputMessage("bidList.delete.ok", id.toString()));
 
+        } catch (IllegalArgumentException illegalArgumentException) {
+            log.error(LogConstants.BIDLIST_DELETE_REQUEST_KO, id, illegalArgumentException.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    formatOutputMessage("bidList.id.not.valid", id.toString()));
         } catch (Exception exception) {
-            log.error(LogConstants.BIDLIST_DELETE_REQUEST_KO + id + ": " + exception.getMessage() + " \n");
+            log.error(LogConstants.BIDLIST_DELETE_REQUEST_KO, id, exception.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    formatOutputMessage("bidList.delete.ko", id.toString()));
         }
 
-        //TODO voir si message erreur à afficher
         return "redirect:/bidList/list";
     }
 }

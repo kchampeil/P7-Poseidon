@@ -38,14 +38,14 @@ public class BidListService implements IBidListService {
     @Override
     public Optional<BidListDTO> createBidList(BidListDTO bidListDTOToCreate) {
 
-        log.info(LogConstants.CREATE_BID_LIST_CALL + bidListDTOToCreate.toStringForLogs());
+        log.debug(LogConstants.CREATE_BID_LIST_CALL + bidListDTOToCreate.toStringForLogs());
 
         ModelMapper modelMapper = new ModelMapper();
         BidList bidListCreated;
 
         try {
             bidListCreated = bidListRepository.save(modelMapper.map(bidListDTOToCreate, BidList.class));
-            log.info(LogConstants.CREATE_BID_LIST_OK + bidListCreated.getBidListId());
+            log.debug(LogConstants.CREATE_BID_LIST_OK + bidListCreated.getBidListId());
 
         } catch (Exception exception) {
             log.error(LogConstants.CREATE_BID_LIST_ERROR + bidListDTOToCreate.toStringForLogs());
@@ -63,14 +63,14 @@ public class BidListService implements IBidListService {
      */
     @Override
     public List<BidListDTO> findAllBidList() {
-        log.info(LogConstants.FIND_BID_LIST_ALL_CALL);
+        log.debug(LogConstants.FIND_BID_LIST_ALL_CALL);
 
         List<BidList> bidListList = bidListRepository.findAll();
         List<BidListDTO> bidListDTOList = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();
         bidListList.forEach(bidList ->
                 bidListDTOList.add(modelMapper.map(bidList, BidListDTO.class)));
-        log.info(LogConstants.FIND_BID_LIST_ALL_OK + bidListDTOList.size() + "\n");
+        log.debug(LogConstants.FIND_BID_LIST_ALL_OK, bidListDTOList.size());
 
         return bidListDTOList;
     }
@@ -85,7 +85,7 @@ public class BidListService implements IBidListService {
      */
     @Override
     public BidListDTO findBidListById(Integer id) {
-        log.info(LogConstants.FIND_BID_LIST_BY_ID_CALL);
+        log.debug(LogConstants.FIND_BID_LIST_BY_ID_CALL);
 
         Optional<BidList> bidList = bidListRepository.findById(id);
 
@@ -93,7 +93,7 @@ public class BidListService implements IBidListService {
             ModelMapper modelMapper = new ModelMapper();
             BidListDTO bidListDTO = modelMapper.map(bidList.get(), BidListDTO.class);
 
-            log.info(LogConstants.FIND_BID_LIST_BY_ID_OK + id + "\n");
+            log.debug(LogConstants.FIND_BID_LIST_BY_ID_OK + id + "\n");
             return bidListDTO;
         } else {
             log.error(BID_LIST_ID_NOT_VALID + id);
@@ -110,14 +110,14 @@ public class BidListService implements IBidListService {
      */
     @Override
     public BidListDTO updateBidList(BidListDTO bidListDTOToUpdate) {
-        log.info(LogConstants.UPDATE_BID_LIST_CALL + bidListDTOToUpdate.toStringForLogs());
+        log.debug(LogConstants.UPDATE_BID_LIST_CALL + bidListDTOToUpdate.toStringForLogs());
 
         ModelMapper modelMapper = new ModelMapper();
         BidList bidListUpdated;
 
         try {
             bidListUpdated = bidListRepository.save(modelMapper.map(bidListDTOToUpdate, BidList.class));
-            log.info(LogConstants.UPDATE_BID_LIST_OK + bidListUpdated.getBidListId());
+            log.debug(LogConstants.UPDATE_BID_LIST_OK + bidListUpdated.getBidListId());
 
         } catch (Exception exception) {
             log.error(LogConstants.UPDATE_BID_LIST_ERROR + bidListDTOToUpdate.toStringForLogs());
@@ -136,7 +136,7 @@ public class BidListService implements IBidListService {
     @Override
     public void deleteBidList(Integer id) {
 
-        log.info(LogConstants.DELETE_BID_LIST_CALL + id);
+        log.debug(LogConstants.DELETE_BID_LIST_CALL + id);
 
         if (id == null) {
             log.error(LogConstants.DELETE_BID_LIST_ERROR + id);
@@ -154,7 +154,7 @@ public class BidListService implements IBidListService {
         //Delete the bidList
         try {
             bidListRepository.delete(bidList);
-            log.info(LogConstants.DELETE_BID_LIST_OK + id);
+            log.debug(LogConstants.DELETE_BID_LIST_OK + id);
 
         } catch (Exception exception) {
             log.error(LogConstants.DELETE_BID_LIST_ERROR + id);

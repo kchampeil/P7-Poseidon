@@ -14,6 +14,12 @@
 	</div>
 
 	<div class="row">
+        <span th:if="${errorMessage!=null}" th:text="${errorMessage}"
+			  class="text-danger text-start"> error Message</span>
+		<span th:if="${infoMessage!=null}" th:text="${infoMessage}" class="text-success text-start"> info Message</span>
+	</div>
+
+	<div class="row">
 		<form action="#" th:action="@{/bidList/validate}" th:object="${bidList}" method="post" class="form-horizontal" style="width: 100%">
 			<!--
 			DONE: Create a form to input the values of Bid, there are 2 buttons: Save data and Cancel to the list Bid

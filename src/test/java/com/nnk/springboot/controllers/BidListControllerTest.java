@@ -204,7 +204,7 @@ class BidListControllerTest {
 
         @WithMockUser
         @Test
-        @DisplayName("GIVEN an SQL exception when saving the new bidList " +
+        @DisplayName("GIVEN an exception when saving the new bidList " +
                 "THEN the returned code is ok " +
                 "AND the expected view is the bidList/add page filled with entered bidList")
         void validateTest_WithException() throws Exception {
@@ -299,7 +299,7 @@ class BidListControllerTest {
         @WithMockUser
         @Test
         @DisplayName("WHEN an exception occurs while retrieving bidList on a GET /bidList/update/{id} request " +
-                "THEN return status is ok " +
+                "THEN return status is found (302) " +
                 "AND the expected view is the bidList list page")
         void showUpdateFormTest_WithException() throws Exception {
             //TODO à revoir si ajout message pour l'assertion correspondante
@@ -309,8 +309,8 @@ class BidListControllerTest {
 
             //WHEN-THEN
             mockMvc.perform(get("/bidList/update/{id}", TestConstants.UNKNOWN_BID_LIST_ID))
-                    .andExpect(status().isOk())
-                    .andExpect(view().name("bidList/list"));
+                    .andExpect(status().isFound())
+                    .andExpect(redirectedUrl("/bidList/list"));
 
             verify(bidListServiceMock, Mockito.times(1))
                     .findBidListById(anyInt());
@@ -412,7 +412,7 @@ class BidListControllerTest {
 
         @WithMockUser
         @Test
-        @DisplayName("GIVEN an SQL exception when updating the bidList " +
+        @DisplayName("GIVEN an exception when updating the bidList " +
                 "THEN the returned code is ok " +
                 "AND the expected view is the bidList/update/{id} page filled with entered bidList")
         void updateBidTest_WithException() throws Exception {

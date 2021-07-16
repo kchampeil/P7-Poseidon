@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="container">
+
     <div class="row">
         <div class="col-6">
             <a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
@@ -23,7 +24,15 @@
             </form>
         </div>
     </div>
-    <div class="row"><h2>Bid List</h2></div>
+
+    <div class="row align-items-center">
+        <div class="col-2"><h2>Bid List</h2></div>
+        <div class="col-7">
+            <span th:if="${errorMessage!=null}" th:text="${errorMessage}" class="text-danger text-start"> error Message</span>
+            <span th:if="${infoMessage!=null}" th:text="${infoMessage}" class="text-success text-start"> info Message</span>
+        </div>
+    </div>
+
     <div class="row">
         <a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
         <table class="table table-bordered">
