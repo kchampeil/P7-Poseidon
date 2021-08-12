@@ -28,6 +28,21 @@ public class TestConstants {
 
     public static final Integer UNKNOWN_CURVE_POINT_ID = 666;
 
+    /* rating */
+    public static final Integer NEW_RATING_ID = 2021;
+    public static final String NEW_RATING_MOODYS_RATING = "New Moody's rating";
+    public static final String NEW_RATING_SANDP_RATING = "New Standard and Poor's rating";
+    public static final String NEW_RATING_FITCH_RATING = "New Fitch's rating";
+    public static final Integer NEW_RATING_ORDER_NUMBER = 2021;
+
+    public static final Integer EXISTING_RATING_ID = 1;
+    public static final String EXISTING_RATING_MOODYS_RATING = "Existing Moody's rating";
+    public static final String EXISTING_RATING_SANDP_RATING = "Existing Standard and Poor's rating";
+    public static final String EXISTING_RATING_FITCH = "Existing Fitch's rating";
+    public static final Integer EXISTING_RATING_ORDER_NUMBER = 1;
+
+    public static final Integer UNKNOWN_RATING_ID = 666;
+
     /* user */
     public static final Integer EXISTING_USER_ID = 1;
     public static final String EXISTING_USER_USERNAME = "myfirst";
