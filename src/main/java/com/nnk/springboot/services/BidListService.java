@@ -9,6 +9,7 @@ import com.nnk.springboot.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +48,7 @@ public class BidListService implements IBidListService {
         try {
             BidList bidListToCreate = modelMapper.map(bidListDTOToCreate, BidList.class);
             bidListToCreate.setCreationDate(DateUtil.getCurrentLocalDateTime());
+            bidListToCreate.setCreationName(SecurityContextHolder.getContext().getAuthentication().getName());
             bidListCreated = bidListRepository.save(bidListToCreate);
             log.debug(LogConstants.CREATE_BID_LIST_OK + bidListCreated.getBidListId());
 
@@ -121,6 +123,7 @@ public class BidListService implements IBidListService {
         try {
             BidList bidListToUpdate = modelMapper.map(bidListDTOToUpdate, BidList.class);
             bidListToUpdate.setRevisionDate(DateUtil.getCurrentLocalDateTime());
+            bidListToUpdate.setRevisionName(SecurityContextHolder.getContext().getAuthentication().getName());
             bidListUpdated = bidListRepository.save(bidListToUpdate);
             log.debug(LogConstants.UPDATE_BID_LIST_OK + bidListUpdated.getBidListId());
 
