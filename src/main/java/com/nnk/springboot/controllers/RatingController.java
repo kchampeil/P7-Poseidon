@@ -139,7 +139,7 @@ public class RatingController {
      *
      * @param id     of the rating to update
      * @param rating rating informations to update
-     * @param result got to rating list page if Rating has been updated, otherwise stay at rating/update page
+     * @param result go to rating list page if Rating has been updated, otherwise stay at rating/update page
      * @param model  current model
      * @return rating/list page if Rating has been updated, otherwise stay at rating/update page
      */

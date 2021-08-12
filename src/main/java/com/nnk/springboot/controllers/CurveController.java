@@ -138,7 +138,7 @@ public class CurveController {
      *
      * @param id         of the curvePoint to update
      * @param curvePoint curvePoint informations to update
-     * @param result     got to curvePoint list page if CurvePoint has been updated, otherwise stay at curvePoint/update page
+     * @param result     go to curvePoint list page if CurvePoint has been updated, otherwise stay at curvePoint/update page
      * @param model      current model
      * @return curvePoint/list page if CurvePoint has been updated, otherwise stay at curvePoint/update page
      */

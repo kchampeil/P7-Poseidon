@@ -137,7 +137,7 @@ public class RuleNameController {
      *
      * @param id       of the ruleName to update
      * @param ruleName ruleName informations to update
-     * @param result   got to ruleName list page if RuleName has been updated, otherwise stay at ruleName/update page
+     * @param result   go to ruleName list page if RuleName has been updated, otherwise stay at ruleName/update page
      * @param model    current model
      * @return ruleName/list page if RuleName has been updated, otherwise stay at ruleName/update page
      */

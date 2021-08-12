@@ -139,7 +139,7 @@ public class BidListController {
      *
      * @param id      of the bidList to update
      * @param bidList bidList informations to update
-     * @param result  got to bidList list page if bid has been updated, otherwise stay at bidList/update page
+     * @param result  go to bidList list page if bid has been updated, otherwise stay at bidList/update page
      * @param model   current model
      * @return bidList/list page if bid has been updated, otherwise stay at bidList/update page
      */
