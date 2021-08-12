@@ -12,7 +12,7 @@
 		<div class="col-6">
 			<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
 			<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
-			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
+			<a href="/ruleName/list">Ratings</a>&nbsp;|&nbsp;
 			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
 			<a href="/ruleName/list">Rule</a>
 		</div>
@@ -23,7 +23,15 @@
 			</form>
 		</div>
 	</div>
-	<div class="row"><h2>Rule List</h2></div>
+
+	<div class="row align-items-center">
+		<div class="col-4"><h2>Rule List</h2></div>
+		<div class="col-7">
+			<span th:if="${errorMessage!=null}" th:text="${errorMessage}" class="text-danger text-start"> error Message</span>
+			<span th:if="${infoMessage!=null}" th:text="${infoMessage}" class="text-success text-start"> info Message</span>
+		</div>
+	</div>
+	
 	<div class="row">
 		<a href="/ruleName/add" class="btn btn-primary btn-sm">Add New</a>
 		<table class="table table-bordered">
@@ -40,7 +48,20 @@
 				</tr>
 			</thead>
 			<tbody>
-			<!-- TODO: Show all RuleName to the table, the Action column will have Edit & Delete buttons -->
+			<!-- DONE: Show all RuleName to the table, the Action column will have Edit & Delete buttons -->
+			<tr th:each="ruleName : ${ruleNameAll}">
+				<td><span th:text="${ruleName.id}"> Id</span></td>
+				<td><span th:text="${ruleName.name}"> Name</span></td>
+				<td><span th:text="${ruleName.description}"> Description</span></td>
+				<td><span th:text="${ruleName.json}"> json</span></td>
+				<td><span th:text="${ruleName.template}"> template</span></td>
+				<td><span th:text="${ruleName.sqlStr}"> sql</span></td>
+				<td><span th:text="${ruleName.sqlPart}"> sqlPart</span></td>
+				<td style="width: 15%" class="text-center">
+					<a th:href="@{/ruleName/update/{id}(id=${ruleName.id})}">Edit</a>&nbsp;|&nbsp;
+					<a th:href="@{/ruleName/delete/{id}(id=${ruleName.id})}">Delete</a>
+				</td>
+			</tr>
 			</tbody>
 		</table>
 	</div>

@@ -79,7 +79,7 @@ public class CurvePointService implements ICurvePointService {
 
 
     /**
-     * Get a bitList by its id
+     * Get a curvePoint by its id
      *
      * @param id of the curvePoint we want to retrieve
      * @return a CurvePointDTO filled with CurvePoint informations

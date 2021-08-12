@@ -43,6 +43,25 @@ public class TestConstants {
 
     public static final Integer UNKNOWN_RATING_ID = 666;
 
+    /* ruleName */
+    public static final Integer NEW_RULE_NAME_ID = 2021;
+    public static final String NEW_RULE_NAME_NAME = "New RuleName name";
+    public static final String NEW_RULE_NAME_DESCRIPTION = "New RuleName description";
+    public static final String NEW_RULE_NAME_JSON = "New RuleName JSon";
+    public static final String NEW_RULE_NAME_TEMPLATE = "New template";
+    public static final String NEW_RULE_NAME_SQLSTR = "New sqlStr";
+    public static final String NEW_RULE_NAME_SQLPART = "New sqlPart";
+
+    public static final Integer EXISTING_RULE_NAME_ID = 1;
+    public static final String EXISTING_RULE_NAME_NAME = "Existing RuleName name";
+    public static final String EXISTING_RULE_NAME_DESCRIPTION = "Existing RuleName description";
+    public static final String EXISTING_RULE_NAME_JSON = "Existing RuleName JSon";
+    public static final String EXISTING_RULE_NAME_TEMPLATE = "Existing template";
+    public static final String EXISTING_RULE_NAME_SQLSTR = "Existing sqlStr";
+    public static final String EXISTING_RULE_NAME_SQLPART = "Existing sqlPart";
+
+    public static final Integer UNKNOWN_RULE_NAME_ID = 666;
+
     /* user */
     public static final Integer EXISTING_USER_ID = 1;
     public static final String EXISTING_USER_USERNAME = "myfirst";
@@ -52,5 +71,4 @@ public class TestConstants {
     public static final String EXISTING_USER_ROLE_ADMIN = "ADMIN";
 
     public static final String UNKNOWN_USERNAME = "JohnDoe";
-
 }

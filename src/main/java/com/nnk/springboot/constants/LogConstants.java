@@ -59,6 +59,24 @@ public class LogConstants {
     public static final String DELETE_RATING_OK = "Rating deleted for id: ";
     public static final String DELETE_RATING_ERROR = "Error when deleting rating id: ";
 
+    public static final String CREATE_RULE_NAME_CALL = "Call to createRuleName with RuleName: ";
+    public static final String CREATE_RULE_NAME_OK = "RuleName created with id: ";
+    public static final String CREATE_RULE_NAME_ERROR = "Error when saving rating: ";
+
+    public static final String FIND_RULE_NAME_ALL_CALL = "Call to findAllRuleName";
+    public static final String FIND_RULE_NAME_ALL_OK = "List of rating retrieved with {} values \n";
+
+    public static final String FIND_RULE_NAME_BY_ID_CALL = "Call to findRuleNameById";
+    public static final String FIND_RULE_NAME_BY_ID_OK = "RuleName retrieved for id: ";
+
+    public static final String UPDATE_RULE_NAME_CALL = "Call to updateRuleName with RuleName: ";
+    public static final String UPDATE_RULE_NAME_OK = "RuleName updated for id: ";
+    public static final String UPDATE_RULE_NAME_ERROR = "Error when updating rating: ";
+
+    public static final String DELETE_RULE_NAME_CALL = "Call to deleteRuleName for id: ";
+    public static final String DELETE_RULE_NAME_OK = "RuleName deleted for id: ";
+    public static final String DELETE_RULE_NAME_ERROR = "Error when deleting rating id: ";
+
     /* Controllers */
     public static final String CURRENT_USER_UNKNOWN = "Current user unknown";
 
@@ -157,4 +175,36 @@ public class LogConstants {
             "Rating id {} has been deleted by user: {} \n";
     public static final String RATING_DELETE_REQUEST_KO =
             "Rating id {} has not been deleted: {} \n";
+
+    public static final String RULE_NAME_CREATION_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /ruleName/add received for user: {} \n";
+    public static final String RULE_NAME_CREATION_REQUEST_RECEIVED =
+            "POST request on endpoint /ruleName/validate received for RuleName: ";
+    public static final String RULE_NAME_CREATION_REQUEST_NOT_VALID =
+            "RuleName information not valid";
+    public static final String RULE_NAME_CREATION_REQUEST_KO =
+            "New ruleName has not been added";
+    public static final String RULE_NAME_CREATION_REQUEST_OK =
+            "New ruleName has been added with id {} by user: {} \n";
+
+    public static final String RULE_NAME_LIST_REQUEST_RECEIVED =
+            "Request on endpoint /ruleName/list received for user: {}";
+
+    public static final String RULE_NAME_UPDATE_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /ruleName/update/{} received for user: {}";
+    public static final String RULE_NAME_UPDATE_REQUEST_RECEIVED =
+            "POST request on endpoint /ruleName/update/{} received with RuleName: {}, for user: {}";
+    public static final String RULE_NAME_UPDATE_REQUEST_NOT_VALID =
+            "RuleName information not valid";
+    public static final String RULE_NAME_UPDATE_REQUEST_OK =
+            "RuleName id {} has been updated by user: {} \n";
+    public static final String RULE_NAME_UPDATE_REQUEST_KO =
+            "RuleName id {} has not been updated : {} \n";
+
+    public static final String RULE_NAME_DELETE_REQUEST_RECEIVED =
+            "GET request on endpoint /ruleName/delete/{} received for user: {}";
+    public static final String RULE_NAME_DELETE_REQUEST_OK =
+            "RuleName id {} has been deleted by user: {} \n";
+    public static final String RULE_NAME_DELETE_REQUEST_KO =
+            "RuleName id {} has not been deleted: {} \n";
 }

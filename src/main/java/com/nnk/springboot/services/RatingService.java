@@ -76,7 +76,7 @@ public class RatingService implements IRatingService {
 
 
     /**
-     * Get a bitList by its id
+     * Get a rating by its id
      *
      * @param id of the rating we want to retrieve
      * @return a RatingDTO filled with Rating informations
