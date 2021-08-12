@@ -10,5 +10,7 @@ public class PoseidonExceptionsConstants {
 
     public static final String RULE_NAME_ID_NOT_VALID = "Invalid ruleName id: ";
 
+    public static final String TRADE_ID_NOT_VALID = "Invalid trade id: ";
+
     public static final String DOES_NOT_EXISTS_USER = "User does not exist";
 }

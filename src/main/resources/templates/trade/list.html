@@ -23,7 +23,15 @@
 			</form>
 		</div>
 	</div>
-	<div class="row"><h2>Trade List</h2></div>
+
+	<div class="row align-items-center">
+		<div class="col-4"><h2>Trade List</h2></div>
+		<div class="col-7">
+			<span th:if="${errorMessage!=null}" th:text="${errorMessage}" class="text-danger text-start"> error Message</span>
+			<span th:if="${infoMessage!=null}" th:text="${infoMessage}" class="text-success text-start"> info Message</span>
+		</div>
+	</div>
+	
 	<div class="row">
 		<a href="/trade/add" class="btn btn-primary btn-sm">Add New</a>
 		<table class="table table-bordered">
@@ -38,6 +46,16 @@
 			</thead>
 			<tbody>
 			<!-- TODO: Show all Trade to the table, the Action column will have Edit & Delete buttons -->
+			<tr th:each="trade : ${tradeAll}">
+				<td><span th:text="${trade.tradeId}"> Id</span></td>
+				<td><span th:text="${trade.account}"> Account</span></td>
+				<td><span th:text="${trade.type}"> Type</span></td>
+				<td><span th:text="${trade.buyQuantity}"> Buy Quantity</span></td>
+				<td style="width: 15%" class="text-center">
+					<a th:href="@{/trade/update/{id}(id=${trade.tradeId})}">Edit</a> |
+					<a th:href="@{/trade/delete/{id}(id=${trade.tradeId})}">Delete</a>
+				</td>
+			</tr>
 			</tbody>
 		</table>
 	</div>

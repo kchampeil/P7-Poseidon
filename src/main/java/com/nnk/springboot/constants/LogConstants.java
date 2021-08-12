@@ -77,6 +77,24 @@ public class LogConstants {
     public static final String DELETE_RULE_NAME_OK = "RuleName deleted for id: ";
     public static final String DELETE_RULE_NAME_ERROR = "Error when deleting rating id: ";
 
+    public static final String CREATE_TRADE_CALL = "Call to createTrade with Trade: ";
+    public static final String CREATE_TRADE_OK = "Trade created with id: ";
+    public static final String CREATE_TRADE_ERROR = "Error when saving trade: ";
+
+    public static final String FIND_TRADE_ALL_CALL = "Call to findAllTrade";
+    public static final String FIND_TRADE_ALL_OK = "List of trade retrieved with {} values \n";
+
+    public static final String FIND_TRADE_BY_ID_CALL = "Call to findTradeById";
+    public static final String FIND_TRADE_BY_ID_OK = "Trade retrieved for id: ";
+
+    public static final String UPDATE_TRADE_CALL = "Call to updateTrade with Trade: ";
+    public static final String UPDATE_TRADE_OK = "Trade updated for id: ";
+    public static final String UPDATE_TRADE_ERROR = "Error when updating trade: ";
+
+    public static final String DELETE_TRADE_CALL = "Call to deleteTrade for id: ";
+    public static final String DELETE_TRADE_OK = "Trade deleted for id: ";
+    public static final String DELETE_TRADE_ERROR = "Error when deleting trade id: ";
+
     /* Controllers */
     public static final String CURRENT_USER_UNKNOWN = "Current user unknown";
 
@@ -207,4 +225,36 @@ public class LogConstants {
             "RuleName id {} has been deleted by user: {} \n";
     public static final String RULE_NAME_DELETE_REQUEST_KO =
             "RuleName id {} has not been deleted: {} \n";
+//
+    public static final String TRADE_CREATION_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /trade/add received for user: {} \n";
+    public static final String TRADE_CREATION_REQUEST_RECEIVED =
+            "POST request on endpoint /trade/validate received for Trade: ";
+    public static final String TRADE_CREATION_REQUEST_NOT_VALID =
+            "Trade information not valid";
+    public static final String TRADE_CREATION_REQUEST_KO =
+            "New trade has not been added";
+    public static final String TRADE_CREATION_REQUEST_OK =
+            "New trade has been added with id {} by user: {} \n";
+
+    public static final String TRADE_LIST_REQUEST_RECEIVED =
+            "Request on endpoint /trade/list received for user: {}";
+
+    public static final String TRADE_UPDATE_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /trade/update/{} received for user: {}";
+    public static final String TRADE_UPDATE_REQUEST_RECEIVED =
+            "POST request on endpoint /trade/update/{} received with Trade: {}, for user: {}";
+    public static final String TRADE_UPDATE_REQUEST_NOT_VALID =
+            "Trade information not valid";
+    public static final String TRADE_UPDATE_REQUEST_OK =
+            "Trade id {} has been updated by user: {} \n";
+    public static final String TRADE_UPDATE_REQUEST_KO =
+            "Trade id {} has not been updated : {} \n";
+
+    public static final String TRADE_DELETE_REQUEST_RECEIVED =
+            "GET request on endpoint /trade/delete/{} received for user: {}";
+    public static final String TRADE_DELETE_REQUEST_OK =
+            "Trade id {} has been deleted by user: {} \n";
+    public static final String TRADE_DELETE_REQUEST_KO =
+            "Trade id {} has not been deleted: {} \n";
 }

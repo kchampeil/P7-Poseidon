@@ -62,6 +62,19 @@ public class TestConstants {
 
     public static final Integer UNKNOWN_RULE_NAME_ID = 666;
 
+    /* trade */
+    public static final Integer NEW_TRADE_ID = 2021;
+    public static final String NEW_TRADE_ACCOUNT = "Account Test";
+    public static final String NEW_TRADE_TYPE = "Type Test";
+    public static final Double NEW_TRADE_BUY_QUANTITY = 10D;
+
+    public static final Integer EXISTING_TRADE_ID = 1;
+    public static final String EXISTING_TRADE_ACCOUNT = "Account for existing trade";
+    public static final String EXISTING_TRADE_TYPE = "Type for existing trade";
+    public static final Double EXISTING_TRADE_BUY_QUANTITY = 100D;
+
+    public static final Integer UNKNOWN_TRADE_ID = 666;
+
     /* user */
     public static final Integer EXISTING_USER_ID = 1;
     public static final String EXISTING_USER_USERNAME = "myfirst";
