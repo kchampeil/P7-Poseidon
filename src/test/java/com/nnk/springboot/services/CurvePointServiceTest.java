@@ -76,9 +76,7 @@ public class CurvePointServiceTest {
             //THEN
             assertTrue(createdCurvePointDTO.isPresent());
             assertNotNull(createdCurvePointDTO.get().getId());
-            assertEquals(curvePointDTOWithValues.getCurveId(), createdCurvePointDTO.get().getCurveId());
-            assertEquals(curvePointDTOWithValues.getTerm(), createdCurvePointDTO.get().getTerm());
-            assertEquals(curvePointDTOWithValues.getValue(), createdCurvePointDTO.get().getValue());
+            assertEquals(curvePointDTOWithValues.toString(), createdCurvePointDTO.get().toString());
 
             verify(curvePointRepositoryMock, Mockito.times(1))
                     .save(any(CurvePoint.class));
@@ -198,7 +196,7 @@ public class CurvePointServiceTest {
             CurvePointDTO createdCurvePointDTO = curvePointService.updateCurvePoint(curvePointDTOWithValues);
 
             //THEN
-            assertEquals(curvePointDTOWithValues.toStringForLogs(), createdCurvePointDTO.toStringForLogs());
+            assertEquals(curvePointDTOWithValues.toString(), createdCurvePointDTO.toString());
 
             verify(curvePointRepositoryMock, Mockito.times(1))
                     .save(any(CurvePoint.class));

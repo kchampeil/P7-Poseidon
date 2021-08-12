@@ -74,7 +74,7 @@ public class BidListController {
                            Model model, RedirectAttributes redirectAttributes) {
         //DONE: check data valid and save to db
 
-        log.info(LogConstants.BIDLIST_CREATION_REQUEST_RECEIVED + bid.toStringForLogs());
+        log.info(LogConstants.BIDLIST_CREATION_REQUEST_RECEIVED + bid.toString());
 
         if (result.hasErrors()) {
             log.error(LogConstants.BIDLIST_CREATION_REQUEST_NOT_VALID + "\n");
@@ -149,7 +149,7 @@ public class BidListController {
         //DONE: check required fields, if valid call service to update Bid and return list Bid
 
         log.info(LogConstants.BIDLIST_UPDATE_REQUEST_RECEIVED, id,
-                bidList.toStringForLogs(),
+                bidList.toString(),
                 model.getAttribute("currentUser"));
 
         if (result.hasErrors()) {

@@ -198,7 +198,7 @@ class BidListServiceTest {
             BidListDTO createdBidListDTO = bidListService.updateBidList(bidListDTOWithValues);
 
             //THEN
-            assertEquals(bidListDTOWithValues.toStringForLogs(), createdBidListDTO.toStringForLogs());
+            assertEquals(bidListDTOWithValues.toString(), createdBidListDTO.toString());
 
             verify(bidListRepositoryMock, Mockito.times(1))
                     .save(any(BidList.class));

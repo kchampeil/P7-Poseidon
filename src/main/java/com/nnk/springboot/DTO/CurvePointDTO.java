@@ -19,13 +19,13 @@ public class CurvePointDTO {
 
     private Double value;
 
-    /**
-     * concatenates the curvePoint informations to help showing them in logs
-     *
-     * @return curvePoint informations
-     */
-    public String toStringForLogs() {
-        return "id: " + getId() + " // curveId: " + getCurveId()
-                + " // term: " + getTerm() + " // value: " + getValue();
+    @Override
+    public String toString() {
+        return "CurvePointDTO{" +
+                "id=" + id +
+                ", curveId=" + curveId +
+                ", term=" + term +
+                ", value=" + value +
+                '}';
     }
 }

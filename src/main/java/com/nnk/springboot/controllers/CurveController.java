@@ -73,7 +73,7 @@ public class CurveController {
                            Model model, RedirectAttributes redirectAttributes) {
         //DONE: check data valid and save to db
 
-        log.info(LogConstants.CURVEPOINT_CREATION_REQUEST_RECEIVED + curvePoint.toStringForLogs());
+        log.info(LogConstants.CURVEPOINT_CREATION_REQUEST_RECEIVED + curvePoint.toString());
 
         if (result.hasErrors()) {
             log.error(LogConstants.CURVEPOINT_CREATION_REQUEST_NOT_VALID + "\n");
@@ -147,7 +147,7 @@ public class CurveController {
                                    BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // DONE: check required fields, if valid call service to update Curve and return Curve list
         log.info(LogConstants.CURVEPOINT_UPDATE_REQUEST_RECEIVED, id,
-                curvePoint.toStringForLogs(),
+                curvePoint.toString(),
                 model.getAttribute("currentUser"));
 
         if (result.hasErrors()) {

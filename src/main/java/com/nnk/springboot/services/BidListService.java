@@ -39,7 +39,7 @@ public class BidListService implements IBidListService {
     @Override
     public Optional<BidListDTO> createBidList(BidListDTO bidListDTOToCreate) {
 
-        log.debug(LogConstants.CREATE_BID_LIST_CALL + bidListDTOToCreate.toStringForLogs());
+        log.debug(LogConstants.CREATE_BID_LIST_CALL + bidListDTOToCreate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
         BidList bidListCreated;
@@ -51,7 +51,7 @@ public class BidListService implements IBidListService {
             log.debug(LogConstants.CREATE_BID_LIST_OK + bidListCreated.getBidListId());
 
         } catch (Exception exception) {
-            log.error(LogConstants.CREATE_BID_LIST_ERROR + bidListDTOToCreate.toStringForLogs());
+            log.error(LogConstants.CREATE_BID_LIST_ERROR + bidListDTOToCreate);
             throw exception;
         }
 
@@ -113,7 +113,7 @@ public class BidListService implements IBidListService {
      */
     @Override
     public BidListDTO updateBidList(BidListDTO bidListDTOToUpdate) {
-        log.debug(LogConstants.UPDATE_BID_LIST_CALL + bidListDTOToUpdate.toStringForLogs());
+        log.debug(LogConstants.UPDATE_BID_LIST_CALL + bidListDTOToUpdate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
         BidList bidListUpdated;
@@ -125,7 +125,7 @@ public class BidListService implements IBidListService {
             log.debug(LogConstants.UPDATE_BID_LIST_OK + bidListUpdated.getBidListId());
 
         } catch (Exception exception) {
-            log.error(LogConstants.UPDATE_BID_LIST_ERROR + bidListDTOToUpdate.toStringForLogs());
+            log.error(LogConstants.UPDATE_BID_LIST_ERROR + bidListDTOToUpdate);
             throw exception;
         }
 
@@ -144,8 +144,8 @@ public class BidListService implements IBidListService {
         log.debug(LogConstants.DELETE_BID_LIST_CALL + id);
 
         if (id == null) {
-            log.error(LogConstants.DELETE_BID_LIST_ERROR + id);
-            throw new IllegalArgumentException(BID_LIST_ID_NOT_VALID + id);
+            log.error(LogConstants.DELETE_BID_LIST_ERROR + "id is null");
+            throw new IllegalArgumentException(BID_LIST_ID_NOT_VALID + "null");
         }
 
         //Find bidList by Id

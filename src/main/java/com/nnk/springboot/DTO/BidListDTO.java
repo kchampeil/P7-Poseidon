@@ -23,13 +23,13 @@ public class BidListDTO {
     @NotNull(message = "Bid quantity is mandatory")
     private Double bidQuantity;
 
-    /**
-     * concatenates the bid list informations to help showing them in logs
-     *
-     * @return bid list informations
-     */
-    public String toStringForLogs() {
-        return "bidListId: " + getBidListId() + " // account: " + getAccount()
-                + " // type: " + getType() + " // bidQuantity: " + getBidQuantity();
+    @Override
+    public String toString() {
+        return "BidListDTO{" +
+                "bidListId=" + bidListId +
+                ", account='" + account + '\'' +
+                ", type='" + type + '\'' +
+                ", bidQuantity=" + bidQuantity +
+                '}';
     }
 }

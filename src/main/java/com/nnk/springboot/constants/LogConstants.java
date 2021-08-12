@@ -41,6 +41,24 @@ public class LogConstants {
     public static final String DELETE_CURVE_POINT_OK = "CurvePoint deleted for id: ";
     public static final String DELETE_CURVE_POINT_ERROR = "Error when deleting curvePoint id: ";
 
+    public static final String CREATE_RATING_CALL = "Call to createRating with Rating: ";
+    public static final String CREATE_RATING_OK = "Rating created with id: ";
+    public static final String CREATE_RATING_ERROR = "Error when saving rating: ";
+
+    public static final String FIND_RATING_ALL_CALL = "Call to findAllRating";
+    public static final String FIND_RATING_ALL_OK = "List of rating retrieved with {} values \n";
+
+    public static final String FIND_RATING_BY_ID_CALL = "Call to findRatingById";
+    public static final String FIND_RATING_BY_ID_OK = "Rating retrieved for id: ";
+
+    public static final String UPDATE_RATING_CALL = "Call to updateRating with Rating: ";
+    public static final String UPDATE_RATING_OK = "Rating updated for id: ";
+    public static final String UPDATE_RATING_ERROR = "Error when updating rating: ";
+
+    public static final String DELETE_RATING_CALL = "Call to deleteRating for id: ";
+    public static final String DELETE_RATING_OK = "Rating deleted for id: ";
+    public static final String DELETE_RATING_ERROR = "Error when deleting rating id: ";
+
     /* Controllers */
     public static final String CURRENT_USER_UNKNOWN = "Current user unknown";
 
@@ -108,4 +126,35 @@ public class LogConstants {
     public static final String CURVEPOINT_DELETE_REQUEST_KO =
             "CurvePoint id {} has not been deleted: {} \n";
 
+    public static final String RATING_CREATION_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /rating/add received for user: {} \n";
+    public static final String RATING_CREATION_REQUEST_RECEIVED =
+            "POST request on endpoint /rating/validate received for Rating: ";
+    public static final String RATING_CREATION_REQUEST_NOT_VALID =
+            "Rating information not valid";
+    public static final String RATING_CREATION_REQUEST_KO =
+            "New rating has not been added";
+    public static final String RATING_CREATION_REQUEST_OK =
+            "New rating has been added with id {} by user: {} \n";
+
+    public static final String RATING_LIST_REQUEST_RECEIVED =
+            "Request on endpoint /rating/list received for user: {}";
+
+    public static final String RATING_UPDATE_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /rating/update/{} received for user: {}";
+    public static final String RATING_UPDATE_REQUEST_RECEIVED =
+            "POST request on endpoint /rating/update/{} received with Rating: {}, for user: {}";
+    public static final String RATING_UPDATE_REQUEST_NOT_VALID =
+            "Rating information not valid";
+    public static final String RATING_UPDATE_REQUEST_OK =
+            "Rating id {} has been updated by user: {} \n";
+    public static final String RATING_UPDATE_REQUEST_KO =
+            "Rating id {} has not been updated : {} \n";
+
+    public static final String RATING_DELETE_REQUEST_RECEIVED =
+            "GET request on endpoint /rating/delete/{} received for user: {}";
+    public static final String RATING_DELETE_REQUEST_OK =
+            "Rating id {} has been deleted by user: {} \n";
+    public static final String RATING_DELETE_REQUEST_KO =
+            "Rating id {} has not been deleted: {} \n";
 }

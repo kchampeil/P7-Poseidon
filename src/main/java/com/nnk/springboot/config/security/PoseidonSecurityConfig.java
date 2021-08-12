@@ -1,4 +1,4 @@
-package com.nnk.springboot.config;
+package com.nnk.springboot.config.security;
 
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

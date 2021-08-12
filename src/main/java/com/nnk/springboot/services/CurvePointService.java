@@ -38,7 +38,7 @@ public class CurvePointService implements ICurvePointService {
     @Override
     public Optional<CurvePointDTO> createCurvePoint(CurvePointDTO curvePointDTOToCreate) {
 
-        log.debug(LogConstants.CREATE_CURVE_POINT_CALL + curvePointDTOToCreate.toStringForLogs());
+        log.debug(LogConstants.CREATE_CURVE_POINT_CALL + curvePointDTOToCreate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
         CurvePoint curvePointCreated;
@@ -50,7 +50,7 @@ public class CurvePointService implements ICurvePointService {
             log.debug(LogConstants.CREATE_CURVE_POINT_OK + curvePointCreated.getId());
 
         } catch (Exception exception) {
-            log.error(LogConstants.CREATE_CURVE_POINT_ERROR + curvePointDTOToCreate.toStringForLogs());
+            log.error(LogConstants.CREATE_CURVE_POINT_ERROR + curvePointDTOToCreate);
             throw exception;
         }
 
@@ -112,7 +112,7 @@ public class CurvePointService implements ICurvePointService {
      */
     @Override
     public CurvePointDTO updateCurvePoint(CurvePointDTO curvePointDTOToUpdate) {
-        log.debug(LogConstants.UPDATE_CURVE_POINT_CALL + curvePointDTOToUpdate.toStringForLogs());
+        log.debug(LogConstants.UPDATE_CURVE_POINT_CALL + curvePointDTOToUpdate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
         CurvePoint curvePointUpdated;
@@ -122,7 +122,7 @@ public class CurvePointService implements ICurvePointService {
             log.debug(LogConstants.UPDATE_CURVE_POINT_OK + curvePointUpdated.getId());
 
         } catch (Exception exception) {
-            log.error(LogConstants.UPDATE_CURVE_POINT_ERROR + curvePointDTOToUpdate.toStringForLogs());
+            log.error(LogConstants.UPDATE_CURVE_POINT_ERROR + curvePointDTOToUpdate);
             throw exception;
         }
 
@@ -141,8 +141,8 @@ public class CurvePointService implements ICurvePointService {
         log.debug(LogConstants.DELETE_CURVE_POINT_CALL + id);
 
         if (id == null) {
-            log.error(LogConstants.DELETE_CURVE_POINT_ERROR + id);
-            throw new IllegalArgumentException(CURVE_POINT_ID_NOT_VALID + id);
+            log.error(LogConstants.DELETE_CURVE_POINT_ERROR + "id is null");
+            throw new IllegalArgumentException(CURVE_POINT_ID_NOT_VALID + "null");
         }
 
         //Find curvePoint by Id
