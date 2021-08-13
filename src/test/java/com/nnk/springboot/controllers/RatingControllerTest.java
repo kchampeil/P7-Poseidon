@@ -1,6 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.DTO.RatingDTO;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import com.nnk.springboot.services.contracts.IRatingService;
@@ -205,8 +204,8 @@ class RatingControllerTest {
             verify(ratingServiceMock, Mockito.times(0))
                     .createRating(any(RatingDTO.class));
         }
-        
-        
+
+
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when saving the new rating " +
@@ -418,8 +417,8 @@ class RatingControllerTest {
             verify(ratingServiceMock, Mockito.times(0))
                     .updateRating(any(RatingDTO.class));
         }
-        
-        
+
+
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when updating the rating " +

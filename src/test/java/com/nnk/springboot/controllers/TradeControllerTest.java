@@ -1,6 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.DTO.TradeDTO;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import com.nnk.springboot.services.contracts.ITradeService;
@@ -373,7 +372,7 @@ class TradeControllerTest {
             mockMvc.perform(post("/trade/update/{id}", TestConstants.EXISTING_TRADE_ID)
                     .param("account", "")
                     .param("type", TestConstants.EXISTING_TRADE_TYPE)
-                    .param("buyQuantity",  TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
+                    .param("buyQuantity", TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
                     .with(csrf()))
                     .andExpect(status().isOk())
                     .andExpect(model().attributeExists("trade"))
@@ -423,7 +422,7 @@ class TradeControllerTest {
             mockMvc.perform(post("/trade/update/{id}", TestConstants.EXISTING_TRADE_ID)
                     .param("account", TestConstants.EXISTING_TRADE_ACCOUNT)
                     .param("type", TestConstants.NEW_TRADE_TYPE)
-                    .param("buyQuantity",  TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
+                    .param("buyQuantity", TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
                     .with(csrf()))
                     .andExpect(status().isOk())
                     .andExpect(model().hasNoErrors())
@@ -448,7 +447,7 @@ class TradeControllerTest {
             mockMvc.perform(post("/trade/update/{id}", TestConstants.EXISTING_TRADE_ID)
                     .param("account", TestConstants.EXISTING_TRADE_ACCOUNT)
                     .param("type", TestConstants.NEW_TRADE_TYPE)
-                    .param("buyQuantity",  TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
+                    .param("buyQuantity", TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
                     .with(csrf()))
                     .andExpect(status().isOk())
                     .andExpect(model().hasNoErrors())
@@ -468,7 +467,7 @@ class TradeControllerTest {
             mockMvc.perform(post("/trade/update/{id}", TestConstants.EXISTING_TRADE_ID)
                     .param("account", TestConstants.EXISTING_TRADE_ACCOUNT)
                     .param("type", TestConstants.NEW_TRADE_TYPE)
-                    .param("buyQuantity",  TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
+                    .param("buyQuantity", TestConstants.EXISTING_TRADE_BUY_QUANTITY.toString())
                     .with(csrf()))
                     .andExpect(status().isFound())
                     .andExpect(redirectedUrlPattern("**/login"));

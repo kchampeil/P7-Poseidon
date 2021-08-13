@@ -29,17 +29,17 @@ public class BidList {
     @Column(name = "BidListId", nullable = false)
     private Integer bidListId;
 
-    @NotBlank(message = "Account is mandatory")
+    @NotBlank(message = "{bidList.account.notBlank}")
     @Size(max = 30)
     @Column(name = "account", nullable = false, length = 30)
     private String account;
 
-    @NotBlank(message = "Type is mandatory")
+    @NotBlank(message = "{bidList.type.notBlank}")
     @Size(max = 30)
     @Column(name = "type", nullable = false, length = 30)
     private String type;
 
-    @NotNull(message = "Bid quantity is mandatory")
+    @NotNull(message = "{bidList.bidQuantity.notNull}")
     @Column(name = "bidQuantity")
     private Double bidQuantity;
 

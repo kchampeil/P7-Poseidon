@@ -1,6 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.DTO.RuleNameDTO;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import com.nnk.springboot.services.contracts.IRuleNameService;
@@ -188,7 +187,6 @@ class RuleNameControllerTest {
         }
 
 
-
         @WithMockUser
         @Test
         @DisplayName("GIVEN a new ruleName to add with invalid description (too long) " +
@@ -214,8 +212,8 @@ class RuleNameControllerTest {
             verify(ruleNameServiceMock, Mockito.times(0))
                     .updateRuleName(any(RuleNameDTO.class));
         }
-        
-        
+
+
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when saving the new ruleName " +
@@ -439,8 +437,8 @@ class RuleNameControllerTest {
             verify(ruleNameServiceMock, Mockito.times(0))
                     .updateRuleName(any(RuleNameDTO.class));
         }
-        
-        
+
+
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when updating the ruleName " +
