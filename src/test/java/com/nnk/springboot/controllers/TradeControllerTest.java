@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.DTO.TradeDTO;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import com.nnk.springboot.services.contracts.ITradeService;
@@ -171,6 +172,30 @@ class TradeControllerTest {
                     .andExpect(model().attributeExists("trade"))
                     .andExpect(model().hasErrors())
                     .andExpect(model().attributeHasFieldErrorCode("trade", "account", "NotBlank"))
+                    .andExpect(view().name("trade/add"));
+
+            verify(tradeServiceMock, Mockito.times(0))
+                    .createTrade(any(TradeDTO.class));
+        }
+
+
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a new trade to add with invalid type (too long) " +
+                "WHEN processing a POST /trade/validate request for this trade " +
+                "THEN the returned code is ok " +
+                "AND the expected view is the trade/add page filled with entered trade")
+        void validateTest_WithInvalidInformation() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/trade/validate")
+                    .param("account", TestConstants.NEW_TRADE_ACCOUNT)
+                    .param("type", TestConstants.NEW_TRADE_TYPE_WITH_TOO_LONG_SIZE)
+                    .param("buyQuantity", TestConstants.NEW_TRADE_BUY_QUANTITY.toString())
+                    .with(csrf()))
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("trade"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeHasFieldErrorCode("trade", "type", "Size"))
                     .andExpect(view().name("trade/add"));
 
             verify(tradeServiceMock, Mockito.times(0))
@@ -354,6 +379,30 @@ class TradeControllerTest {
                     .andExpect(model().attributeExists("trade"))
                     .andExpect(model().hasErrors())
                     .andExpect(model().attributeHasFieldErrorCode("trade", "account", "NotBlank"))
+                    .andExpect(view().name("trade/update"));
+
+            verify(tradeServiceMock, Mockito.times(0))
+                    .updateTrade(any(TradeDTO.class));
+        }
+
+
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a trade to update with invalid type (too long) " +
+                "WHEN processing a POST /trade/update/{id} request for this trade " +
+                "THEN the returned code is ok " +
+                "AND the expected view is the trade/update/{id} page filled with entered trade")
+        void updateBidTest_WithInvalidInformation() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/trade/update/{id}", TestConstants.EXISTING_TRADE_ID)
+                    .param("account", TestConstants.NEW_TRADE_ACCOUNT)
+                    .param("type", TestConstants.NEW_TRADE_TYPE_WITH_TOO_LONG_SIZE)
+                    .param("buyQuantity", TestConstants.NEW_TRADE_BUY_QUANTITY.toString())
+                    .with(csrf()))
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("trade"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeHasFieldErrorCode("trade", "type", "Size"))
                     .andExpect(view().name("trade/update"));
 
             verify(tradeServiceMock, Mockito.times(0))

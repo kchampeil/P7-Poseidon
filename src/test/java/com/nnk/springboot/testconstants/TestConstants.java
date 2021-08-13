@@ -34,6 +34,8 @@ public class TestConstants {
     public static final String NEW_RATING_SANDP_RATING = "New Standard and Poor's rating";
     public static final String NEW_RATING_FITCH_RATING = "New Fitch's rating";
     public static final Integer NEW_RATING_ORDER_NUMBER = 2021;
+    public static final String NEW_RATING_SANDP_RATING_WITH_TOO_LONG_SIZE = 
+            "New Standard and Poor's rating with tooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo long size";
 
     public static final Integer EXISTING_RATING_ID = 1;
     public static final String EXISTING_RATING_MOODYS_RATING = "Existing Moody's rating";
@@ -51,6 +53,8 @@ public class TestConstants {
     public static final String NEW_RULE_NAME_TEMPLATE = "New template";
     public static final String NEW_RULE_NAME_SQLSTR = "New sqlStr";
     public static final String NEW_RULE_NAME_SQLPART = "New sqlPart";
+    public static final String NEW_RULE_NAME_DESCRIPTION_WITH_TOO_LONG_SIZE =
+            "New RuleName description with tooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo long size";
 
     public static final Integer EXISTING_RULE_NAME_ID = 1;
     public static final String EXISTING_RULE_NAME_NAME = "Existing RuleName name";
@@ -67,6 +71,7 @@ public class TestConstants {
     public static final String NEW_TRADE_ACCOUNT = "Account Test";
     public static final String NEW_TRADE_TYPE = "Type Test";
     public static final Double NEW_TRADE_BUY_QUANTITY = 10D;
+    public static final String NEW_TRADE_TYPE_WITH_TOO_LONG_SIZE = "Type with a too long size generate error";
 
     public static final Integer EXISTING_TRADE_ID = 1;
     public static final String EXISTING_TRADE_ACCOUNT = "Account for existing trade";

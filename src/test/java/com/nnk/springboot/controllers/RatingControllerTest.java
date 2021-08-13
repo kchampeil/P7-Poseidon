@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.DTO.RatingDTO;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import com.nnk.springboot.services.contracts.IRatingService;
@@ -181,6 +182,31 @@ class RatingControllerTest {
         }
 
 
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a new rating to add with invalid sandPRating (too long) " +
+                "WHEN processing a POST /rating/validate request for this rating " +
+                "THEN the returned code is ok " +
+                "AND the expected view is the rating/add page filled with entered rating")
+        void validateTest_WithInvalidInformation() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/rating/validate")
+                    .param("moodysRating", TestConstants.NEW_RATING_MOODYS_RATING)
+                    .param("sandPRating", TestConstants.NEW_RATING_SANDP_RATING_WITH_TOO_LONG_SIZE)
+                    .param("fitchRating", TestConstants.NEW_RATING_FITCH_RATING)
+                    .param("orderNumber", TestConstants.NEW_RATING_ORDER_NUMBER.toString())
+                    .with(csrf()))
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("rating"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeHasFieldErrorCode("rating", "sandPRating", "Size"))
+                    .andExpect(view().name("rating/add"));
+
+            verify(ratingServiceMock, Mockito.times(0))
+                    .createRating(any(RatingDTO.class));
+        }
+        
+        
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when saving the new rating " +
@@ -369,6 +395,31 @@ class RatingControllerTest {
         }
 
 
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a rating to update with invalid sandPRating (too long) " +
+                "WHEN processing a POST /rating/update/{id} request for this rating " +
+                "THEN the returned code is ok " +
+                "AND the expected view is the rating/update/{id} page filled with entered rating")
+        void updateBidTest_WithInvalidInformation() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/rating/update/{id}", TestConstants.EXISTING_RATING_ID)
+                    .param("moodysRating", TestConstants.EXISTING_RATING_MOODYS_RATING)
+                    .param("sandPRating", TestConstants.NEW_RATING_SANDP_RATING_WITH_TOO_LONG_SIZE)
+                    .param("fitchRating", TestConstants.EXISTING_RATING_FITCH)
+                    .param("orderNumber", TestConstants.EXISTING_RATING_ORDER_NUMBER.toString())
+                    .with(csrf()))
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("rating"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeHasFieldErrorCode("rating", "sandPRating", "Size"))
+                    .andExpect(view().name("rating/update"));
+
+            verify(ratingServiceMock, Mockito.times(0))
+                    .updateRating(any(RatingDTO.class));
+        }
+        
+        
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when updating the rating " +

@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.DTO.RuleNameDTO;
 import com.nnk.springboot.services.UserDetailsServiceImpl;
 import com.nnk.springboot.services.contracts.IRuleNameService;
@@ -187,6 +188,34 @@ class RuleNameControllerTest {
         }
 
 
+
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a new ruleName to add with invalid description (too long) " +
+                "WHEN processing a POST /ruleName/validate request for this ruleName " +
+                "THEN the returned code is ok " +
+                "AND the expected view is the ruleName/add page filled with entered ruleName")
+        void validateTest_WithInvalidInformation() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/ruleName/validate")
+                    .param("name", TestConstants.NEW_RULE_NAME_NAME)
+                    .param("description", TestConstants.NEW_RULE_NAME_DESCRIPTION_WITH_TOO_LONG_SIZE)
+                    .param("json", TestConstants.NEW_RULE_NAME_JSON)
+                    .param("template", TestConstants.NEW_RULE_NAME_TEMPLATE)
+                    .param("sqlStr", TestConstants.NEW_RULE_NAME_SQLSTR)
+                    .param("sqlPart", TestConstants.NEW_RULE_NAME_SQLPART)
+                    .with(csrf()))
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("ruleName"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeHasFieldErrorCode("ruleName", "description", "Size"))
+                    .andExpect(view().name("ruleName/add"));
+
+            verify(ruleNameServiceMock, Mockito.times(0))
+                    .updateRuleName(any(RuleNameDTO.class));
+        }
+        
+        
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when saving the new ruleName " +
@@ -385,6 +414,33 @@ class RuleNameControllerTest {
         }
 
 
+        @WithMockUser
+        @Test
+        @DisplayName("GIVEN a ruleName to update with invalid description (too long) " +
+                "WHEN processing a POST /ruleName/update/{id} request for this ruleName " +
+                "THEN the returned code is ok " +
+                "AND the expected view is the ruleName/update/{id} page filled with entered ruleName")
+        void updateBidTest_WithInvalidInformation() throws Exception {
+            //WHEN-THEN
+            mockMvc.perform(post("/ruleName/update/{id}", TestConstants.EXISTING_RULE_NAME_ID)
+                    .param("name", TestConstants.EXISTING_RULE_NAME_NAME)
+                    .param("description", TestConstants.NEW_RULE_NAME_DESCRIPTION_WITH_TOO_LONG_SIZE)
+                    .param("json", TestConstants.EXISTING_RULE_NAME_JSON)
+                    .param("template", TestConstants.NEW_RULE_NAME_TEMPLATE)
+                    .param("sqlStr", TestConstants.EXISTING_RULE_NAME_SQLSTR)
+                    .param("sqlPart", TestConstants.EXISTING_RULE_NAME_SQLPART)
+                    .with(csrf()))
+                    .andExpect(status().isOk())
+                    .andExpect(model().attributeExists("ruleName"))
+                    .andExpect(model().hasErrors())
+                    .andExpect(model().attributeHasFieldErrorCode("ruleName", "description", "Size"))
+                    .andExpect(view().name("ruleName/update"));
+
+            verify(ruleNameServiceMock, Mockito.times(0))
+                    .updateRuleName(any(RuleNameDTO.class));
+        }
+        
+        
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception when updating the ruleName " +
