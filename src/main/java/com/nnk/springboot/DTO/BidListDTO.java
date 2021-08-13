@@ -17,10 +17,10 @@ public class BidListDTO {
     private String account;
 
     @NotBlank(message = "{bidList.type.notBlank}")
-    @Size(max = 30, message = "Size should not exceed 30 characters")
+    @Size(max = 30, message = "{bidList.type.size}")
     private String type;
 
-    @NotNull(message = "Bid quantity is mandatory")
+    @NotNull(message = "{bidList.bidQuantity.notNull}")
     private Double bidQuantity;
 
     @Override
