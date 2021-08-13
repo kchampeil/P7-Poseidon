@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -61,6 +62,7 @@ public class TradeServiceIT {
         tradeRepository.deleteById(tradeInDb.getTradeId());
     }
 
+    @WithMockUser
     @Test
     @DisplayName("WHEN creating a new trade with correct informations  " +
             "THEN the returned value is the added trade, " +
@@ -110,6 +112,7 @@ public class TradeServiceIT {
     }
 
 
+    @WithMockUser
     @Test
     @DisplayName("WHEN updating a trade with correct informations  " +
             "THEN the returned value is the updated trade, " +

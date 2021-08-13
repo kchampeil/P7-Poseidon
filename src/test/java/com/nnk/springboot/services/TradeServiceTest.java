@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ public class TradeServiceTest {
     @DisplayName("CreateTrade tests")
     class CreateTradeTest {
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN a new trade (DTO) to add " +
                 "WHEN saving this new trade " +
@@ -83,6 +85,7 @@ public class TradeServiceTest {
         }
 
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN saving a nex trade " +
@@ -184,6 +187,7 @@ public class TradeServiceTest {
     @DisplayName("updateTrade tests")
     class UpdateTradeTest {
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN a trade to update " +
                 "WHEN updating this trade " +
@@ -203,6 +207,7 @@ public class TradeServiceTest {
         }
 
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN updating a trade " +

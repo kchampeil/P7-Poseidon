@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ class BidListServiceTest {
     @DisplayName("CreateBidList tests")
     class CreateBidListTest {
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN a new bidList (DTO) to add " +
                 "WHEN saving this new bidList " +
@@ -85,6 +87,7 @@ class BidListServiceTest {
         }
 
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN saving a nex bidList " +
@@ -186,6 +189,7 @@ class BidListServiceTest {
     @DisplayName("updateBidList tests")
     class UpdateBidListTest {
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN a bidList to update " +
                 "WHEN updating this bidList " +
@@ -205,6 +209,7 @@ class BidListServiceTest {
         }
 
 
+        @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN updating a bidList " +
