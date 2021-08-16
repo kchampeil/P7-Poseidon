@@ -56,9 +56,9 @@ public class PoseidonSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
 
-                /* use default login form and redirect user to bidList page (/bidList/list) once logged in */
+                /* use default login form and redirect user to the default page for its role once logged in */
                 .and().formLogin()
-                .defaultSuccessUrl("/bidList/list", true)
+                .defaultSuccessUrl("/app/default", true)
                 .failureUrl("/login?error=true")
 
                 /* use default logout page and redirect user to the home page (/) once logged out */

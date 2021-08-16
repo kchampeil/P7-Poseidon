@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("app")
 public class LoginController {
@@ -19,6 +21,14 @@ public class LoginController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
         return mav;
+    }
+
+    @GetMapping("default")
+    public String defaultAfterLogin(HttpServletRequest httpServletRequest) {
+        if (httpServletRequest.isUserInRole("ROLE_ADMIN")) {
+            return "redirect:/user/list";
+        }
+        return "redirect:/bidList/list";
     }
 
     @GetMapping("secure/article-details")
