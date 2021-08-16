@@ -43,12 +43,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     return new UsernameNotFoundException(PoseidonExceptionsConstants.DOES_NOT_EXISTS_USER);
                 });
     }
-
-    public User getUserInfoByUsername(String username) {
-        return userRepository.findByUsernameIgnoreCase(username)
-                .orElseThrow(() -> {
-                    log.error(PoseidonExceptionsConstants.DOES_NOT_EXISTS_USER + " for: " + username);
-                    return new UsernameNotFoundException(PoseidonExceptionsConstants.DOES_NOT_EXISTS_USER);
-                });
-    }
 }
