@@ -6,16 +6,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * User Entity allows to register a User
+ */
 @Getter
 @Setter
 @Entity
@@ -26,16 +29,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "Username is mandatory")
+    //TOASK : mis en nullable false même si pas not null dans le script SQL
+    @Column(name = "username", nullable = false, unique = true, length = 125)
     private String username;
 
-    @NotBlank(message = "Password is mandatory")
+    @Column(name = "password", nullable = false, length = 125)
     private String password;
 
-    @NotBlank(message = "FullName is mandatory")
+    @Column(name = "fullname", length = 125)
     private String fullname;
 
-    @NotBlank(message = "Role is mandatory")
+    @Column(name = "role", nullable = false, length = 125)
     private String role;
 
 

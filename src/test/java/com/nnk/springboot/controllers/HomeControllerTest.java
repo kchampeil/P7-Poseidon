@@ -42,7 +42,7 @@ class HomeControllerTest {
         userInDb.setUsername(TestConstants.EXISTING_USER_USERNAME);
         userInDb.setPassword(TestConstants.EXISTING_USER_PASSWORD);
         userInDb.setFullname(TestConstants.EXISTING_USER_FULLNAME);
-        userInDb.setRole(TestConstants.EXISTING_USER_ROLE_USER);
+        userInDb.setRole(TestConstants.USER_ROLE_USER);
     }
 
     //TODO à revoir car normalement non connecté passe ==> à exclure du controllerAdvice ?

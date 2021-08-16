@@ -94,6 +94,24 @@ public class LogConstants {
     public static final String DELETE_TRADE_CALL = "Call to deleteTrade for id: ";
     public static final String DELETE_TRADE_OK = "Trade deleted for id: ";
     public static final String DELETE_TRADE_ERROR = "Error when deleting trade id: ";
+    //
+    public static final String CREATE_USER_CALL = "Call to createUser with User: ";
+    public static final String CREATE_USER_OK = "User created with id: ";
+    public static final String CREATE_USER_ERROR = "Error when saving user: ";
+
+    public static final String FIND_USER_ALL_CALL = "Call to findAllUser";
+    public static final String FIND_USER_ALL_OK = "List of user retrieved with {} values \n";
+
+    public static final String FIND_USER_BY_ID_CALL = "Call to findUserById";
+    public static final String FIND_USER_BY_ID_OK = "User retrieved for id: ";
+
+    public static final String UPDATE_USER_CALL = "Call to updateUser with User: ";
+    public static final String UPDATE_USER_OK = "User updated for id: ";
+    public static final String UPDATE_USER_ERROR = "Error when updating user: ";
+
+    public static final String DELETE_USER_CALL = "Call to deleteUser for id: ";
+    public static final String DELETE_USER_OK = "User deleted for id: ";
+    public static final String DELETE_USER_ERROR = "Error when deleting user id: ";
 
     /* Controllers */
     public static final String CURRENT_USER_UNKNOWN = "Current user unknown";
@@ -225,7 +243,7 @@ public class LogConstants {
             "RuleName id {} has been deleted by user: {} \n";
     public static final String RULE_NAME_DELETE_REQUEST_KO =
             "RuleName id {} has not been deleted: {} \n";
-//
+
     public static final String TRADE_CREATION_FORM_REQUEST_RECEIVED =
             "GET request on endpoint /trade/add received for user: {} \n";
     public static final String TRADE_CREATION_REQUEST_RECEIVED =
@@ -257,4 +275,36 @@ public class LogConstants {
             "Trade id {} has been deleted by user: {} \n";
     public static final String TRADE_DELETE_REQUEST_KO =
             "Trade id {} has not been deleted: {} \n";
+
+    public static final String USER_CREATION_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /user/add received for user: {} \n";
+    public static final String USER_CREATION_REQUEST_RECEIVED =
+            "POST request on endpoint /user/validate received for User: ";
+    public static final String USER_CREATION_REQUEST_NOT_VALID =
+            "User information not valid";
+    public static final String USER_CREATION_REQUEST_KO =
+            "New user has not been added";
+    public static final String USER_CREATION_REQUEST_OK =
+            "New user has been added with id {} by user: {} \n";
+
+    public static final String USER_LIST_REQUEST_RECEIVED =
+            "Request on endpoint /user/list received for user: {}";
+
+    public static final String USER_UPDATE_FORM_REQUEST_RECEIVED =
+            "GET request on endpoint /user/update/{} received for user: {}";
+    public static final String USER_UPDATE_REQUEST_RECEIVED =
+            "POST request on endpoint /user/update/{} received with User: {}, for user: {}";
+    public static final String USER_UPDATE_REQUEST_NOT_VALID =
+            "User information not valid";
+    public static final String USER_UPDATE_REQUEST_OK =
+            "User id {} has been updated by user: {} \n";
+    public static final String USER_UPDATE_REQUEST_KO =
+            "User id {} has not been updated : {} \n";
+
+    public static final String USER_DELETE_REQUEST_RECEIVED =
+            "GET request on endpoint /user/delete/{} received for user: {}";
+    public static final String USER_DELETE_REQUEST_OK =
+            "User id {} has been deleted by user: {} \n";
+    public static final String USER_DELETE_REQUEST_KO =
+            "User id {} has not been deleted: {} \n";
 }

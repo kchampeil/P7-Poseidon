@@ -49,7 +49,7 @@ class UserDetailsServiceImplTest {
             userInDb.setUsername(TestConstants.EXISTING_USER_USERNAME);
             userInDb.setPassword(TestConstants.EXISTING_USER_PASSWORD);
             userInDb.setFullname(TestConstants.EXISTING_USER_FULLNAME);
-            userInDb.setRole(TestConstants.EXISTING_USER_ROLE_USER);
+            userInDb.setRole(TestConstants.USER_ROLE_USER);
 
             when(userRepositoryMock.findByUsernameIgnoreCase(TestConstants.EXISTING_USER_USERNAME))
                     .thenReturn(java.util.Optional.of(userInDb));
@@ -62,7 +62,7 @@ class UserDetailsServiceImplTest {
             assertEquals(userInDb.getUsername(), userDetails.getUsername());
             assertEquals(userInDb.getPassword(), userDetails.getPassword());
             assertTrue(userDetails.getAuthorities().contains(
-                    new SimpleGrantedAuthority("ROLE_" + TestConstants.EXISTING_USER_ROLE_USER)));
+                    new SimpleGrantedAuthority("ROLE_" + TestConstants.USER_ROLE_USER)));
             assertTrue(userDetails.isAccountNonExpired());
             assertTrue(userDetails.isAccountNonLocked());
             assertTrue(userDetails.isEnabled());

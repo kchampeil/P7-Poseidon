@@ -51,25 +51,27 @@ public class PoseidonSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/ruleName/**",
                         "/trade/**")
                 .hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
-                //TODO.hasAnyRole("ROLE_ADMIN", "ROLE_USER")
                 /* pages authorized for ADMIN role only */
                 .antMatchers("/user/**")
                 .hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
 
-                /* use default login form and redirect user to home page (/) once logged in */
+                /* use default login form and redirect user to bidList page (/bidList/list) once logged in */
                 .and().formLogin()
                 .defaultSuccessUrl("/bidList/list", true)
                 .failureUrl("/login?error=true")
 
-                /* use default logout page and redirect user to /login page once logged out */
+                /* use default logout page and redirect user to the home page (/) once logged out */
                 .and().logout()
-                .logoutUrl("/logout")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutRequestMatcher(new AntPathRequestMatcher("/app-logout", "POST"))
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl("/")
+
+                /* redirect to the error page if user not authorized to access a page */
+                .and().exceptionHandling()
+                .accessDeniedPage("/app/error");
     }
 
 

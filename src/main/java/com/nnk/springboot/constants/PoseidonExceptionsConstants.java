@@ -12,5 +12,8 @@ public class PoseidonExceptionsConstants {
 
     public static final String TRADE_ID_NOT_VALID = "Invalid trade id: ";
 
+    public static final String USER_ID_NOT_VALID = "Invalid user id: ";
+
     public static final String DOES_NOT_EXISTS_USER = "User does not exist";
+    public static final String ALREADY_EXISTS_USER = "User already exists";
 }
