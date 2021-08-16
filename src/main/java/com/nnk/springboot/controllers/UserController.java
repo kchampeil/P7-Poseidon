@@ -90,13 +90,14 @@ public class UserController {
                 return "redirect:/user/list";
             } else {
                 log.error(LogConstants.USER_CREATION_REQUEST_KO + " \n");
-                redirectAttributes.addFlashAttribute("errorMessage", "user.add.ko");
+                model.addAttribute("errorMessage", "user.add.ko");
                 return "user/add";
             }
 
         } catch (Exception exception) {
             log.error(LogConstants.USER_CREATION_REQUEST_KO + ": " + exception.getMessage() + " \n");
-            redirectAttributes.addFlashAttribute("errorMessage", "user.add.ko");
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("user.add.ko", ": " + exception.getMessage()));
             return "user/add";
         }
     }
@@ -163,8 +164,9 @@ public class UserController {
         } catch (Exception exception) {
             log.error(LogConstants.USER_UPDATE_REQUEST_KO, id, exception.getMessage());
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    formatOutputMessage("user.update.ko", id.toString()));
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("user.update.ko", id.toString())
+                            + ": " + exception.getMessage());
             return "user/update";
         }
     }

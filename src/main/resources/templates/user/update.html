@@ -14,6 +14,12 @@
 	</div>
 
 	<div class="row">
+        <span th:if="${errorMessage!=null}" th:text="${errorMessage}"
+			  class="text-danger text-start"> error Message</span>
+		<span th:if="${infoMessage!=null}" th:text="${infoMessage}" class="text-success text-start"> info Message</span>
+	</div>
+
+	<div class="row">
 		<form action="#" th:action="@{/user/update/{id}(id=${user.id})}" th:object="${user}" method="post" class="form-horizontal" style="width: 100%">
 			<div class="form-group">
 				<label for="fullname" class="col-sm-2 control-label">Full Name</label>
