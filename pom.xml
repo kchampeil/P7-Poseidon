@@ -102,6 +102,13 @@
             <artifactId>modelmapper</artifactId>
             <version>${modelmapper.version}</version>
         </dependency>
+
+        <!-- ==== password generation and validation library ==== -->
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>1.6.1</version>
+        </dependency>
     </dependencies>
 
     <build>

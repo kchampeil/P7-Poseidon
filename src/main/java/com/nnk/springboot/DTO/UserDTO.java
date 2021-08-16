@@ -1,5 +1,6 @@
 package com.nnk.springboot.DTO;
 
+import com.nnk.springboot.config.validation.ValidPassword;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class UserDTO {
 
     @NotBlank(message = "{user.password.notBlank}")
     @Size(max = 125, message = "{user.password.size}")
+    @ValidPassword
     private String password;
 
     @NotBlank(message = "{user.fullname.notBlank}")
