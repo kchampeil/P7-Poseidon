@@ -72,7 +72,6 @@ public class RuleNameController {
     @PostMapping("/ruleName/validate")
     public String validate(@ModelAttribute("ruleName") @Valid RuleNameDTO ruleName,
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
         // DONE: check data valid and save to db, after saving return RuleName list
         log.info(LogConstants.RULE_NAME_CREATION_REQUEST_RECEIVED + ruleName.toString());
 
@@ -96,13 +95,14 @@ public class RuleNameController {
                 return "redirect:/ruleName/list";
             } else {
                 log.error(LogConstants.RULE_NAME_CREATION_REQUEST_KO + " \n");
-                redirectAttributes.addFlashAttribute("errorMessage", "ruleName.add.ko");
+                model.addAttribute("errorMessage", "ruleName.add.ko");
                 return "ruleName/add";
             }
 
         } catch (Exception exception) {
             log.error(LogConstants.RULE_NAME_CREATION_REQUEST_KO + ": " + exception.getMessage() + " \n");
-            redirectAttributes.addFlashAttribute("errorMessage", "ruleName.add.ko");
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("ruleName.add.ko", ": " + exception.getMessage()));
             return "ruleName/add";
         }
     }
@@ -170,8 +170,8 @@ public class RuleNameController {
         } catch (Exception exception) {
             log.error(LogConstants.RULE_NAME_UPDATE_REQUEST_KO, id, exception.getMessage());
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    formatOutputMessage("ruleName.update.ko", id.toString()));
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("ruleName.update.ko", id.toString() + ": " + exception.getMessage()));
             return "ruleName/update";
         }
     }
@@ -179,13 +179,11 @@ public class RuleNameController {
     /**
      * deletes a ruleName
      *
-     * @param id    of the ruleName to delete
-     * @param model current model
+     * @param id of the ruleName to delete
      * @return ruleName list page
      */
     @GetMapping("/ruleName/delete/{id}")
-    public String deleteRuleName(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
+    public String deleteRuleName(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find RuleName by Id and delete the RuleName, return to Rule list
         log.info(LogConstants.RULE_NAME_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
@@ -199,6 +197,7 @@ public class RuleNameController {
             log.error(LogConstants.RULE_NAME_DELETE_REQUEST_KO, id, illegalArgumentException.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",
                     formatOutputMessage("ruleName.id.not.valid", id.toString()));
+
         } catch (Exception exception) {
             log.error(LogConstants.RULE_NAME_DELETE_REQUEST_KO, id, exception.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",

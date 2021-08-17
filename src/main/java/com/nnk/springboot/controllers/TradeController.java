@@ -73,7 +73,6 @@ public class TradeController {
     @PostMapping("/trade/validate")
     public String validate(@ModelAttribute("trade") @Valid TradeDTO trade, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
-        //TODO-revoir si suppression model
         // DONE: check data valid and save to db, after saving return Trade list
 
         log.info(LogConstants.TRADE_CREATION_REQUEST_RECEIVED + trade.toString());
@@ -98,13 +97,14 @@ public class TradeController {
                 return "redirect:/trade/list";
             } else {
                 log.error(LogConstants.TRADE_CREATION_REQUEST_KO + " \n");
-                redirectAttributes.addFlashAttribute("errorMessage", "trade.add.ko");
+                model.addAttribute("errorMessage", "trade.add.ko");
                 return "trade/add";
             }
 
         } catch (Exception exception) {
             log.error(LogConstants.TRADE_CREATION_REQUEST_KO + ": " + exception.getMessage() + " \n");
-            redirectAttributes.addFlashAttribute("errorMessage", "trade.add.ko");
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("trade.add.ko", ": " + exception.getMessage()));
             return "trade/add";
         }
     }
@@ -140,10 +140,10 @@ public class TradeController {
     /**
      * updates a trade
      *
-     * @param id      of the trade to update
-     * @param trade trade informations to update
-     * @param result  go to trade list page if trade has been updated, otherwise stay at trade/update page
-     * @param model   current model
+     * @param id     of the trade to update
+     * @param trade  trade informations to update
+     * @param result go to trade list page if trade has been updated, otherwise stay at trade/update page
+     * @param model  current model
      * @return trade/list page if trade has been updated, otherwise stay at trade/update page
      */
     @PostMapping("/trade/update/{id}")
@@ -174,8 +174,8 @@ public class TradeController {
         } catch (Exception exception) {
             log.error(LogConstants.TRADE_UPDATE_REQUEST_KO, id, exception.getMessage());
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    formatOutputMessage("trade.update.ko", id.toString()));
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("trade.update.ko", id.toString() + ": " + exception.getMessage()));
             return "trade/update";
         }
     }
@@ -184,14 +184,11 @@ public class TradeController {
     /**
      * deletes a trade
      *
-     * @param id    of the trade to delete
-     * @param model current model
+     * @param id of the trade to delete
      * @return trade list page
      */
     @GetMapping("/trade/delete/{id}")
-    public String deleteTrade(@PathVariable("id") Integer id, Model model,
-                              RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
+    public String deleteTrade(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Trade by Id and delete the Trade, return to Trade list
 
         log.info(LogConstants.TRADE_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());

@@ -73,7 +73,6 @@ public class RatingController {
     @PostMapping("/rating/validate")
     public String validate(@ModelAttribute("rating") @Valid RatingDTO rating,
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
         // DONE: check data valid and save to db
         log.info(LogConstants.RATING_CREATION_REQUEST_RECEIVED + rating.toString());
 
@@ -97,13 +96,14 @@ public class RatingController {
                 return "redirect:/rating/list";
             } else {
                 log.error(LogConstants.RATING_CREATION_REQUEST_KO + " \n");
-                redirectAttributes.addFlashAttribute("errorMessage", "rating.add.ko");
+                model.addAttribute("errorMessage", "rating.add.ko");
                 return "rating/add";
             }
 
         } catch (Exception exception) {
             log.error(LogConstants.RATING_CREATION_REQUEST_KO + ": " + exception.getMessage() + " \n");
-            redirectAttributes.addFlashAttribute("errorMessage", "rating.add.ko");
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("rating.add.ko", ": " + exception.getMessage()));
             return "rating/add";
         }
     }
@@ -172,8 +172,8 @@ public class RatingController {
         } catch (Exception exception) {
             log.error(LogConstants.RATING_UPDATE_REQUEST_KO, id, exception.getMessage());
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    formatOutputMessage("rating.update.ko", id.toString()));
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("rating.update.ko", id.toString() + ": " + exception.getMessage()));
             return "rating/update";
         }
     }
@@ -182,13 +182,11 @@ public class RatingController {
     /**
      * deletes a rating
      *
-     * @param id    of the rating to delete
-     * @param model current model
+     * @param id of the rating to delete
      * @return rating list page
      */
     @GetMapping("/rating/delete/{id}")
-    public String deleteRating(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
+    public String deleteRating(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Rating by Id and delete the Rating, return to Rating list
         log.info(LogConstants.RATING_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 

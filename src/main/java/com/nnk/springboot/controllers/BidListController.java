@@ -73,7 +73,6 @@ public class BidListController {
     @PostMapping("/bidList/validate")
     public String validate(@ModelAttribute("bidList") @Valid BidListDTO bid, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
         //DONE: check data valid and save to db
 
         log.info(LogConstants.BIDLIST_CREATION_REQUEST_RECEIVED + bid.toString());
@@ -98,13 +97,14 @@ public class BidListController {
                 return "redirect:/bidList/list";
             } else {
                 log.error(LogConstants.BIDLIST_CREATION_REQUEST_KO + " \n");
-                redirectAttributes.addFlashAttribute("errorMessage", "bidList.add.ko");
+                model.addAttribute("errorMessage", "bidList.add.ko");
                 return "bidList/add";
             }
 
         } catch (Exception exception) {
             log.error(LogConstants.BIDLIST_CREATION_REQUEST_KO + ": " + exception.getMessage() + " \n");
-            redirectAttributes.addFlashAttribute("errorMessage", "bidList.add.ko");
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("bidList.add.ko", ": " + exception.getMessage()));
             return "bidList/add";
         }
     }
@@ -173,8 +173,8 @@ public class BidListController {
         } catch (Exception exception) {
             log.error(LogConstants.BIDLIST_UPDATE_REQUEST_KO, id, exception.getMessage());
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    formatOutputMessage("bidList.update.ko", id.toString()));
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("bidList.update.ko", id.toString() + ": " + exception.getMessage()));
             return "bidList/update";
         }
     }
@@ -183,13 +183,11 @@ public class BidListController {
     /**
      * deletes a bidList
      *
-     * @param id    of the bidList to delete
-     * @param model current model
+     * @param id of the bidList to delete
      * @return bidList list page
      */
     @GetMapping("/bidList/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
+    public String deleteBid(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Bid by Id and delete the bid, return to Bid list
 
         log.info(LogConstants.BIDLIST_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
@@ -204,6 +202,7 @@ public class BidListController {
             log.error(LogConstants.BIDLIST_DELETE_REQUEST_KO, id, illegalArgumentException.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",
                     formatOutputMessage("bidList.id.not.valid", id.toString()));
+
         } catch (Exception exception) {
             log.error(LogConstants.BIDLIST_DELETE_REQUEST_KO, id, exception.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",

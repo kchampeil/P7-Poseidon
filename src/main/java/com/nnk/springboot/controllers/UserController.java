@@ -143,8 +143,7 @@ public class UserController {
     public String updateUser(@PathVariable("id") Integer id, @ModelAttribute("user") @Valid UserDTO user,
                              BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         log.info(LogConstants.USER_UPDATE_REQUEST_RECEIVED, id,
-                user.toString(),
-                model.getAttribute("currentUser"));
+                user.toString(), UserUtil.getCurrentUser());
 
         if (result.hasErrors()) {
             log.error(LogConstants.USER_UPDATE_REQUEST_NOT_VALID + "\n");
@@ -176,13 +175,10 @@ public class UserController {
      * deletes a user
      *
      * @param id    of the user to delete
-     * @param model current model
      * @return user list page
      */
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id, Model model,
-                             RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
+    public String deleteUser(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 
         log.info(LogConstants.USER_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 

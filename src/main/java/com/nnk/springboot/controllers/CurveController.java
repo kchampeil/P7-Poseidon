@@ -72,7 +72,6 @@ public class CurveController {
     @PostMapping("/curvePoint/validate")
     public String validate(@ModelAttribute("curvePoint") @Valid CurvePointDTO curvePoint, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
         //DONE: check data valid and save to db
 
         log.info(LogConstants.CURVEPOINT_CREATION_REQUEST_RECEIVED + curvePoint.toString());
@@ -97,13 +96,14 @@ public class CurveController {
                 return "redirect:/curvePoint/list";
             } else {
                 log.error(LogConstants.CURVEPOINT_CREATION_REQUEST_KO + " \n");
-                redirectAttributes.addFlashAttribute("errorMessage", "curvePoint.add.ko");
+                model.addAttribute("errorMessage", "curvePoint.add.ko");
                 return "curvePoint/add";
             }
 
         } catch (Exception exception) {
             log.error(LogConstants.CURVEPOINT_CREATION_REQUEST_KO + ": " + exception.getMessage() + " \n");
-            redirectAttributes.addFlashAttribute("errorMessage", "curvePoint.add.ko");
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("curvePoint.add.ko", ": " + exception.getMessage()));
             return "curvePoint/add";
         }
     }
@@ -171,8 +171,8 @@ public class CurveController {
         } catch (Exception exception) {
             log.error(LogConstants.CURVEPOINT_UPDATE_REQUEST_KO, id, exception.getMessage());
 
-            redirectAttributes.addFlashAttribute("errorMessage",
-                    formatOutputMessage("curvePoint.update.ko", id.toString()));
+            model.addAttribute("errorMessage",
+                    formatOutputMessage("curvePoint.update.ko", id.toString() + ": " + exception.getMessage()));
             return "curvePoint/update";
         }
     }
@@ -181,13 +181,11 @@ public class CurveController {
     /**
      * deletes a curvePoint
      *
-     * @param id    of the curvePoint to delete
-     * @param model current model
+     * @param id of the curvePoint to delete
      * @return curvePoint list page
      */
     @GetMapping("/curvePoint/delete/{id}")
-    public String deleteCurvePoint(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        //TODO revoir si suppression model
+    public String deleteCurvePoint(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Curve by Id and delete the Curve, return to Curve list
         log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
@@ -201,6 +199,7 @@ public class CurveController {
             log.error(LogConstants.CURVEPOINT_DELETE_REQUEST_KO, id, illegalArgumentException.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",
                     formatOutputMessage("curvePoint.id.not.valid", id.toString()));
+
         } catch (Exception exception) {
             log.error(LogConstants.CURVEPOINT_DELETE_REQUEST_KO, id, exception.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",
