@@ -23,6 +23,7 @@ import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 
 @Slf4j
 @Controller
+@RequestMapping("user")
 public class UserController {
     private final IUserService userService;
 
@@ -38,7 +39,7 @@ public class UserController {
      * @param model current model
      * @return list user page
      */
-    @RequestMapping("/user/list")
+    @RequestMapping("list")
     public String home(Model model) {
         log.info(LogConstants.USER_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("users", userService.findAllUser());
@@ -52,7 +53,7 @@ public class UserController {
      * @param model current model
      * @return add user page
      */
-    @GetMapping("/user/add")
+    @GetMapping("add")
     public String addUser(Model model) {
         log.info(LogConstants.USER_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("user", new UserDTO());
@@ -67,7 +68,7 @@ public class UserController {
      * @param user to create
      * @return user/list page if user has been created, otherwise stay at user/add page
      */
-    @PostMapping("/user/validate")
+    @PostMapping("validate")
     public String validate(@ModelAttribute("user") @Valid UserDTO user, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
         log.info(LogConstants.USER_CREATION_REQUEST_RECEIVED + user.toString());
@@ -111,7 +112,7 @@ public class UserController {
      * @param model current model
      * @return user/update page if user has been found, otherwise return to user/list page
      */
-    @GetMapping("/user/update/{id}")
+    @GetMapping("update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model,
                                  RedirectAttributes redirectAttributes) {
         log.info(LogConstants.USER_UPDATE_FORM_REQUEST_RECEIVED, id,
@@ -139,7 +140,7 @@ public class UserController {
      * @param model  current model
      * @return user/list page if user has been updated, otherwise stay at user/update page
      */
-    @PostMapping("/user/update/{id}")
+    @PostMapping("update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @ModelAttribute("user") @Valid UserDTO user,
                              BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         log.info(LogConstants.USER_UPDATE_REQUEST_RECEIVED, id,
@@ -177,7 +178,7 @@ public class UserController {
      * @param id    of the user to delete
      * @return user list page
      */
-    @GetMapping("/user/delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
 
         log.info(LogConstants.USER_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());

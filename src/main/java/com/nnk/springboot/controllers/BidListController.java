@@ -23,6 +23,7 @@ import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 
 @Slf4j
 @Controller
+@RequestMapping("bidList")
 public class BidListController {
     //DONE: Inject Bid service
     private final IBidListService bidListService;
@@ -38,7 +39,7 @@ public class BidListController {
      * @param model current model
      * @return list bidList page
      */
-    @RequestMapping("/bidList/list")
+    @RequestMapping("list")
     public String home(Model model) {
         //DONE: call service find all bids to show to the view
         log.info(LogConstants.BIDLIST_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -54,7 +55,7 @@ public class BidListController {
      * @param model current model
      * @return add bidList page
      */
-    @GetMapping("/bidList/add")
+    @GetMapping("add")
     public String addBidForm(Model model) {
 
         log.info(LogConstants.BIDLIST_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -70,7 +71,7 @@ public class BidListController {
      * @param bid bidList to create
      * @return bidList/list page if bid has been created, otherwise stay at bidList/add page
      */
-    @PostMapping("/bidList/validate")
+    @PostMapping("validate")
     public String validate(@ModelAttribute("bidList") @Valid BidListDTO bid, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
         //DONE: check data valid and save to db
@@ -117,7 +118,7 @@ public class BidListController {
      * @param model current model
      * @return bidList/update page if bidList has been found, otherwise return to bidList/list page
      */
-    @GetMapping("/bidList/update/{id}")
+    @GetMapping("update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         //DONE: get Bid by Id and to model then show to the form
         log.info(LogConstants.BIDLIST_UPDATE_FORM_REQUEST_RECEIVED, id,
@@ -145,7 +146,7 @@ public class BidListController {
      * @param model   current model
      * @return bidList/list page if bid has been updated, otherwise stay at bidList/update page
      */
-    @PostMapping("/bidList/update/{id}")
+    @PostMapping("update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @ModelAttribute("bidList") @Valid BidListDTO bidList,
                             BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         //DONE: check required fields, if valid call service to update Bid and return list Bid
@@ -186,7 +187,7 @@ public class BidListController {
      * @param id of the bidList to delete
      * @return bidList list page
      */
-    @GetMapping("/bidList/delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Bid by Id and delete the bid, return to Bid list
 

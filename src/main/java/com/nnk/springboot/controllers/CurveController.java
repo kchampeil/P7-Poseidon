@@ -23,6 +23,7 @@ import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 
 @Slf4j
 @Controller
+@RequestMapping("curvePoint")
 public class CurveController {
     //DONE: Inject Curve Point service
     private final ICurvePointService curvePointService;
@@ -39,7 +40,7 @@ public class CurveController {
      * @param model current model
      * @return list curvePoint page
      */
-    @RequestMapping("/curvePoint/list")
+    @RequestMapping("list")
     public String home(Model model) {
         // DONE: find all Curve Point, add to model
         log.info(LogConstants.CURVEPOINT_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -55,7 +56,7 @@ public class CurveController {
      * @param model current model
      * @return add curvePoint page
      */
-    @GetMapping("/curvePoint/add")
+    @GetMapping("add")
     public String addCurvePointForm(Model model) {
 
         log.info(LogConstants.CURVEPOINT_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -69,7 +70,7 @@ public class CurveController {
      * @param curvePoint to create
      * @return curvePoint/list page if curvePoint has been created, otherwise stay at curvePoint/add page
      */
-    @PostMapping("/curvePoint/validate")
+    @PostMapping("validate")
     public String validate(@ModelAttribute("curvePoint") @Valid CurvePointDTO curvePoint, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
         //DONE: check data valid and save to db
@@ -116,7 +117,7 @@ public class CurveController {
      * @param model current model
      * @return curvePoint/update page if curvePoint has been found, otherwise return to curvePoint/list page
      */
-    @GetMapping("/curvePoint/update/{id}")
+    @GetMapping("update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // DONE: get CurvePoint by Id and to model then show to the form
         log.info(LogConstants.CURVEPOINT_UPDATE_FORM_REQUEST_RECEIVED, id,
@@ -144,7 +145,7 @@ public class CurveController {
      * @param model      current model
      * @return curvePoint/list page if CurvePoint has been updated, otherwise stay at curvePoint/update page
      */
-    @PostMapping("/curvePoint/update/{id}")
+    @PostMapping("update/{id}")
     public String updateCurvePoint(@PathVariable("id") Integer id, @ModelAttribute("curvePoint") @Valid CurvePointDTO curvePoint,
                                    BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // DONE: check required fields, if valid call service to update Curve and return Curve list
@@ -184,7 +185,7 @@ public class CurveController {
      * @param id of the curvePoint to delete
      * @return curvePoint list page
      */
-    @GetMapping("/curvePoint/delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteCurvePoint(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Curve by Id and delete the Curve, return to Curve list
         log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());

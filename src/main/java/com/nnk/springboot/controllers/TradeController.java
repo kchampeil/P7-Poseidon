@@ -23,6 +23,7 @@ import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 
 @Slf4j
 @Controller
+@RequestMapping("trade")
 public class TradeController {
     // DONE: Inject Trade service
     private final ITradeService tradeService;
@@ -38,7 +39,7 @@ public class TradeController {
      * @param model current model
      * @return list trade page
      */
-    @RequestMapping("/trade/list")
+    @RequestMapping("list")
     public String home(Model model) {
         // DONE: find all Trade, add to model
         log.info(LogConstants.TRADE_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -54,7 +55,7 @@ public class TradeController {
      * @param model current model
      * @return add trade page
      */
-    @GetMapping("/trade/add")
+    @GetMapping("add")
     public String addUser(Model model) {
 
         log.info(LogConstants.TRADE_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -70,7 +71,7 @@ public class TradeController {
      * @param trade to create
      * @return trade/list page if trade has been created, otherwise stay at trade/add page
      */
-    @PostMapping("/trade/validate")
+    @PostMapping("validate")
     public String validate(@ModelAttribute("trade") @Valid TradeDTO trade, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
         // DONE: check data valid and save to db, after saving return Trade list
@@ -117,7 +118,7 @@ public class TradeController {
      * @param model current model
      * @return trade/update page if trade has been found, otherwise return to trade/list page
      */
-    @GetMapping("/trade/update/{id}")
+    @GetMapping("update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model,
                                  RedirectAttributes redirectAttributes) {
         // DONE: get Trade by Id and to model then show to the form
@@ -146,7 +147,7 @@ public class TradeController {
      * @param model  current model
      * @return trade/list page if trade has been updated, otherwise stay at trade/update page
      */
-    @PostMapping("/trade/update/{id}")
+    @PostMapping("update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @ModelAttribute("trade") @Valid TradeDTO trade,
                               BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // DONE: check required fields, if valid call service to update Trade and return Trade list
@@ -187,7 +188,7 @@ public class TradeController {
      * @param id of the trade to delete
      * @return trade list page
      */
-    @GetMapping("/trade/delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteTrade(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Trade by Id and delete the Trade, return to Trade list
 

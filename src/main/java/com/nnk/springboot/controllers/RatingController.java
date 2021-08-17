@@ -23,6 +23,7 @@ import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 
 @Slf4j
 @Controller
+@RequestMapping("rating")
 public class RatingController {
     // DONE: Inject Rating service
     private final IRatingService ratingService;
@@ -39,7 +40,7 @@ public class RatingController {
      * @param model current model
      * @return list rating page
      */
-    @RequestMapping("/rating/list")
+    @RequestMapping("list")
     public String home(Model model) {
         // DONE: find all Rating, add to model
         log.info(LogConstants.RATING_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -55,7 +56,7 @@ public class RatingController {
      * @param model current model
      * @return add rating page
      */
-    @GetMapping("/rating/add")
+    @GetMapping("add")
     public String addRatingForm(Model model) {
         log.info(LogConstants.RATING_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("rating", new RatingDTO());
@@ -70,7 +71,7 @@ public class RatingController {
      * @param rating to create
      * @return rating/list page if rating has been created, otherwise stay at rating/add page
      */
-    @PostMapping("/rating/validate")
+    @PostMapping("validate")
     public String validate(@ModelAttribute("rating") @Valid RatingDTO rating,
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // DONE: check data valid and save to db
@@ -116,7 +117,7 @@ public class RatingController {
      * @param model current model
      * @return rating/update page if rating has been found, otherwise return to rating/list page
      */
-    @GetMapping("/rating/update/{id}")
+    @GetMapping("update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model,
                                  RedirectAttributes redirectAttributes) {
         // DONE: get Rating by Id and to model then show to the form
@@ -145,7 +146,7 @@ public class RatingController {
      * @param model  current model
      * @return rating/list page if Rating has been updated, otherwise stay at rating/update page
      */
-    @PostMapping("/rating/update/{id}")
+    @PostMapping("update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @ModelAttribute("rating") @Valid RatingDTO rating,
                                BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // DONE: check required fields, if valid call service to update Rating and return Rating list
@@ -185,7 +186,7 @@ public class RatingController {
      * @param id of the rating to delete
      * @return rating list page
      */
-    @GetMapping("/rating/delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find Rating by Id and delete the Rating, return to Rating list
         log.info(LogConstants.RATING_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());

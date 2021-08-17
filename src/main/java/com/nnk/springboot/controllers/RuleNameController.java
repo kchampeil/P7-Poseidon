@@ -23,6 +23,7 @@ import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 
 @Slf4j
 @Controller
+@RequestMapping("ruleName")
 public class RuleNameController {
     // DONE: Inject RuleName service
     private final IRuleNameService ruleNameService;
@@ -39,7 +40,7 @@ public class RuleNameController {
      * @param model current model
      * @return list ruleName page
      */
-    @RequestMapping("/ruleName/list")
+    @RequestMapping("list")
     public String home(Model model) {
         // DONE: find all RuleName, add to model
         log.info(LogConstants.RULE_NAME_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -54,7 +55,7 @@ public class RuleNameController {
      * @param model current model
      * @return add ruleName page
      */
-    @GetMapping("/ruleName/add")
+    @GetMapping("add")
     public String addRuleForm(Model model) {
 
         log.info(LogConstants.RULE_NAME_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
@@ -69,7 +70,7 @@ public class RuleNameController {
      * @param ruleName to create
      * @return ruleName/list page if ruleName has been created, otherwise stay at ruleName/add page
      */
-    @PostMapping("/ruleName/validate")
+    @PostMapping("validate")
     public String validate(@ModelAttribute("ruleName") @Valid RuleNameDTO ruleName,
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // DONE: check data valid and save to db, after saving return RuleName list
@@ -115,7 +116,7 @@ public class RuleNameController {
      * @param model current model
      * @return ruleName/update page if ruleName has been found, otherwise return to ruleName/list page
      */
-    @GetMapping("/ruleName/update/{id}")
+    @GetMapping("update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model,
                                  RedirectAttributes redirectAttributes) {
         // DONE: get RuleName by Id and to model then show to the form
@@ -143,7 +144,7 @@ public class RuleNameController {
      * @param model    current model
      * @return ruleName/list page if RuleName has been updated, otherwise stay at ruleName/update page
      */
-    @PostMapping("/ruleName/update/{id}")
+    @PostMapping("update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @ModelAttribute("ruleName") @Valid RuleNameDTO ruleName,
                                  BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // DONE: check required fields, if valid call service to update RuleName and return RuleName list
@@ -182,7 +183,7 @@ public class RuleNameController {
      * @param id of the ruleName to delete
      * @return ruleName list page
      */
-    @GetMapping("/ruleName/delete/{id}")
+    @GetMapping("delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // DONE: Find RuleName by Id and delete the RuleName, return to Rule list
         log.info(LogConstants.RULE_NAME_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
