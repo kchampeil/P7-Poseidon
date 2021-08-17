@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.DTO.UserDTO;
 import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.services.contracts.IUserService;
+import com.nnk.springboot.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class UserController {
      */
     @RequestMapping("/user/list")
     public String home(Model model) {
-        log.info(LogConstants.USER_LIST_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.USER_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("users", userService.findAllUser());
         return "user/list";
     }
@@ -53,7 +54,7 @@ public class UserController {
      */
     @GetMapping("/user/add")
     public String addUser(Model model) {
-        log.info(LogConstants.USER_CREATION_FORM_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.USER_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("user", new UserDTO());
 
         return "user/add";
@@ -81,7 +82,7 @@ public class UserController {
 
             if (userDTOCreated.isPresent()) {
                 log.info(LogConstants.USER_CREATION_REQUEST_OK, userDTOCreated.get().getId(),
-                        model.getAttribute("currentUsername"));
+                        UserUtil.getCurrentUser());
 
                 redirectAttributes.addFlashAttribute("infoMessage",
                         formatOutputMessage("user.add.ok",
@@ -114,7 +115,7 @@ public class UserController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model,
                                  RedirectAttributes redirectAttributes) {
         log.info(LogConstants.USER_UPDATE_FORM_REQUEST_RECEIVED, id,
-                model.getAttribute("currentUsername"));
+                UserUtil.getCurrentUser());
 
         try {
             model.addAttribute("user", userService.findUserById(id));
@@ -155,7 +156,7 @@ public class UserController {
             UserDTO userDTOUpdated = userService.updateUser(user);
 
             log.info(LogConstants.USER_UPDATE_REQUEST_OK, userDTOUpdated.getId(),
-                    model.getAttribute("currentUsername"));
+                    UserUtil.getCurrentUser());
 
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("user.update.ok", id.toString()));
@@ -181,12 +182,13 @@ public class UserController {
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model,
                              RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
 
-        log.info(LogConstants.USER_DELETE_REQUEST_RECEIVED, id, model.getAttribute("currentUsername"));
+        log.info(LogConstants.USER_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
             userService.deleteUser(id);
-            log.info(LogConstants.USER_DELETE_REQUEST_OK, id, model.getAttribute("currentUsername"));
+            log.info(LogConstants.USER_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("user.delete.ok", id.toString()));
 

@@ -6,10 +6,10 @@ import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 import com.nnk.springboot.services.contracts.ITradeService;
 import com.nnk.springboot.utils.DateUtil;
+import com.nnk.springboot.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +48,7 @@ public class TradeService implements ITradeService {
         try {
             Trade tradeToCreate = modelMapper.map(tradeDTOToCreate, Trade.class);
             tradeToCreate.setCreationDate(DateUtil.getCurrentLocalDateTime());
-            tradeToCreate.setCreationName(SecurityContextHolder.getContext().getAuthentication().getName());
+            tradeToCreate.setCreationName(UserUtil.getCurrentUser());
             tradeCreated = tradeRepository.save(tradeToCreate);
             log.debug(LogConstants.CREATE_TRADE_OK + tradeCreated.getTradeId());
 
@@ -123,7 +123,7 @@ public class TradeService implements ITradeService {
         try {
             Trade tradeToUpdate = modelMapper.map(tradeDTOToUpdate, Trade.class);
             tradeToUpdate.setRevisionDate(DateUtil.getCurrentLocalDateTime());
-            tradeToUpdate.setRevisionName(SecurityContextHolder.getContext().getAuthentication().getName());
+            tradeToUpdate.setRevisionName(UserUtil.getCurrentUser());
             tradeUpdated = tradeRepository.save(tradeToUpdate);
             log.debug(LogConstants.UPDATE_TRADE_OK + tradeUpdated.getTradeId());
 

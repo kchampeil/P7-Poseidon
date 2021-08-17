@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.DTO.CurvePointDTO;
 import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.services.contracts.ICurvePointService;
+import com.nnk.springboot.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class CurveController {
     @RequestMapping("/curvePoint/list")
     public String home(Model model) {
         // DONE: find all Curve Point, add to model
-        log.info(LogConstants.CURVEPOINT_LIST_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.CURVEPOINT_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("curvePointAll", curvePointService.findAllCurvePoint());
 
         return "curvePoint/list";
@@ -57,7 +58,7 @@ public class CurveController {
     @GetMapping("/curvePoint/add")
     public String addCurvePointForm(Model model) {
 
-        log.info(LogConstants.CURVEPOINT_CREATION_FORM_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.CURVEPOINT_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("curvePoint", new CurvePointDTO());
         return "curvePoint/add";
     }
@@ -71,6 +72,7 @@ public class CurveController {
     @PostMapping("/curvePoint/validate")
     public String validate(@ModelAttribute("curvePoint") @Valid CurvePointDTO curvePoint, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         //DONE: check data valid and save to db
 
         log.info(LogConstants.CURVEPOINT_CREATION_REQUEST_RECEIVED + curvePoint.toString());
@@ -85,7 +87,7 @@ public class CurveController {
 
             if (curvePointDTOCreated.isPresent()) {
                 log.info(LogConstants.CURVEPOINT_CREATION_REQUEST_OK, curvePointDTOCreated.get().getId(),
-                        model.getAttribute("currentUsername"));
+                        UserUtil.getCurrentUser());
 
                 //DONE: after saving return CurvePoint
                 redirectAttributes.addFlashAttribute("infoMessage",
@@ -118,7 +120,7 @@ public class CurveController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // DONE: get CurvePoint by Id and to model then show to the form
         log.info(LogConstants.CURVEPOINT_UPDATE_FORM_REQUEST_RECEIVED, id,
-                model.getAttribute("currentUsername"));
+                UserUtil.getCurrentUser());
 
         try {
             model.addAttribute("curvePoint", curvePointService.findCurvePointById(id));
@@ -160,7 +162,7 @@ public class CurveController {
             CurvePointDTO curvePointDTOUpdated = curvePointService.updateCurvePoint(curvePoint);
 
             log.info(LogConstants.CURVEPOINT_UPDATE_REQUEST_OK, curvePointDTOUpdated.getId(),
-                    model.getAttribute("currentUsername"));
+                    UserUtil.getCurrentUser());
 
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("curvePoint.update.ok", id.toString()));
@@ -185,12 +187,13 @@ public class CurveController {
      */
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteCurvePoint(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         // DONE: Find Curve by Id and delete the Curve, return to Curve list
-        log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_RECEIVED, id, model.getAttribute("currentUsername"));
+        log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
             curvePointService.deleteCurvePoint(id);
-            log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_OK, id, model.getAttribute("currentUsername"));
+            log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("curvePoint.delete.ok", id.toString()));
 

@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.DTO.RatingDTO;
 import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.services.contracts.IRatingService;
+import com.nnk.springboot.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class RatingController {
     @RequestMapping("/rating/list")
     public String home(Model model) {
         // DONE: find all Rating, add to model
-        log.info(LogConstants.RATING_LIST_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.RATING_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("ratingAll", ratingService.findAllRating());
 
         return "rating/list";
@@ -56,7 +57,7 @@ public class RatingController {
      */
     @GetMapping("/rating/add")
     public String addRatingForm(Model model) {
-        log.info(LogConstants.RATING_CREATION_FORM_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.RATING_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("rating", new RatingDTO());
 
         return "rating/add";
@@ -72,6 +73,7 @@ public class RatingController {
     @PostMapping("/rating/validate")
     public String validate(@ModelAttribute("rating") @Valid RatingDTO rating,
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         // DONE: check data valid and save to db
         log.info(LogConstants.RATING_CREATION_REQUEST_RECEIVED + rating.toString());
 
@@ -85,7 +87,7 @@ public class RatingController {
 
             if (ratingDTOCreated.isPresent()) {
                 log.info(LogConstants.RATING_CREATION_REQUEST_OK, ratingDTOCreated.get().getId(),
-                        model.getAttribute("currentUsername"));
+                        UserUtil.getCurrentUser());
 
                 //DONE: after saving return Rating List
                 redirectAttributes.addFlashAttribute("infoMessage",
@@ -119,7 +121,7 @@ public class RatingController {
                                  RedirectAttributes redirectAttributes) {
         // DONE: get Rating by Id and to model then show to the form
         log.info(LogConstants.RATING_UPDATE_FORM_REQUEST_RECEIVED, id,
-                model.getAttribute("currentUsername"));
+                UserUtil.getCurrentUser());
 
         try {
             model.addAttribute("rating", ratingService.findRatingById(id));
@@ -161,7 +163,7 @@ public class RatingController {
             RatingDTO ratingDTOUpdated = ratingService.updateRating(rating);
 
             log.info(LogConstants.RATING_UPDATE_REQUEST_OK, ratingDTOUpdated.getId(),
-                    model.getAttribute("currentUsername"));
+                    UserUtil.getCurrentUser());
 
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("rating.update.ok", id.toString()));
@@ -186,12 +188,13 @@ public class RatingController {
      */
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         // DONE: Find Rating by Id and delete the Rating, return to Rating list
-        log.info(LogConstants.RATING_DELETE_REQUEST_RECEIVED, id, model.getAttribute("currentUsername"));
+        log.info(LogConstants.RATING_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
             ratingService.deleteRating(id);
-            log.info(LogConstants.RATING_DELETE_REQUEST_OK, id, model.getAttribute("currentUsername"));
+            log.info(LogConstants.RATING_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("rating.delete.ok", id.toString()));
 

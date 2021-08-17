@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.DTO.BidListDTO;
 import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.services.contracts.IBidListService;
+import com.nnk.springboot.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class BidListController {
     @RequestMapping("/bidList/list")
     public String home(Model model) {
         //DONE: call service find all bids to show to the view
-        log.info(LogConstants.BIDLIST_LIST_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.BIDLIST_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("bidListAll", bidListService.findAllBidList());
 
         return "bidList/list";
@@ -56,7 +57,7 @@ public class BidListController {
     @GetMapping("/bidList/add")
     public String addBidForm(Model model) {
 
-        log.info(LogConstants.BIDLIST_CREATION_FORM_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.BIDLIST_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("bidList", new BidListDTO());
 
         return "bidList/add";
@@ -72,6 +73,7 @@ public class BidListController {
     @PostMapping("/bidList/validate")
     public String validate(@ModelAttribute("bidList") @Valid BidListDTO bid, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         //DONE: check data valid and save to db
 
         log.info(LogConstants.BIDLIST_CREATION_REQUEST_RECEIVED + bid.toString());
@@ -86,7 +88,7 @@ public class BidListController {
 
             if (bidListDTOCreated.isPresent()) {
                 log.info(LogConstants.BIDLIST_CREATION_REQUEST_OK, bidListDTOCreated.get().getBidListId(),
-                        model.getAttribute("currentUsername"));
+                        UserUtil.getCurrentUser());
 
                 //DONE: after saving return bid list
                 redirectAttributes.addFlashAttribute("infoMessage",
@@ -119,7 +121,7 @@ public class BidListController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         //DONE: get Bid by Id and to model then show to the form
         log.info(LogConstants.BIDLIST_UPDATE_FORM_REQUEST_RECEIVED, id,
-                model.getAttribute("currentUsername"));
+                UserUtil.getCurrentUser());
 
         try {
             model.addAttribute("bidList", bidListService.findBidListById(id));
@@ -162,7 +164,7 @@ public class BidListController {
             BidListDTO bidListDTOUpdated = bidListService.updateBidList(bidList);
 
             log.info(LogConstants.BIDLIST_UPDATE_REQUEST_OK, bidListDTOUpdated.getBidListId(),
-                    model.getAttribute("currentUsername"));
+                    UserUtil.getCurrentUser());
 
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("bidList.update.ok", id.toString()));
@@ -187,13 +189,14 @@ public class BidListController {
      */
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         // DONE: Find Bid by Id and delete the bid, return to Bid list
 
-        log.info(LogConstants.BIDLIST_DELETE_REQUEST_RECEIVED, id, model.getAttribute("currentUsername"));
+        log.info(LogConstants.BIDLIST_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
             bidListService.deleteBidList(id);
-            log.info(LogConstants.BIDLIST_DELETE_REQUEST_OK, id, model.getAttribute("currentUsername"));
+            log.info(LogConstants.BIDLIST_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("bidList.delete.ok", id.toString()));
 

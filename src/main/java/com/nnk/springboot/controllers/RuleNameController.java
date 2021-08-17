@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.DTO.RuleNameDTO;
 import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.services.contracts.IRuleNameService;
+import com.nnk.springboot.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,7 @@ public class RuleNameController {
     @RequestMapping("/ruleName/list")
     public String home(Model model) {
         // DONE: find all RuleName, add to model
-        log.info(LogConstants.RULE_NAME_LIST_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.RULE_NAME_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("ruleNameAll", ruleNameService.findAllRuleName());
 
         return "ruleName/list";
@@ -56,7 +57,7 @@ public class RuleNameController {
     @GetMapping("/ruleName/add")
     public String addRuleForm(Model model) {
 
-        log.info(LogConstants.RULE_NAME_CREATION_FORM_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.RULE_NAME_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("ruleName", new RuleNameDTO());
 
         return "ruleName/add";
@@ -71,6 +72,7 @@ public class RuleNameController {
     @PostMapping("/ruleName/validate")
     public String validate(@ModelAttribute("ruleName") @Valid RuleNameDTO ruleName,
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         // DONE: check data valid and save to db, after saving return RuleName list
         log.info(LogConstants.RULE_NAME_CREATION_REQUEST_RECEIVED + ruleName.toString());
 
@@ -84,7 +86,7 @@ public class RuleNameController {
 
             if (ruleNameDTOCreated.isPresent()) {
                 log.info(LogConstants.RULE_NAME_CREATION_REQUEST_OK, ruleNameDTOCreated.get().getId(),
-                        model.getAttribute("currentUsername"));
+                        UserUtil.getCurrentUser());
 
                 //DONE: after saving return RuleName List
                 redirectAttributes.addFlashAttribute("infoMessage",
@@ -118,7 +120,7 @@ public class RuleNameController {
                                  RedirectAttributes redirectAttributes) {
         // DONE: get RuleName by Id and to model then show to the form
         log.info(LogConstants.RULE_NAME_UPDATE_FORM_REQUEST_RECEIVED, id,
-                model.getAttribute("currentUsername"));
+                UserUtil.getCurrentUser());
 
         try {
             model.addAttribute("ruleName", ruleNameService.findRuleNameById(id));
@@ -159,7 +161,7 @@ public class RuleNameController {
             RuleNameDTO ruleNameDTOUpdated = ruleNameService.updateRuleName(ruleName);
 
             log.info(LogConstants.RULE_NAME_UPDATE_REQUEST_OK, ruleNameDTOUpdated.getId(),
-                    model.getAttribute("currentUsername"));
+                    UserUtil.getCurrentUser());
 
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("ruleName.update.ok", id.toString()));
@@ -183,12 +185,13 @@ public class RuleNameController {
      */
     @GetMapping("/ruleName/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        //TODO revoir si suppression model
         // DONE: Find RuleName by Id and delete the RuleName, return to Rule list
-        log.info(LogConstants.RULE_NAME_DELETE_REQUEST_RECEIVED, id, model.getAttribute("currentUsername"));
+        log.info(LogConstants.RULE_NAME_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
             ruleNameService.deleteRuleName(id);
-            log.info(LogConstants.RULE_NAME_DELETE_REQUEST_OK, id, model.getAttribute("currentUsername"));
+            log.info(LogConstants.RULE_NAME_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("ruleName.delete.ok", id.toString()));
 

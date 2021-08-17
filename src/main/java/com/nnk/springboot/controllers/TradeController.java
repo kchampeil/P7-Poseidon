@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.DTO.TradeDTO;
 import com.nnk.springboot.constants.LogConstants;
 import com.nnk.springboot.services.contracts.ITradeService;
+import com.nnk.springboot.utils.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ import static com.nnk.springboot.utils.MessageUtil.formatOutputMessage;
 @Slf4j
 @Controller
 public class TradeController {
-    // TODO: Inject Trade service
+    // DONE: Inject Trade service
     private final ITradeService tradeService;
 
     @Autowired
@@ -39,8 +40,8 @@ public class TradeController {
      */
     @RequestMapping("/trade/list")
     public String home(Model model) {
-        // TODO: find all Trade, add to model
-        log.info(LogConstants.TRADE_LIST_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        // DONE: find all Trade, add to model
+        log.info(LogConstants.TRADE_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("tradeAll", tradeService.findAllTrade());
 
         return "trade/list";
@@ -56,7 +57,7 @@ public class TradeController {
     @GetMapping("/trade/add")
     public String addUser(Model model) {
 
-        log.info(LogConstants.TRADE_CREATION_FORM_REQUEST_RECEIVED, model.getAttribute("currentUsername"));
+        log.info(LogConstants.TRADE_CREATION_FORM_REQUEST_RECEIVED, UserUtil.getCurrentUser());
         model.addAttribute("trade", new TradeDTO());
 
         return "trade/add";
@@ -72,7 +73,8 @@ public class TradeController {
     @PostMapping("/trade/validate")
     public String validate(@ModelAttribute("trade") @Valid TradeDTO trade, BindingResult result,
                            Model model, RedirectAttributes redirectAttributes) {
-        // TODO: check data valid and save to db, after saving return Trade list
+        //TODO-revoir si suppression model
+        // DONE: check data valid and save to db, after saving return Trade list
 
         log.info(LogConstants.TRADE_CREATION_REQUEST_RECEIVED + trade.toString());
 
@@ -86,7 +88,7 @@ public class TradeController {
 
             if (tradeDTOCreated.isPresent()) {
                 log.info(LogConstants.TRADE_CREATION_REQUEST_OK, tradeDTOCreated.get().getTradeId(),
-                        model.getAttribute("currentUsername"));
+                        UserUtil.getCurrentUser());
 
                 //DONE: after saving return trade list
                 redirectAttributes.addFlashAttribute("infoMessage",
@@ -116,10 +118,11 @@ public class TradeController {
      * @return trade/update page if trade has been found, otherwise return to trade/list page
      */
     @GetMapping("/trade/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-        // TODO: get Trade by Id and to model then show to the form
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model,
+                                 RedirectAttributes redirectAttributes) {
+        // DONE: get Trade by Id and to model then show to the form
         log.info(LogConstants.TRADE_UPDATE_FORM_REQUEST_RECEIVED, id,
-                model.getAttribute("currentUsername"));
+                UserUtil.getCurrentUser());
 
         try {
             model.addAttribute("trade", tradeService.findTradeById(id));
@@ -146,7 +149,7 @@ public class TradeController {
     @PostMapping("/trade/update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @ModelAttribute("trade") @Valid TradeDTO trade,
                               BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        // TODO: check required fields, if valid call service to update Trade and return Trade list
+        // DONE: check required fields, if valid call service to update Trade and return Trade list
 
         log.info(LogConstants.TRADE_UPDATE_REQUEST_RECEIVED, id,
                 trade.toString(),
@@ -162,7 +165,7 @@ public class TradeController {
             TradeDTO tradeDTOUpdated = tradeService.updateTrade(trade);
 
             log.info(LogConstants.TRADE_UPDATE_REQUEST_OK, tradeDTOUpdated.getTradeId(),
-                    model.getAttribute("currentUsername"));
+                    UserUtil.getCurrentUser());
 
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("trade.update.ok", id.toString()));
@@ -188,13 +191,14 @@ public class TradeController {
     @GetMapping("/trade/delete/{id}")
     public String deleteTrade(@PathVariable("id") Integer id, Model model,
                               RedirectAttributes redirectAttributes) {
-        // TODO: Find Trade by Id and delete the Trade, return to Trade list
+        //TODO revoir si suppression model
+        // DONE: Find Trade by Id and delete the Trade, return to Trade list
 
-        log.info(LogConstants.TRADE_DELETE_REQUEST_RECEIVED, id, model.getAttribute("currentUsername"));
+        log.info(LogConstants.TRADE_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
             tradeService.deleteTrade(id);
-            log.info(LogConstants.TRADE_DELETE_REQUEST_OK, id, model.getAttribute("currentUsername"));
+            log.info(LogConstants.TRADE_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("trade.delete.ok", id.toString()));
 
@@ -202,6 +206,7 @@ public class TradeController {
             log.error(LogConstants.TRADE_DELETE_REQUEST_KO, id, illegalArgumentException.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",
                     formatOutputMessage("trade.id.not.valid", id.toString()));
+
         } catch (Exception exception) {
             log.error(LogConstants.TRADE_DELETE_REQUEST_KO, id, exception.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage",
