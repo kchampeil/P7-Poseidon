@@ -33,7 +33,7 @@ public class RuleName {
     @Column(name = "json", length = 125)
     private String json;
 
-    @Column(name = "template", length = 512) //TOASK : 512 ou 125 (typo ?)
+    @Column(name = "template", length = 512)
     private String template;
 
     @Column(name = "sqlStr", length = 125)

@@ -12,18 +12,18 @@ public class RuleNameDTO {
 
     private Integer id;
 
-    @NotBlank(message = "{ruleName.name.notBlank}") //TOASK : pas en not null dans base mais obligatoire pour avoir minimum info ?
+    @NotBlank(message = "{ruleName.name.notBlank}")
     @Size(max = 125, message = "{ruleName.name.size}")
     private String name;
 
-    @NotBlank(message = "{ruleName.description.notBlank}") //TOASK : pas en not null dans base mais obligatoire pour avoir minimum info ?
+    @NotBlank(message = "{ruleName.description.notBlank}")
     @Size(max = 125, message = "{ruleName.description.size}")
     private String description;
 
     @Size(max = 125, message = "{ruleName.json.size}")
     private String json;
 
-    @Size(max = 512, message = "{ruleName.template.size}") //TOASK : 512 ou 125 (typo ?)
+    @Size(max = 512, message = "{ruleName.template.size}")
     private String template;
 
     @Size(max = 125, message = "{ruleName.sqlStr.size}")

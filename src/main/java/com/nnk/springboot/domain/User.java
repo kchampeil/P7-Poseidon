@@ -28,8 +28,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-
-    //TOASK : mis en nullable false même si pas not null dans le script SQL
+    
     @Column(name = "username", nullable = false, unique = true, length = 125)
     private String username;
 

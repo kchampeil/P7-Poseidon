@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -29,17 +27,12 @@ public class BidList {
     @Column(name = "BidListId", nullable = false)
     private Integer bidListId;
 
-    @NotBlank(message = "{bidList.account.notBlank}")
-    @Size(max = 30)
     @Column(name = "account", nullable = false, length = 30)
     private String account;
 
-    @NotBlank(message = "{bidList.type.notBlank}")
-    @Size(max = 30)
     @Column(name = "type", nullable = false, length = 30)
     private String type;
 
-    @NotNull(message = "{bidList.bidQuantity.notNull}")
     @Column(name = "bidQuantity")
     private Double bidQuantity;
 

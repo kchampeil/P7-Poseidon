@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 
@@ -22,21 +20,17 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "trade")
 public class Trade {
-    // TODO: Map columns in data table TRADE with corresponding java fields
+    // DONE: Map columns in data table TRADE with corresponding java fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tradeId", nullable = false)
     private Integer tradeId;
 
-    @NotBlank(message = "Account is mandatory")
-    @Size(max = 30)
-    @Column(name = "account", length = 30)
+    @Column(name = "account", length = 30, nullable = false)
     private String account;
 
-    @NotBlank(message = "Type is mandatory")
-    @Size(max = 30)
-    @Column(name = "type", length = 30)
+    @Column(name = "type", length = 30, nullable = false)
     private String type;
 
     @Column(name = "buyQuantity")
