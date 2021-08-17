@@ -35,7 +35,6 @@ public class UserDTO {
         return "UserDTO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", fullname='" + fullname + '\'' +
                 ", role='" + role + '\'' +
                 '}';
