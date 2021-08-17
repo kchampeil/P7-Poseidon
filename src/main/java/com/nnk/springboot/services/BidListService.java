@@ -38,7 +38,7 @@ public class BidListService implements IBidListService {
      * @return the created bidList
      */
     @Override
-    public Optional<BidListDTO> createBidList(BidListDTO bidListDTOToCreate) {
+    public Optional<BidListDTO> create(BidListDTO bidListDTOToCreate) {
 
         log.debug(LogConstants.CREATE_BID_LIST_CALL + bidListDTOToCreate.toString());
 
@@ -67,7 +67,7 @@ public class BidListService implements IBidListService {
      * @return the list of bidList
      */
     @Override
-    public List<BidListDTO> findAllBidList() {
+    public List<BidListDTO> findAll() {
         log.debug(LogConstants.FIND_BID_LIST_ALL_CALL);
 
         List<BidList> bidListList = bidListRepository.findAll();
@@ -89,7 +89,7 @@ public class BidListService implements IBidListService {
      * @throws IllegalArgumentException if no bidList found
      */
     @Override
-    public BidListDTO findBidListById(Integer id) {
+    public BidListDTO findById(Integer id) {
         log.debug(LogConstants.FIND_BID_LIST_BY_ID_CALL);
 
         Optional<BidList> bidList = bidListRepository.findById(id);
@@ -114,7 +114,7 @@ public class BidListService implements IBidListService {
      * @return the created bidList
      */
     @Override
-    public BidListDTO updateBidList(BidListDTO bidListDTOToUpdate) {
+    public BidListDTO update(BidListDTO bidListDTOToUpdate) {
         log.debug(LogConstants.UPDATE_BID_LIST_CALL + bidListDTOToUpdate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
@@ -142,7 +142,7 @@ public class BidListService implements IBidListService {
      * @param id of the bidList to delete
      */
     @Override
-    public void deleteBidList(Integer id) {
+    public void delete(Integer id) {
 
         log.debug(LogConstants.DELETE_BID_LIST_CALL + id);
 

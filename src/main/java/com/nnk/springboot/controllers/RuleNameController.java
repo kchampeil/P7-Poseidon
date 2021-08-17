@@ -44,7 +44,7 @@ public class RuleNameController {
     public String home(Model model) {
         // DONE: find all RuleName, add to model
         log.info(LogConstants.RULE_NAME_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
-        model.addAttribute("ruleNameAll", ruleNameService.findAllRuleName());
+        model.addAttribute("ruleNameAll", ruleNameService.findAll());
 
         return "ruleName/list";
     }
@@ -82,7 +82,7 @@ public class RuleNameController {
         }
 
         try {
-            Optional<RuleNameDTO> ruleNameDTOCreated = ruleNameService.createRuleName(ruleName);
+            Optional<RuleNameDTO> ruleNameDTOCreated = ruleNameService.create(ruleName);
 
             if (ruleNameDTOCreated.isPresent()) {
                 log.info(LogConstants.RULE_NAME_CREATION_REQUEST_OK, ruleNameDTOCreated.get().getId(),
@@ -124,7 +124,7 @@ public class RuleNameController {
                 UserUtil.getCurrentUser());
 
         try {
-            model.addAttribute("ruleName", ruleNameService.findRuleNameById(id));
+            model.addAttribute("ruleName", ruleNameService.findById(id));
             return "ruleName/update";
 
         } catch (IllegalArgumentException illegalArgumentException) {
@@ -159,7 +159,7 @@ public class RuleNameController {
 
         try {
             ruleName.setId(id);
-            RuleNameDTO ruleNameDTOUpdated = ruleNameService.updateRuleName(ruleName);
+            RuleNameDTO ruleNameDTOUpdated = ruleNameService.update(ruleName);
 
             log.info(LogConstants.RULE_NAME_UPDATE_REQUEST_OK, ruleNameDTOUpdated.getId(),
                     UserUtil.getCurrentUser());
@@ -189,7 +189,7 @@ public class RuleNameController {
         log.info(LogConstants.RULE_NAME_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
-            ruleNameService.deleteRuleName(id);
+            ruleNameService.delete(id);
             log.info(LogConstants.RULE_NAME_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("ruleName.delete.ok", id.toString()));

@@ -70,7 +70,7 @@ public class RatingServiceIT {
     public void createRatingIT_WithSuccess() {
 
         //WHEN
-        Optional<RatingDTO> ratingDTOCreated = ratingService.createRating(ratingDTO);
+        Optional<RatingDTO> ratingDTOCreated = ratingService.create(ratingDTO);
 
         //THEN
         assertTrue(ratingDTOCreated.isPresent());
@@ -88,7 +88,7 @@ public class RatingServiceIT {
     public void findAllRatingIT_WithSuccess() {
 
         //WHEN
-        List<RatingDTO> ratingDTOList = ratingService.findAllRating();
+        List<RatingDTO> ratingDTOList = ratingService.findAll();
 
         //THEN
         assertThat(ratingDTOList.size()).isGreaterThan(0);
@@ -102,7 +102,7 @@ public class RatingServiceIT {
     public void findRatingByIdIT_WithSuccess() {
 
         //WHEN
-        RatingDTO ratingDTO = ratingService.findRatingById(ratingInDb.getId());
+        RatingDTO ratingDTO = ratingService.findById(ratingInDb.getId());
 
         //THEN
         assertEquals(ratingInDb.getId(), ratingDTO.getId());
@@ -124,7 +124,7 @@ public class RatingServiceIT {
         ratingDTO.setOrderNumber(TestConstants.NEW_RATING_ORDER_NUMBER);
 
         //WHEN
-        RatingDTO ratingDTOUpdated = ratingService.updateRating(ratingDTO);
+        RatingDTO ratingDTOUpdated = ratingService.update(ratingDTO);
         Optional<Rating> ratingUpdated = ratingRepository.findById(ratingInDb.getId());
 
         //THEN
@@ -143,7 +143,7 @@ public class RatingServiceIT {
     public void deleteRatingIT_WithSuccess() {
 
         //WHEN
-        ratingService.deleteRating(ratingInDb.getId());
+        ratingService.delete(ratingInDb.getId());
         Optional<Rating> ratingDeleted = ratingRepository.findById(ratingInDb.getId());
 
         //THEN

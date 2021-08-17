@@ -75,7 +75,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/list"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .findAllCurvePoint();
+                    .findAll();
         }
 
 
@@ -91,7 +91,7 @@ class CurveControllerTest {
             verify(userDetailsServiceMock, Mockito.times(0))
                     .loadUserByUsername(anyString());
             verify(curvePointServiceMock, Mockito.times(0))
-                    .findAllCurvePoint();
+                    .findAll();
         }
     }
 
@@ -136,7 +136,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint list page with curvePoint list updated")
         void validateTest_WithSuccess() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.createCurvePoint(any(CurvePointDTO.class)))
+            when(curvePointServiceMock.create(any(CurvePointDTO.class)))
                     .thenReturn(Optional.of(curvePointDTO));
 
             //WHEN-THEN
@@ -150,7 +150,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrl("/curvePoint/list"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .createCurvePoint(any(CurvePointDTO.class));
+                    .create(any(CurvePointDTO.class));
         }
 
 
@@ -174,7 +174,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/add"));
 
             verify(curvePointServiceMock, Mockito.times(0))
-                    .createCurvePoint(any(CurvePointDTO.class));
+                    .create(any(CurvePointDTO.class));
         }
 
 
@@ -185,7 +185,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint/add page filled with entered curvePoint")
         void validateTest_WithException() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.createCurvePoint(any(CurvePointDTO.class))).thenThrow(new RuntimeException());
+            when(curvePointServiceMock.create(any(CurvePointDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/curvePoint/validate")
@@ -198,7 +198,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/add"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .createCurvePoint(any(CurvePointDTO.class));
+                    .create(any(CurvePointDTO.class));
         }
 
 
@@ -209,7 +209,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint/add page filled with entered curvePoint")
         void validateTest_WithNoReturnedCurvePointAfterSaving() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.createCurvePoint(any(CurvePointDTO.class)))
+            when(curvePointServiceMock.create(any(CurvePointDTO.class)))
                     .thenReturn(Optional.empty());
 
             //WHEN-THEN
@@ -223,7 +223,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/add"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .createCurvePoint(any(CurvePointDTO.class));
+                    .create(any(CurvePointDTO.class));
         }
 
 
@@ -242,7 +242,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(curvePointServiceMock, Mockito.times(0))
-                    .createCurvePoint(any(CurvePointDTO.class));
+                    .create(any(CurvePointDTO.class));
         }
     }
 
@@ -258,7 +258,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint update form initialized")
         void showUpdateFormTest_WithSuccess_LoggedIn() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.findCurvePointById(anyInt()))
+            when(curvePointServiceMock.findById(anyInt()))
                     .thenReturn(curvePointDTO);
 
             //WHEN-THEN
@@ -268,7 +268,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/update"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .findCurvePointById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -279,7 +279,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint list page")
         void showUpdateFormTest_WithException() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.findCurvePointById(TestConstants.UNKNOWN_CURVE_POINT_ID))
+            when(curvePointServiceMock.findById(TestConstants.UNKNOWN_CURVE_POINT_ID))
                     .thenThrow(new IllegalArgumentException());
 
             //WHEN-THEN
@@ -288,7 +288,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrl("/curvePoint/list"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .findCurvePointById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -303,7 +303,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(curvePointServiceMock, Mockito.times(0))
-                    .findCurvePointById(anyInt());
+                    .findById(anyInt());
         }
     }
 
@@ -319,7 +319,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint list page with curvePoint list updated")
         void updateCurvePointTest_WithSuccess() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.updateCurvePoint(any(CurvePointDTO.class)))
+            when(curvePointServiceMock.update(any(CurvePointDTO.class)))
                     .thenReturn(curvePointDTO);
 
             //WHEN-THEN
@@ -333,7 +333,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrl("/curvePoint/list"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .updateCurvePoint(any(CurvePointDTO.class));
+                    .update(any(CurvePointDTO.class));
         }
 
 
@@ -357,7 +357,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/update"));
 
             verify(curvePointServiceMock, Mockito.times(0))
-                    .updateCurvePoint(any(CurvePointDTO.class));
+                    .update(any(CurvePointDTO.class));
         }
 
 
@@ -368,7 +368,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint/update/{id} page filled with entered curvePoint")
         void updateCurvePointTest_WithException() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.updateCurvePoint(any(CurvePointDTO.class))).thenThrow(new RuntimeException());
+            when(curvePointServiceMock.update(any(CurvePointDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/curvePoint/update/{id}", TestConstants.EXISTING_CURVE_POINT_ID)
@@ -381,7 +381,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/update"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .updateCurvePoint(any(CurvePointDTO.class));
+                    .update(any(CurvePointDTO.class));
         }
 
 
@@ -392,7 +392,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint/update page filled with entered curvePoint")
         void updateCurvePointTest_WithNoReturnedCurvePointAfterSaving() throws Exception {
             //GIVEN
-            when(curvePointServiceMock.updateCurvePoint(any(CurvePointDTO.class)))
+            when(curvePointServiceMock.update(any(CurvePointDTO.class)))
                     .thenReturn(null);
 
             //WHEN-THEN
@@ -406,7 +406,7 @@ class CurveControllerTest {
                     .andExpect(view().name("curvePoint/update"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .updateCurvePoint(any(CurvePointDTO.class));
+                    .update(any(CurvePointDTO.class));
         }
 
 
@@ -425,7 +425,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(curvePointServiceMock, Mockito.times(0))
-                    .updateCurvePoint(any(CurvePointDTO.class));
+                    .update(any(CurvePointDTO.class));
         }
     }
 
@@ -447,7 +447,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrl("/curvePoint/list"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .deleteCurvePoint(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -459,7 +459,7 @@ class CurveControllerTest {
                 "AND the expected view is the curvePoint/list page")
         void deleteCurvePointTest_WithMissingInformation() throws Exception {
             //GIVEN
-            doThrow(new IllegalArgumentException()).when(curvePointServiceMock).deleteCurvePoint(anyInt());
+            doThrow(new IllegalArgumentException()).when(curvePointServiceMock).delete(anyInt());
 
             //WHEN-THEN
             mockMvc.perform(get("/curvePoint/delete/{id}", TestConstants.UNKNOWN_CURVE_POINT_ID)
@@ -468,7 +468,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrl("/curvePoint/list"));
 
             verify(curvePointServiceMock, Mockito.times(1))
-                    .deleteCurvePoint(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -483,7 +483,7 @@ class CurveControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(curvePointServiceMock, Mockito.times(0))
-                    .findCurvePointById(anyInt());
+                    .findById(anyInt());
         }
     }
 }

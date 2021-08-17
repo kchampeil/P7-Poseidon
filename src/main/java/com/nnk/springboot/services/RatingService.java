@@ -35,7 +35,7 @@ public class RatingService implements IRatingService {
      * @return the created rating
      */
     @Override
-    public Optional<RatingDTO> createRating(RatingDTO ratingDTOToCreate) {
+    public Optional<RatingDTO> create(RatingDTO ratingDTOToCreate) {
 
         log.debug(LogConstants.CREATE_RATING_CALL + ratingDTOToCreate.toString());
 
@@ -61,7 +61,7 @@ public class RatingService implements IRatingService {
      * @return the list of rating
      */
     @Override
-    public List<RatingDTO> findAllRating() {
+    public List<RatingDTO> findAll() {
         log.debug(LogConstants.FIND_RATING_ALL_CALL);
 
         List<Rating> ratingList = ratingRepository.findAll();
@@ -83,7 +83,7 @@ public class RatingService implements IRatingService {
      * @throws IllegalArgumentException if no rating found
      */
     @Override
-    public RatingDTO findRatingById(Integer id) {
+    public RatingDTO findById(Integer id) {
         log.debug(LogConstants.FIND_RATING_BY_ID_CALL);
 
         Optional<Rating> rating = ratingRepository.findById(id);
@@ -108,7 +108,7 @@ public class RatingService implements IRatingService {
      * @return the created rating
      */
     @Override
-    public RatingDTO updateRating(RatingDTO ratingDTOToUpdate) {
+    public RatingDTO update(RatingDTO ratingDTOToUpdate) {
         log.debug(LogConstants.UPDATE_RATING_CALL + ratingDTOToUpdate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
@@ -133,7 +133,7 @@ public class RatingService implements IRatingService {
      * @param id of the rating to delete
      */
     @Override
-    public void deleteRating(Integer id) {
+    public void delete(Integer id) {
 
         log.debug(LogConstants.DELETE_RATING_CALL + id);
 

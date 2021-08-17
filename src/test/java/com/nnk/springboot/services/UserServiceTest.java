@@ -75,7 +75,7 @@ public class UserServiceTest {
             when(userRepositoryMock.save(any(User.class))).thenReturn(userInDb);
 
             //WHEN
-            Optional<UserDTO> createdUserDTO = userService.createUser(userDTOWithValues);
+            Optional<UserDTO> createdUserDTO = userService.create(userDTOWithValues);
 
             //THEN
             assertTrue(createdUserDTO.isPresent());
@@ -98,7 +98,7 @@ public class UserServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> userService.createUser(userDTOWithValues));
+                    () -> userService.create(userDTOWithValues));
 
             verify(userRepositoryMock, Mockito.times(1))
                     .save(any(User.class));
@@ -121,7 +121,7 @@ public class UserServiceTest {
             when(userRepositoryMock.findAll()).thenReturn(userList);
 
             //THEN
-            List<UserDTO> userDTOList = userService.findAllUser();
+            List<UserDTO> userDTOList = userService.findAll();
             assertEquals(1, userDTOList.size());
             assertEquals(userInDb.getId(), userDTOList.get(0).getId());
 
@@ -138,7 +138,7 @@ public class UserServiceTest {
             when(userRepositoryMock.findAll()).thenReturn(userList);
 
             //THEN
-            List<UserDTO> userDTOList = userService.findAllUser();
+            List<UserDTO> userDTOList = userService.findAll();
             assertThat(userDTOList).isEmpty();
 
             verify(userRepositoryMock, Mockito.times(1)).findAll();
@@ -159,7 +159,7 @@ public class UserServiceTest {
             when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.of(userInDb));
 
             //THEN
-            UserDTO userDTO = userService.findUserById(TestConstants.EXISTING_USER_ID);
+            UserDTO userDTO = userService.findById(TestConstants.EXISTING_USER_ID);
             assertEquals(userInDb.getId(), userDTO.getId());
             assertEquals(userInDb.getUsername(), userDTO.getUsername());
 
@@ -176,7 +176,7 @@ public class UserServiceTest {
 
             //THEN
             Exception exception = assertThrows(IllegalArgumentException.class,
-                    () -> userService.findUserById(TestConstants.EXISTING_USER_ID));
+                    () -> userService.findById(TestConstants.EXISTING_USER_ID));
             assertEquals(PoseidonExceptionsConstants.USER_ID_NOT_VALID
                     + TestConstants.EXISTING_USER_ID, exception.getMessage());
 
@@ -199,7 +199,7 @@ public class UserServiceTest {
             when(userRepositoryMock.save(any(User.class))).thenReturn(userInDb);
 
             //WHEN
-            UserDTO createdUserDTO = userService.updateUser(userDTOWithValues);
+            UserDTO createdUserDTO = userService.update(userDTOWithValues);
 
             //THEN
             assertEquals(userDTOWithValues.toString(), createdUserDTO.toString());
@@ -220,7 +220,7 @@ public class UserServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> userService.updateUser(userDTOWithValues));
+                    () -> userService.update(userDTOWithValues));
 
             verify(userRepositoryMock, Mockito.times(1))
                     .save(any(User.class));
@@ -241,7 +241,7 @@ public class UserServiceTest {
             when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(userInDb));
 
             //WHEN
-            userService.deleteUser(userInDb.getId());
+            userService.delete(userInDb.getId());
 
             //THEN
             verify(userRepositoryMock, Mockito.times(1))
@@ -262,7 +262,7 @@ public class UserServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> userService.deleteUser(userInDb.getId()));
+                    () -> userService.delete(userInDb.getId()));
 
             verify(userRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -281,7 +281,7 @@ public class UserServiceTest {
 
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> userService.deleteUser(userInDb.getId()));
+                    () -> userService.delete(userInDb.getId()));
 
             verify(userRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -297,7 +297,7 @@ public class UserServiceTest {
         void deleteUserTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> userService.deleteUser(null));
+                    () -> userService.delete(null));
 
             verify(userRepositoryMock, Mockito.times(0))
                     .findById(anyInt());

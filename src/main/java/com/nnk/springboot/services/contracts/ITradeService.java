@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ITradeService {
-    Optional<TradeDTO> createTrade(TradeDTO bankAccountDTOToCreate);
+    Optional<TradeDTO> create(TradeDTO bankAccountDTOToCreate);
 
-    List<TradeDTO> findAllTrade();
+    List<TradeDTO> findAll();
 
-    TradeDTO findTradeById(Integer id);
+    TradeDTO findById(Integer id);
 
-    TradeDTO updateTrade(TradeDTO tradeDTOToUpdate);
+    TradeDTO update(TradeDTO tradeDTOToUpdate);
 
-    void deleteTrade(Integer id);
+    void delete(Integer id);
 }

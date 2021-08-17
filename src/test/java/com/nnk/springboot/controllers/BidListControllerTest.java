@@ -75,7 +75,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/list"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .findAllBidList();
+                    .findAll();
         }
 
 
@@ -91,7 +91,7 @@ class BidListControllerTest {
             verify(userDetailsServiceMock, Mockito.times(0))
                     .loadUserByUsername(anyString());
             verify(bidListServiceMock, Mockito.times(0))
-                    .findAllBidList();
+                    .findAll();
         }
     }
 
@@ -136,7 +136,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList list page with bidList list updated")
         void validateTest_WithSuccess() throws Exception {
             //GIVEN
-            when(bidListServiceMock.createBidList(any(BidListDTO.class)))
+            when(bidListServiceMock.create(any(BidListDTO.class)))
                     .thenReturn(Optional.of(bidListDTO));
 
             //WHEN-THEN
@@ -150,7 +150,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrl("/bidList/list"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .createBidList(any(BidListDTO.class));
+                    .create(any(BidListDTO.class));
         }
 
 
@@ -174,7 +174,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/add"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .createBidList(any(BidListDTO.class));
+                    .create(any(BidListDTO.class));
         }
 
 
@@ -198,7 +198,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/add"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .createBidList(any(BidListDTO.class));
+                    .create(any(BidListDTO.class));
         }
 
 
@@ -209,7 +209,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList/add page filled with entered bidList")
         void validateTest_WithException() throws Exception {
             //GIVEN
-            when(bidListServiceMock.createBidList(any(BidListDTO.class))).thenThrow(new RuntimeException());
+            when(bidListServiceMock.create(any(BidListDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/bidList/validate")
@@ -222,7 +222,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/add"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .createBidList(any(BidListDTO.class));
+                    .create(any(BidListDTO.class));
         }
 
 
@@ -233,7 +233,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList/add page filled with entered bidList")
         void validateTest_WithNoReturnedBidListAfterSaving() throws Exception {
             //GIVEN
-            when(bidListServiceMock.createBidList(any(BidListDTO.class)))
+            when(bidListServiceMock.create(any(BidListDTO.class)))
                     .thenReturn(Optional.empty());
 
             //WHEN-THEN
@@ -247,7 +247,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/add"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .createBidList(any(BidListDTO.class));
+                    .create(any(BidListDTO.class));
         }
 
 
@@ -266,7 +266,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .createBidList(any(BidListDTO.class));
+                    .create(any(BidListDTO.class));
         }
     }
 
@@ -282,7 +282,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList update form initialized")
         void showUpdateFormTest_WithSuccess_LoggedIn() throws Exception {
             //GIVEN
-            when(bidListServiceMock.findBidListById(anyInt()))
+            when(bidListServiceMock.findById(anyInt()))
                     .thenReturn(bidListDTO);
 
             //WHEN-THEN
@@ -292,7 +292,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/update"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .findBidListById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -303,7 +303,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList list page")
         void showUpdateFormTest_WithException() throws Exception {
             //GIVEN
-            when(bidListServiceMock.findBidListById(TestConstants.UNKNOWN_BID_LIST_ID))
+            when(bidListServiceMock.findById(TestConstants.UNKNOWN_BID_LIST_ID))
                     .thenThrow(new IllegalArgumentException());
 
             //WHEN-THEN
@@ -312,7 +312,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrl("/bidList/list"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .findBidListById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -327,7 +327,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .findBidListById(anyInt());
+                    .findById(anyInt());
         }
     }
 
@@ -343,7 +343,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList list page with bidList list updated")
         void updateBidTest_WithSuccess() throws Exception {
             //GIVEN
-            when(bidListServiceMock.updateBidList(any(BidListDTO.class)))
+            when(bidListServiceMock.update(any(BidListDTO.class)))
                     .thenReturn(bidListDTO);
 
             //WHEN-THEN
@@ -357,7 +357,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrl("/bidList/list"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .updateBidList(any(BidListDTO.class));
+                    .update(any(BidListDTO.class));
         }
 
 
@@ -381,7 +381,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/update"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .updateBidList(any(BidListDTO.class));
+                    .update(any(BidListDTO.class));
         }
 
 
@@ -405,7 +405,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/update"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .updateBidList(any(BidListDTO.class));
+                    .update(any(BidListDTO.class));
         }
 
 
@@ -416,7 +416,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList/update/{id} page filled with entered bidList")
         void updateBidTest_WithException() throws Exception {
             //GIVEN
-            when(bidListServiceMock.updateBidList(any(BidListDTO.class))).thenThrow(new RuntimeException());
+            when(bidListServiceMock.update(any(BidListDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/bidList/update/{id}", TestConstants.EXISTING_BID_LIST_ID)
@@ -429,7 +429,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/update"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .updateBidList(any(BidListDTO.class));
+                    .update(any(BidListDTO.class));
         }
 
 
@@ -440,7 +440,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList/update page filled with entered bidList")
         void updateBidTest_WithNoReturnedBidListAfterSaving() throws Exception {
             //GIVEN
-            when(bidListServiceMock.updateBidList(any(BidListDTO.class)))
+            when(bidListServiceMock.update(any(BidListDTO.class)))
                     .thenReturn(null);
 
             //WHEN-THEN
@@ -454,7 +454,7 @@ class BidListControllerTest {
                     .andExpect(view().name("bidList/update"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .updateBidList(any(BidListDTO.class));
+                    .update(any(BidListDTO.class));
         }
 
 
@@ -473,7 +473,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .updateBidList(any(BidListDTO.class));
+                    .update(any(BidListDTO.class));
         }
     }
 
@@ -495,7 +495,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrl("/bidList/list"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .deleteBidList(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -507,7 +507,7 @@ class BidListControllerTest {
                 "AND the expected view is the bidList/list page")
         void deleteBidTest_WithMissingInformation() throws Exception {
             //GIVEN
-            doThrow(new IllegalArgumentException()).when(bidListServiceMock).deleteBidList(anyInt());
+            doThrow(new IllegalArgumentException()).when(bidListServiceMock).delete(anyInt());
 
             //WHEN-THEN
             mockMvc.perform(get("/bidList/delete/{id}", TestConstants.UNKNOWN_BID_LIST_ID)
@@ -516,7 +516,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrl("/bidList/list"));
 
             verify(bidListServiceMock, Mockito.times(1))
-                    .deleteBidList(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -531,7 +531,7 @@ class BidListControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(bidListServiceMock, Mockito.times(0))
-                    .findBidListById(anyInt());
+                    .findById(anyInt());
         }
     }
 }

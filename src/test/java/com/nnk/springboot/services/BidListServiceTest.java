@@ -73,7 +73,7 @@ class BidListServiceTest {
             when(bidListRepositoryMock.save(any(BidList.class))).thenReturn(bidListInDb);
 
             //WHEN
-            Optional<BidListDTO> createdBidListDTO = bidListService.createBidList(bidListDTOWithValues);
+            Optional<BidListDTO> createdBidListDTO = bidListService.create(bidListDTOWithValues);
 
             //THEN
             assertTrue(createdBidListDTO.isPresent());
@@ -98,7 +98,7 @@ class BidListServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> bidListService.createBidList(bidListDTOWithValues));
+                    () -> bidListService.create(bidListDTOWithValues));
 
             verify(bidListRepositoryMock, Mockito.times(1))
                     .save(any(BidList.class));
@@ -121,7 +121,7 @@ class BidListServiceTest {
             when(bidListRepositoryMock.findAll()).thenReturn(bidListList);
 
             //THEN
-            List<BidListDTO> bidListDTOList = bidListService.findAllBidList();
+            List<BidListDTO> bidListDTOList = bidListService.findAll();
             assertEquals(1, bidListDTOList.size());
             assertEquals(bidListInDb.getBidListId(), bidListDTOList.get(0).getBidListId());
 
@@ -138,7 +138,7 @@ class BidListServiceTest {
             when(bidListRepositoryMock.findAll()).thenReturn(bidListList);
 
             //THEN
-            List<BidListDTO> bidListDTOList = bidListService.findAllBidList();
+            List<BidListDTO> bidListDTOList = bidListService.findAll();
             assertThat(bidListDTOList).isEmpty();
 
             verify(bidListRepositoryMock, Mockito.times(1)).findAll();
@@ -159,7 +159,7 @@ class BidListServiceTest {
             when(bidListRepositoryMock.findById(anyInt())).thenReturn(Optional.of(bidListInDb));
 
             //THEN
-            BidListDTO bidListDTO = bidListService.findBidListById(TestConstants.EXISTING_BID_LIST_ID);
+            BidListDTO bidListDTO = bidListService.findById(TestConstants.EXISTING_BID_LIST_ID);
             assertEquals(bidListInDb.getBidListId(), bidListDTO.getBidListId());
             assertEquals(bidListInDb.getAccount(), bidListDTO.getAccount());
 
@@ -176,7 +176,7 @@ class BidListServiceTest {
 
             //THEN
             Exception exception = assertThrows(IllegalArgumentException.class,
-                    () -> bidListService.findBidListById(TestConstants.EXISTING_BID_LIST_ID));
+                    () -> bidListService.findById(TestConstants.EXISTING_BID_LIST_ID));
             assertEquals(PoseidonExceptionsConstants.BID_LIST_ID_NOT_VALID
                     + TestConstants.EXISTING_BID_LIST_ID, exception.getMessage());
 
@@ -199,7 +199,7 @@ class BidListServiceTest {
             when(bidListRepositoryMock.save(any(BidList.class))).thenReturn(bidListInDb);
 
             //WHEN
-            BidListDTO createdBidListDTO = bidListService.updateBidList(bidListDTOWithValues);
+            BidListDTO createdBidListDTO = bidListService.update(bidListDTOWithValues);
 
             //THEN
             assertEquals(bidListDTOWithValues.toString(), createdBidListDTO.toString());
@@ -220,7 +220,7 @@ class BidListServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> bidListService.updateBidList(bidListDTOWithValues));
+                    () -> bidListService.update(bidListDTOWithValues));
 
             verify(bidListRepositoryMock, Mockito.times(1))
                     .save(any(BidList.class));
@@ -241,7 +241,7 @@ class BidListServiceTest {
             when(bidListRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(bidListInDb));
 
             //WHEN
-            bidListService.deleteBidList(bidListInDb.getBidListId());
+            bidListService.delete(bidListInDb.getBidListId());
 
             //THEN
             verify(bidListRepositoryMock, Mockito.times(1))
@@ -262,7 +262,7 @@ class BidListServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> bidListService.deleteBidList(bidListInDb.getBidListId()));
+                    () -> bidListService.delete(bidListInDb.getBidListId()));
 
             verify(bidListRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -281,7 +281,7 @@ class BidListServiceTest {
 
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> bidListService.deleteBidList(bidListInDb.getBidListId()));
+                    () -> bidListService.delete(bidListInDb.getBidListId()));
 
             verify(bidListRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -297,7 +297,7 @@ class BidListServiceTest {
         void deleteBidListTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> bidListService.deleteBidList(null));
+                    () -> bidListService.delete(null));
 
             verify(bidListRepositoryMock, Mockito.times(0))
                     .findById(anyInt());

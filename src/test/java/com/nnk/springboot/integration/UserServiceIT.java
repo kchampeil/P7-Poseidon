@@ -72,7 +72,7 @@ public class UserServiceIT {
     public void createUserIT_WithSuccess() throws Exception {
 
         //WHEN
-        Optional<UserDTO> userDTOCreated = userService.createUser(userDTO);
+        Optional<UserDTO> userDTOCreated = userService.create(userDTO);
 
         //THEN
         assertTrue(userDTOCreated.isPresent());
@@ -90,7 +90,7 @@ public class UserServiceIT {
     public void findAllUserIT_WithSuccess() {
 
         //WHEN
-        List<UserDTO> userDTOList = userService.findAllUser();
+        List<UserDTO> userDTOList = userService.findAll();
 
         //THEN
         assertThat(userDTOList.size()).isGreaterThan(0);
@@ -104,7 +104,7 @@ public class UserServiceIT {
     public void findUserByIdIT_WithSuccess() {
 
         //WHEN
-        UserDTO userDTO = userService.findUserById(userInDb.getId());
+        UserDTO userDTO = userService.findById(userInDb.getId());
 
         //THEN
         assertEquals(userInDb.getId(), userDTO.getId());
@@ -126,7 +126,7 @@ public class UserServiceIT {
         userDTO.setUsername(TestConstants.NEW_USER_USERNAME);
 
         //WHEN
-        UserDTO userDTOUpdated = userService.updateUser(userDTO);
+        UserDTO userDTOUpdated = userService.update(userDTO);
         Optional<User> userUpdated = userRepository.findById(userInDb.getId());
 
         //THEN
@@ -145,7 +145,7 @@ public class UserServiceIT {
     public void deleteUserIT_WithSuccess() {
 
         //WHEN
-        userService.deleteUser(userInDb.getId());
+        userService.delete(userInDb.getId());
         Optional<User> userDeleted = userRepository.findById(userInDb.getId());
 
         //THEN

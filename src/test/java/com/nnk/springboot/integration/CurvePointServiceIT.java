@@ -68,7 +68,7 @@ public class CurvePointServiceIT {
     public void createCurvePointIT_WithSuccess() {
 
         //WHEN
-        Optional<CurvePointDTO> curvePointDTOCreated = curvePointService.createCurvePoint(curvePointDTO);
+        Optional<CurvePointDTO> curvePointDTOCreated = curvePointService.create(curvePointDTO);
 
         //THEN
         assertTrue(curvePointDTOCreated.isPresent());
@@ -86,7 +86,7 @@ public class CurvePointServiceIT {
     public void findAllCurvePointIT_WithSuccess() {
 
         //WHEN
-        List<CurvePointDTO> curvePointDTOList = curvePointService.findAllCurvePoint();
+        List<CurvePointDTO> curvePointDTOList = curvePointService.findAll();
 
         //THEN
         assertThat(curvePointDTOList.size()).isGreaterThan(0);
@@ -100,7 +100,7 @@ public class CurvePointServiceIT {
     public void findCurvePointByIdIT_WithSuccess() {
 
         //WHEN
-        CurvePointDTO curvePointDTO = curvePointService.findCurvePointById(curvePointInDb.getId());
+        CurvePointDTO curvePointDTO = curvePointService.findById(curvePointInDb.getId());
 
         //THEN
         assertEquals(curvePointInDb.getId(), curvePointDTO.getId());
@@ -121,7 +121,7 @@ public class CurvePointServiceIT {
         curvePointDTO.setValue(TestConstants.NEW_CURVE_POINT_VALUE);
 
         //WHEN
-        CurvePointDTO curvePointDTOUpdated = curvePointService.updateCurvePoint(curvePointDTO);
+        CurvePointDTO curvePointDTOUpdated = curvePointService.update(curvePointDTO);
         Optional<CurvePoint> curvePointUpdated = curvePointRepository.findById(curvePointInDb.getId());
 
         //THEN
@@ -141,7 +141,7 @@ public class CurvePointServiceIT {
     public void deleteCurvePointIT_WithSuccess() {
 
         //WHEN
-        curvePointService.deleteCurvePoint(curvePointInDb.getId());
+        curvePointService.delete(curvePointInDb.getId());
         Optional<CurvePoint> curvePointDeleted = curvePointRepository.findById(curvePointInDb.getId());
 
         //THEN

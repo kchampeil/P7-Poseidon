@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IBidListService {
-    Optional<BidListDTO> createBidList(BidListDTO bankAccountDTOToCreate);
+    Optional<BidListDTO> create(BidListDTO bankAccountDTOToCreate);
 
-    List<BidListDTO> findAllBidList();
+    List<BidListDTO> findAll();
 
-    BidListDTO findBidListById(Integer id);
+    BidListDTO findById(Integer id);
 
-    BidListDTO updateBidList(BidListDTO bidListDTOToUpdate);
+    BidListDTO update(BidListDTO bidListDTOToUpdate);
 
-    void deleteBidList(Integer id);
+    void delete(Integer id);
 }

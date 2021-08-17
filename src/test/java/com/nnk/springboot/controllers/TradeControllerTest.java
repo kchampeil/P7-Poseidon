@@ -75,7 +75,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/list"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .findAllTrade();
+                    .findAll();
         }
 
 
@@ -91,7 +91,7 @@ class TradeControllerTest {
             verify(userDetailsServiceMock, Mockito.times(0))
                     .loadUserByUsername(anyString());
             verify(tradeServiceMock, Mockito.times(0))
-                    .findAllTrade();
+                    .findAll();
         }
     }
 
@@ -136,7 +136,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade list page with trade list updated")
         void validateTest_WithSuccess() throws Exception {
             //GIVEN
-            when(tradeServiceMock.createTrade(any(TradeDTO.class)))
+            when(tradeServiceMock.create(any(TradeDTO.class)))
                     .thenReturn(Optional.of(tradeDTO));
 
             //WHEN-THEN
@@ -150,7 +150,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrl("/trade/list"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .createTrade(any(TradeDTO.class));
+                    .create(any(TradeDTO.class));
         }
 
 
@@ -174,7 +174,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/add"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .createTrade(any(TradeDTO.class));
+                    .create(any(TradeDTO.class));
         }
 
 
@@ -198,7 +198,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/add"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .createTrade(any(TradeDTO.class));
+                    .create(any(TradeDTO.class));
         }
 
 
@@ -209,7 +209,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade/add page filled with entered trade")
         void validateTest_WithException() throws Exception {
             //GIVEN
-            when(tradeServiceMock.createTrade(any(TradeDTO.class))).thenThrow(new RuntimeException());
+            when(tradeServiceMock.create(any(TradeDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/trade/validate")
@@ -222,7 +222,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/add"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .createTrade(any(TradeDTO.class));
+                    .create(any(TradeDTO.class));
         }
 
 
@@ -233,7 +233,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade/add page filled with entered trade")
         void validateTest_WithNoReturnedTradeAfterSaving() throws Exception {
             //GIVEN
-            when(tradeServiceMock.createTrade(any(TradeDTO.class)))
+            when(tradeServiceMock.create(any(TradeDTO.class)))
                     .thenReturn(Optional.empty());
 
             //WHEN-THEN
@@ -247,7 +247,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/add"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .createTrade(any(TradeDTO.class));
+                    .create(any(TradeDTO.class));
         }
 
 
@@ -266,7 +266,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .createTrade(any(TradeDTO.class));
+                    .create(any(TradeDTO.class));
         }
     }
 
@@ -282,7 +282,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade update form initialized")
         void showUpdateFormTest_WithSuccess_LoggedIn() throws Exception {
             //GIVEN
-            when(tradeServiceMock.findTradeById(anyInt()))
+            when(tradeServiceMock.findById(anyInt()))
                     .thenReturn(tradeDTO);
 
             //WHEN-THEN
@@ -292,7 +292,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/update"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .findTradeById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -303,7 +303,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade list page")
         void showUpdateFormTest_WithException() throws Exception {
             //GIVEN
-            when(tradeServiceMock.findTradeById(TestConstants.UNKNOWN_TRADE_ID))
+            when(tradeServiceMock.findById(TestConstants.UNKNOWN_TRADE_ID))
                     .thenThrow(new IllegalArgumentException());
 
             //WHEN-THEN
@@ -312,7 +312,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrl("/trade/list"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .findTradeById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -327,7 +327,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .findTradeById(anyInt());
+                    .findById(anyInt());
         }
     }
 
@@ -343,7 +343,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade list page with trade list updated")
         void updateTradeTest_WithSuccess() throws Exception {
             //GIVEN
-            when(tradeServiceMock.updateTrade(any(TradeDTO.class)))
+            when(tradeServiceMock.update(any(TradeDTO.class)))
                     .thenReturn(tradeDTO);
 
             //WHEN-THEN
@@ -357,7 +357,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrl("/trade/list"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .updateTrade(any(TradeDTO.class));
+                    .update(any(TradeDTO.class));
         }
 
 
@@ -381,7 +381,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/update"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .updateTrade(any(TradeDTO.class));
+                    .update(any(TradeDTO.class));
         }
 
 
@@ -405,7 +405,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/update"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .updateTrade(any(TradeDTO.class));
+                    .update(any(TradeDTO.class));
         }
 
 
@@ -416,7 +416,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade/update/{id} page filled with entered trade")
         void updateTradeTest_WithException() throws Exception {
             //GIVEN
-            when(tradeServiceMock.updateTrade(any(TradeDTO.class))).thenThrow(new RuntimeException());
+            when(tradeServiceMock.update(any(TradeDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/trade/update/{id}", TestConstants.EXISTING_TRADE_ID)
@@ -429,7 +429,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/update"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .updateTrade(any(TradeDTO.class));
+                    .update(any(TradeDTO.class));
         }
 
 
@@ -440,7 +440,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade/update page filled with entered trade")
         void updateTradeTest_WithNoReturnedTradeAfterSaving() throws Exception {
             //GIVEN
-            when(tradeServiceMock.updateTrade(any(TradeDTO.class)))
+            when(tradeServiceMock.update(any(TradeDTO.class)))
                     .thenReturn(null);
 
             //WHEN-THEN
@@ -454,7 +454,7 @@ class TradeControllerTest {
                     .andExpect(view().name("trade/update"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .updateTrade(any(TradeDTO.class));
+                    .update(any(TradeDTO.class));
         }
 
 
@@ -473,7 +473,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .updateTrade(any(TradeDTO.class));
+                    .update(any(TradeDTO.class));
         }
     }
 
@@ -495,7 +495,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrl("/trade/list"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .deleteTrade(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -507,7 +507,7 @@ class TradeControllerTest {
                 "AND the expected view is the trade/list page")
         void deleteTradeTest_WithMissingInformation() throws Exception {
             //GIVEN
-            doThrow(new IllegalArgumentException()).when(tradeServiceMock).deleteTrade(anyInt());
+            doThrow(new IllegalArgumentException()).when(tradeServiceMock).delete(anyInt());
 
             //WHEN-THEN
             mockMvc.perform(get("/trade/delete/{id}", TestConstants.UNKNOWN_TRADE_ID)
@@ -516,7 +516,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrl("/trade/list"));
 
             verify(tradeServiceMock, Mockito.times(1))
-                    .deleteTrade(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -531,7 +531,7 @@ class TradeControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(tradeServiceMock, Mockito.times(0))
-                    .findTradeById(anyInt());
+                    .findById(anyInt());
         }
     }
 }

@@ -44,7 +44,7 @@ public class RatingController {
     public String home(Model model) {
         // DONE: find all Rating, add to model
         log.info(LogConstants.RATING_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
-        model.addAttribute("ratingAll", ratingService.findAllRating());
+        model.addAttribute("ratingAll", ratingService.findAll());
 
         return "rating/list";
     }
@@ -83,7 +83,7 @@ public class RatingController {
         }
 
         try {
-            Optional<RatingDTO> ratingDTOCreated = ratingService.createRating(rating);
+            Optional<RatingDTO> ratingDTOCreated = ratingService.create(rating);
 
             if (ratingDTOCreated.isPresent()) {
                 log.info(LogConstants.RATING_CREATION_REQUEST_OK, ratingDTOCreated.get().getId(),
@@ -125,7 +125,7 @@ public class RatingController {
                 UserUtil.getCurrentUser());
 
         try {
-            model.addAttribute("rating", ratingService.findRatingById(id));
+            model.addAttribute("rating", ratingService.findById(id));
             return "rating/update";
 
         } catch (IllegalArgumentException illegalArgumentException) {
@@ -161,7 +161,7 @@ public class RatingController {
 
         try {
             rating.setId(id);
-            RatingDTO ratingDTOUpdated = ratingService.updateRating(rating);
+            RatingDTO ratingDTOUpdated = ratingService.update(rating);
 
             log.info(LogConstants.RATING_UPDATE_REQUEST_OK, ratingDTOUpdated.getId(),
                     UserUtil.getCurrentUser());
@@ -192,7 +192,7 @@ public class RatingController {
         log.info(LogConstants.RATING_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
-            ratingService.deleteRating(id);
+            ratingService.delete(id);
             log.info(LogConstants.RATING_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("rating.delete.ok", id.toString()));

@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IRatingService {
-    Optional<RatingDTO> createRating(RatingDTO ratingDTOToCreate);
+    Optional<RatingDTO> create(RatingDTO ratingDTOToCreate);
 
-    List<RatingDTO> findAllRating();
+    List<RatingDTO> findAll();
 
-    RatingDTO findRatingById(Integer id);
+    RatingDTO findById(Integer id);
 
-    RatingDTO updateRating(RatingDTO ratingDTOToUpdate);
+    RatingDTO update(RatingDTO ratingDTOToUpdate);
 
-    void deleteRating(Integer id);
+    void delete(Integer id);
 }

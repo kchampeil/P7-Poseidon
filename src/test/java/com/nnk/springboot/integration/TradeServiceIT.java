@@ -70,7 +70,7 @@ public class TradeServiceIT {
     public void createTradeIT_WithSuccess() {
 
         //WHEN
-        Optional<TradeDTO> tradeDTOCreated = tradeService.createTrade(tradeDTO);
+        Optional<TradeDTO> tradeDTOCreated = tradeService.create(tradeDTO);
 
         //THEN
         assertTrue(tradeDTOCreated.isPresent());
@@ -88,7 +88,7 @@ public class TradeServiceIT {
     public void findAllTradeIT_WithSuccess() {
 
         //WHEN
-        List<TradeDTO> tradeDTOList = tradeService.findAllTrade();
+        List<TradeDTO> tradeDTOList = tradeService.findAll();
 
         //THEN
         assertThat(tradeDTOList.size()).isGreaterThan(0);
@@ -102,7 +102,7 @@ public class TradeServiceIT {
     public void findTradeByIdIT_WithSuccess() {
 
         //WHEN
-        TradeDTO tradeDTO = tradeService.findTradeById(tradeInDb.getTradeId());
+        TradeDTO tradeDTO = tradeService.findById(tradeInDb.getTradeId());
 
         //THEN
         assertEquals(tradeInDb.getTradeId(), tradeDTO.getTradeId());
@@ -124,7 +124,7 @@ public class TradeServiceIT {
         tradeDTO.setType(TestConstants.NEW_TRADE_TYPE);
 
         //WHEN
-        TradeDTO tradeDTOUpdated = tradeService.updateTrade(tradeDTO);
+        TradeDTO tradeDTOUpdated = tradeService.update(tradeDTO);
         Optional<Trade> tradeUpdated = tradeRepository.findById(tradeInDb.getTradeId());
 
         //THEN
@@ -143,7 +143,7 @@ public class TradeServiceIT {
     public void deleteTradeIT_WithSuccess() {
 
         //WHEN
-        tradeService.deleteTrade(tradeInDb.getTradeId());
+        tradeService.delete(tradeInDb.getTradeId());
         Optional<Trade> tradeDeleted = tradeRepository.findById(tradeInDb.getTradeId());
 
         //THEN

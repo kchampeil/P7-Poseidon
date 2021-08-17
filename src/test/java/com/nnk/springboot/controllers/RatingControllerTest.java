@@ -76,7 +76,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/list"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .findAllRating();
+                    .findAll();
         }
 
 
@@ -92,7 +92,7 @@ class RatingControllerTest {
             verify(userDetailsServiceMock, Mockito.times(0))
                     .loadUserByUsername(anyString());
             verify(ratingServiceMock, Mockito.times(0))
-                    .findAllRating();
+                    .findAll();
         }
     }
 
@@ -137,7 +137,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating list page with rating list updated")
         void validateTest_WithSuccess() throws Exception {
             //GIVEN
-            when(ratingServiceMock.createRating(any(RatingDTO.class)))
+            when(ratingServiceMock.create(any(RatingDTO.class)))
                     .thenReturn(Optional.of(ratingDTO));
 
             //WHEN-THEN
@@ -152,7 +152,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrl("/rating/list"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .createRating(any(RatingDTO.class));
+                    .create(any(RatingDTO.class));
         }
 
 
@@ -177,7 +177,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/add"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .createRating(any(RatingDTO.class));
+                    .create(any(RatingDTO.class));
         }
 
 
@@ -202,7 +202,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/add"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .createRating(any(RatingDTO.class));
+                    .create(any(RatingDTO.class));
         }
 
 
@@ -213,7 +213,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating/add page filled with entered rating")
         void validateTest_WithException() throws Exception {
             //GIVEN
-            when(ratingServiceMock.createRating(any(RatingDTO.class))).thenThrow(new RuntimeException());
+            when(ratingServiceMock.create(any(RatingDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/rating/validate")
@@ -227,7 +227,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/add"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .createRating(any(RatingDTO.class));
+                    .create(any(RatingDTO.class));
         }
 
 
@@ -238,7 +238,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating/add page filled with entered rating")
         void validateTest_WithNoReturnedRatingAfterSaving() throws Exception {
             //GIVEN
-            when(ratingServiceMock.createRating(any(RatingDTO.class)))
+            when(ratingServiceMock.create(any(RatingDTO.class)))
                     .thenReturn(Optional.empty());
 
             //WHEN-THEN
@@ -253,7 +253,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/add"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .createRating(any(RatingDTO.class));
+                    .create(any(RatingDTO.class));
         }
 
 
@@ -273,7 +273,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .createRating(any(RatingDTO.class));
+                    .create(any(RatingDTO.class));
         }
     }
 
@@ -289,7 +289,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating update form initialized")
         void showUpdateFormTest_WithSuccess_LoggedIn() throws Exception {
             //GIVEN
-            when(ratingServiceMock.findRatingById(anyInt()))
+            when(ratingServiceMock.findById(anyInt()))
                     .thenReturn(ratingDTO);
 
             //WHEN-THEN
@@ -299,7 +299,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/update"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .findRatingById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -310,7 +310,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating list page")
         void showUpdateFormTest_WithException() throws Exception {
             //GIVEN
-            when(ratingServiceMock.findRatingById(TestConstants.UNKNOWN_RATING_ID))
+            when(ratingServiceMock.findById(TestConstants.UNKNOWN_RATING_ID))
                     .thenThrow(new IllegalArgumentException());
 
             //WHEN-THEN
@@ -319,7 +319,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrl("/rating/list"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .findRatingById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -334,7 +334,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .findRatingById(anyInt());
+                    .findById(anyInt());
         }
     }
 
@@ -350,7 +350,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating list page with rating list updated")
         void updateRatingTest_WithSuccess() throws Exception {
             //GIVEN
-            when(ratingServiceMock.updateRating(any(RatingDTO.class)))
+            when(ratingServiceMock.update(any(RatingDTO.class)))
                     .thenReturn(ratingDTO);
 
             //WHEN-THEN
@@ -365,7 +365,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrl("/rating/list"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .updateRating(any(RatingDTO.class));
+                    .update(any(RatingDTO.class));
         }
 
 
@@ -390,7 +390,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/update"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .updateRating(any(RatingDTO.class));
+                    .update(any(RatingDTO.class));
         }
 
 
@@ -415,7 +415,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/update"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .updateRating(any(RatingDTO.class));
+                    .update(any(RatingDTO.class));
         }
 
 
@@ -426,7 +426,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating/update/{id} page filled with entered rating")
         void updateRatingTest_WithException() throws Exception {
             //GIVEN
-            when(ratingServiceMock.updateRating(any(RatingDTO.class))).thenThrow(new RuntimeException());
+            when(ratingServiceMock.update(any(RatingDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/rating/update/{id}", TestConstants.EXISTING_RATING_ID)
@@ -440,7 +440,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/update"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .updateRating(any(RatingDTO.class));
+                    .update(any(RatingDTO.class));
         }
 
 
@@ -451,7 +451,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating/update page filled with entered rating")
         void updateRatingTest_WithNoReturnedRatingAfterSaving() throws Exception {
             //GIVEN
-            when(ratingServiceMock.updateRating(any(RatingDTO.class)))
+            when(ratingServiceMock.update(any(RatingDTO.class)))
                     .thenReturn(null);
 
             //WHEN-THEN
@@ -466,7 +466,7 @@ class RatingControllerTest {
                     .andExpect(view().name("rating/update"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .updateRating(any(RatingDTO.class));
+                    .update(any(RatingDTO.class));
         }
 
 
@@ -486,7 +486,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .updateRating(any(RatingDTO.class));
+                    .update(any(RatingDTO.class));
         }
     }
 
@@ -508,7 +508,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrl("/rating/list"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .deleteRating(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -520,7 +520,7 @@ class RatingControllerTest {
                 "AND the expected view is the rating/list page")
         void deleteRatingTest_WithMissingInformation() throws Exception {
             //GIVEN
-            doThrow(new IllegalArgumentException()).when(ratingServiceMock).deleteRating(anyInt());
+            doThrow(new IllegalArgumentException()).when(ratingServiceMock).delete(anyInt());
 
             //WHEN-THEN
             mockMvc.perform(get("/rating/delete/{id}", TestConstants.UNKNOWN_RATING_ID)
@@ -529,7 +529,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrl("/rating/list"));
 
             verify(ratingServiceMock, Mockito.times(1))
-                    .deleteRating(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -544,7 +544,7 @@ class RatingControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ratingServiceMock, Mockito.times(0))
-                    .findRatingById(anyInt());
+                    .findById(anyInt());
         }
     }
 }

@@ -35,7 +35,7 @@ public class RuleNameService implements IRuleNameService {
      * @return the created ruleName
      */
     @Override
-    public Optional<RuleNameDTO> createRuleName(RuleNameDTO ruleNameDTOToCreate) {
+    public Optional<RuleNameDTO> create(RuleNameDTO ruleNameDTOToCreate) {
 
         log.debug(LogConstants.CREATE_RULE_NAME_CALL + ruleNameDTOToCreate.toString());
 
@@ -61,7 +61,7 @@ public class RuleNameService implements IRuleNameService {
      * @return the list of ruleName
      */
     @Override
-    public List<RuleNameDTO> findAllRuleName() {
+    public List<RuleNameDTO> findAll() {
         log.debug(LogConstants.FIND_RULE_NAME_ALL_CALL);
 
         List<RuleName> ruleNameList = ruleNameRepository.findAll();
@@ -83,7 +83,7 @@ public class RuleNameService implements IRuleNameService {
      * @throws IllegalArgumentException if no ruleName found
      */
     @Override
-    public RuleNameDTO findRuleNameById(Integer id) {
+    public RuleNameDTO findById(Integer id) {
         log.debug(LogConstants.FIND_RULE_NAME_BY_ID_CALL);
 
         Optional<RuleName> ruleName = ruleNameRepository.findById(id);
@@ -108,7 +108,7 @@ public class RuleNameService implements IRuleNameService {
      * @return the created ruleName
      */
     @Override
-    public RuleNameDTO updateRuleName(RuleNameDTO ruleNameDTOToUpdate) {
+    public RuleNameDTO update(RuleNameDTO ruleNameDTOToUpdate) {
         log.debug(LogConstants.UPDATE_RULE_NAME_CALL + ruleNameDTOToUpdate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
@@ -133,7 +133,7 @@ public class RuleNameService implements IRuleNameService {
      * @param id of the ruleName to delete
      */
     @Override
-    public void deleteRuleName(Integer id) {
+    public void delete(Integer id) {
 
         log.debug(LogConstants.DELETE_RULE_NAME_CALL + id);
 

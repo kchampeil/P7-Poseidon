@@ -38,7 +38,7 @@ public class TradeService implements ITradeService {
      * @return the created trade
      */
     @Override
-    public Optional<TradeDTO> createTrade(TradeDTO tradeDTOToCreate) {
+    public Optional<TradeDTO> create(TradeDTO tradeDTOToCreate) {
 
         log.debug(LogConstants.CREATE_TRADE_CALL + tradeDTOToCreate.toString());
 
@@ -67,7 +67,7 @@ public class TradeService implements ITradeService {
      * @return the list of trade
      */
     @Override
-    public List<TradeDTO> findAllTrade() {
+    public List<TradeDTO> findAll() {
         log.debug(LogConstants.FIND_TRADE_ALL_CALL);
 
         List<Trade> tradeList = tradeRepository.findAll();
@@ -89,7 +89,7 @@ public class TradeService implements ITradeService {
      * @throws IllegalArgumentException if no trade found
      */
     @Override
-    public TradeDTO findTradeById(Integer id) {
+    public TradeDTO findById(Integer id) {
         log.debug(LogConstants.FIND_TRADE_BY_ID_CALL);
 
         Optional<Trade> trade = tradeRepository.findById(id);
@@ -114,7 +114,7 @@ public class TradeService implements ITradeService {
      * @return the created trade
      */
     @Override
-    public TradeDTO updateTrade(TradeDTO tradeDTOToUpdate) {
+    public TradeDTO update(TradeDTO tradeDTOToUpdate) {
         log.debug(LogConstants.UPDATE_TRADE_CALL + tradeDTOToUpdate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
@@ -142,7 +142,7 @@ public class TradeService implements ITradeService {
      * @param id of the trade to delete
      */
     @Override
-    public void deleteTrade(Integer id) {
+    public void delete(Integer id) {
 
         log.debug(LogConstants.DELETE_TRADE_CALL + id);
 

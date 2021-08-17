@@ -42,7 +42,7 @@ public class UserController {
     @RequestMapping("list")
     public String home(Model model) {
         log.info(LogConstants.USER_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
-        model.addAttribute("users", userService.findAllUser());
+        model.addAttribute("users", userService.findAll());
         return "user/list";
     }
 
@@ -79,7 +79,7 @@ public class UserController {
         }
 
         try {
-            Optional<UserDTO> userDTOCreated = userService.createUser(user);
+            Optional<UserDTO> userDTOCreated = userService.create(user);
 
             if (userDTOCreated.isPresent()) {
                 log.info(LogConstants.USER_CREATION_REQUEST_OK, userDTOCreated.get().getId(),
@@ -119,7 +119,7 @@ public class UserController {
                 UserUtil.getCurrentUser());
 
         try {
-            model.addAttribute("user", userService.findUserById(id));
+            model.addAttribute("user", userService.findById(id));
             return "user/update";
 
         } catch (IllegalArgumentException illegalArgumentException) {
@@ -153,7 +153,7 @@ public class UserController {
 
         try {
             user.setId(id);
-            UserDTO userDTOUpdated = userService.updateUser(user);
+            UserDTO userDTOUpdated = userService.update(user);
 
             log.info(LogConstants.USER_UPDATE_REQUEST_OK, userDTOUpdated.getId(),
                     UserUtil.getCurrentUser());
@@ -184,7 +184,7 @@ public class UserController {
         log.info(LogConstants.USER_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
-            userService.deleteUser(id);
+            userService.delete(id);
             log.info(LogConstants.USER_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("user.delete.ok", id.toString()));

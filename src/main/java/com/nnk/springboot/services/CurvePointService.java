@@ -36,7 +36,7 @@ public class CurvePointService implements ICurvePointService {
      * @return the created curvePoint
      */
     @Override
-    public Optional<CurvePointDTO> createCurvePoint(CurvePointDTO curvePointDTOToCreate) {
+    public Optional<CurvePointDTO> create(CurvePointDTO curvePointDTOToCreate) {
 
         log.debug(LogConstants.CREATE_CURVE_POINT_CALL + curvePointDTOToCreate.toString());
 
@@ -64,7 +64,7 @@ public class CurvePointService implements ICurvePointService {
      * @return the list of curvePoint
      */
     @Override
-    public List<CurvePointDTO> findAllCurvePoint() {
+    public List<CurvePointDTO> findAll() {
         log.debug(LogConstants.FIND_CURVE_POINT_ALL_CALL);
 
         List<CurvePoint> curvePointList = curvePointRepository.findAll();
@@ -86,7 +86,7 @@ public class CurvePointService implements ICurvePointService {
      * @throws IllegalArgumentException if no curvePoint found
      */
     @Override
-    public CurvePointDTO findCurvePointById(Integer id) {
+    public CurvePointDTO findById(Integer id) {
         log.debug(LogConstants.FIND_CURVE_POINT_BY_ID_CALL);
 
         Optional<CurvePoint> curvePoint = curvePointRepository.findById(id);
@@ -111,7 +111,7 @@ public class CurvePointService implements ICurvePointService {
      * @return the created curvePoint
      */
     @Override
-    public CurvePointDTO updateCurvePoint(CurvePointDTO curvePointDTOToUpdate) {
+    public CurvePointDTO update(CurvePointDTO curvePointDTOToUpdate) {
         log.debug(LogConstants.UPDATE_CURVE_POINT_CALL + curvePointDTOToUpdate.toString());
 
         ModelMapper modelMapper = new ModelMapper();
@@ -136,7 +136,7 @@ public class CurvePointService implements ICurvePointService {
      * @param id of the curvePoint to delete
      */
     @Override
-    public void deleteCurvePoint(Integer id) {
+    public void delete(Integer id) {
 
         log.debug(LogConstants.DELETE_CURVE_POINT_CALL + id);
 

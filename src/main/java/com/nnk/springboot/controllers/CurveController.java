@@ -44,7 +44,7 @@ public class CurveController {
     public String home(Model model) {
         // DONE: find all Curve Point, add to model
         log.info(LogConstants.CURVEPOINT_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
-        model.addAttribute("curvePointAll", curvePointService.findAllCurvePoint());
+        model.addAttribute("curvePointAll", curvePointService.findAll());
 
         return "curvePoint/list";
     }
@@ -83,7 +83,7 @@ public class CurveController {
         }
 
         try {
-            Optional<CurvePointDTO> curvePointDTOCreated = curvePointService.createCurvePoint(curvePoint);
+            Optional<CurvePointDTO> curvePointDTOCreated = curvePointService.create(curvePoint);
 
             if (curvePointDTOCreated.isPresent()) {
                 log.info(LogConstants.CURVEPOINT_CREATION_REQUEST_OK, curvePointDTOCreated.get().getId(),
@@ -124,7 +124,7 @@ public class CurveController {
                 UserUtil.getCurrentUser());
 
         try {
-            model.addAttribute("curvePoint", curvePointService.findCurvePointById(id));
+            model.addAttribute("curvePoint", curvePointService.findById(id));
             return "curvePoint/update";
 
         } catch (IllegalArgumentException illegalArgumentException) {
@@ -160,7 +160,7 @@ public class CurveController {
 
         try {
             curvePoint.setId(id);
-            CurvePointDTO curvePointDTOUpdated = curvePointService.updateCurvePoint(curvePoint);
+            CurvePointDTO curvePointDTOUpdated = curvePointService.update(curvePoint);
 
             log.info(LogConstants.CURVEPOINT_UPDATE_REQUEST_OK, curvePointDTOUpdated.getId(),
                     UserUtil.getCurrentUser());
@@ -191,7 +191,7 @@ public class CurveController {
         log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
-            curvePointService.deleteCurvePoint(id);
+            curvePointService.delete(id);
             log.info(LogConstants.CURVEPOINT_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("curvePoint.delete.ok", id.toString()));

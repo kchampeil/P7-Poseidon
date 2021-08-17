@@ -43,7 +43,7 @@ public class BidListController {
     public String home(Model model) {
         //DONE: call service find all bids to show to the view
         log.info(LogConstants.BIDLIST_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
-        model.addAttribute("bidListAll", bidListService.findAllBidList());
+        model.addAttribute("bidListAll", bidListService.findAll());
 
         return "bidList/list";
     }
@@ -84,7 +84,7 @@ public class BidListController {
         }
 
         try {
-            Optional<BidListDTO> bidListDTOCreated = bidListService.createBidList(bid);
+            Optional<BidListDTO> bidListDTOCreated = bidListService.create(bid);
 
             if (bidListDTOCreated.isPresent()) {
                 log.info(LogConstants.BIDLIST_CREATION_REQUEST_OK, bidListDTOCreated.get().getBidListId(),
@@ -125,7 +125,7 @@ public class BidListController {
                 UserUtil.getCurrentUser());
 
         try {
-            model.addAttribute("bidList", bidListService.findBidListById(id));
+            model.addAttribute("bidList", bidListService.findById(id));
             return "bidList/update";
 
         } catch (IllegalArgumentException illegalArgumentException) {
@@ -162,7 +162,7 @@ public class BidListController {
 
         try {
             bidList.setBidListId(id);
-            BidListDTO bidListDTOUpdated = bidListService.updateBidList(bidList);
+            BidListDTO bidListDTOUpdated = bidListService.update(bidList);
 
             log.info(LogConstants.BIDLIST_UPDATE_REQUEST_OK, bidListDTOUpdated.getBidListId(),
                     UserUtil.getCurrentUser());
@@ -194,7 +194,7 @@ public class BidListController {
         log.info(LogConstants.BIDLIST_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
-            bidListService.deleteBidList(id);
+            bidListService.delete(id);
             log.info(LogConstants.BIDLIST_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("bidList.delete.ok", id.toString()));

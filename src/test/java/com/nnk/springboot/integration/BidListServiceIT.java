@@ -70,7 +70,7 @@ public class BidListServiceIT {
     public void createBidListIT_WithSuccess() {
 
         //WHEN
-        Optional<BidListDTO> bidListDTOCreated = bidListService.createBidList(bidListDTO);
+        Optional<BidListDTO> bidListDTOCreated = bidListService.create(bidListDTO);
 
         //THEN
         assertTrue(bidListDTOCreated.isPresent());
@@ -88,7 +88,7 @@ public class BidListServiceIT {
     public void findAllBidListIT_WithSuccess() {
 
         //WHEN
-        List<BidListDTO> bidListDTOList = bidListService.findAllBidList();
+        List<BidListDTO> bidListDTOList = bidListService.findAll();
 
         //THEN
         assertThat(bidListDTOList.size()).isGreaterThan(0);
@@ -102,7 +102,7 @@ public class BidListServiceIT {
     public void findBidListByIdIT_WithSuccess() {
 
         //WHEN
-        BidListDTO bidListDTO = bidListService.findBidListById(bidListInDb.getBidListId());
+        BidListDTO bidListDTO = bidListService.findById(bidListInDb.getBidListId());
 
         //THEN
         assertEquals(bidListInDb.getBidListId(), bidListDTO.getBidListId());
@@ -123,7 +123,7 @@ public class BidListServiceIT {
         bidListDTO.setBidQuantity(TestConstants.NEW_BID_LIST_BID_QUANTITY);
 
         //WHEN
-        BidListDTO bidListDTOUpdated = bidListService.updateBidList(bidListDTO);
+        BidListDTO bidListDTOUpdated = bidListService.update(bidListDTO);
         Optional<BidList> bidListUpdated = bidListRepository.findById(bidListInDb.getBidListId());
 
         //THEN
@@ -143,7 +143,7 @@ public class BidListServiceIT {
     public void deleteBidListIT_WithSuccess() {
 
         //WHEN
-        bidListService.deleteBidList(bidListInDb.getBidListId());
+        bidListService.delete(bidListInDb.getBidListId());
         Optional<BidList> bidListDeleted = bidListRepository.findById(bidListInDb.getBidListId());
 
         //THEN

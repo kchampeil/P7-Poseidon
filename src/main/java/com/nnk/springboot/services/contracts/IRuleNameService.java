@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IRuleNameService {
-        Optional<RuleNameDTO> createRuleName(RuleNameDTO ruleNameDTOToCreate);
+        Optional<RuleNameDTO> create(RuleNameDTO ruleNameDTOToCreate);
 
-        List<RuleNameDTO> findAllRuleName();
+        List<RuleNameDTO> findAll();
 
-        RuleNameDTO findRuleNameById(Integer id);
+        RuleNameDTO findById(Integer id);
 
-        RuleNameDTO updateRuleName(RuleNameDTO ruleNameDTOToUpdate);
+        RuleNameDTO update(RuleNameDTO ruleNameDTOToUpdate);
 
-        void deleteRuleName(Integer id);
+        void delete(Integer id);
 }

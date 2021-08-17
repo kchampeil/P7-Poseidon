@@ -78,7 +78,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/list"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .findAllRuleName();
+                    .findAll();
         }
 
 
@@ -94,7 +94,7 @@ class RuleNameControllerTest {
             verify(userDetailsServiceMock, Mockito.times(0))
                     .loadUserByUsername(anyString());
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .findAllRuleName();
+                    .findAll();
         }
     }
 
@@ -139,7 +139,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName list page with ruleName list updated")
         void validateTest_WithSuccess() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.createRuleName(any(RuleNameDTO.class)))
+            when(ruleNameServiceMock.create(any(RuleNameDTO.class)))
                     .thenReturn(Optional.of(ruleNameDTO));
 
             //WHEN-THEN
@@ -156,7 +156,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrl("/ruleName/list"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .createRuleName(any(RuleNameDTO.class));
+                    .create(any(RuleNameDTO.class));
         }
 
 
@@ -183,7 +183,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/add"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .createRuleName(any(RuleNameDTO.class));
+                    .create(any(RuleNameDTO.class));
         }
 
 
@@ -210,7 +210,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/add"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .updateRuleName(any(RuleNameDTO.class));
+                    .update(any(RuleNameDTO.class));
         }
 
 
@@ -221,7 +221,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName/add page filled with entered ruleName")
         void validateTest_WithException() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.createRuleName(any(RuleNameDTO.class))).thenThrow(new RuntimeException());
+            when(ruleNameServiceMock.create(any(RuleNameDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/ruleName/validate")
@@ -237,7 +237,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/add"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .createRuleName(any(RuleNameDTO.class));
+                    .create(any(RuleNameDTO.class));
         }
 
 
@@ -248,7 +248,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName/add page filled with entered ruleName")
         void validateTest_WithNoReturnedRuleNameAfterSaving() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.createRuleName(any(RuleNameDTO.class)))
+            when(ruleNameServiceMock.create(any(RuleNameDTO.class)))
                     .thenReturn(Optional.empty());
 
             //WHEN-THEN
@@ -265,7 +265,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/add"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .createRuleName(any(RuleNameDTO.class));
+                    .create(any(RuleNameDTO.class));
         }
 
 
@@ -287,7 +287,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .createRuleName(any(RuleNameDTO.class));
+                    .create(any(RuleNameDTO.class));
         }
     }
 
@@ -303,7 +303,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName update form initialized")
         void showUpdateFormTest_WithSuccess_LoggedIn() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.findRuleNameById(anyInt()))
+            when(ruleNameServiceMock.findById(anyInt()))
                     .thenReturn(ruleNameDTO);
 
             //WHEN-THEN
@@ -313,7 +313,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/update"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .findRuleNameById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -324,7 +324,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName list page")
         void showUpdateFormTest_WithException() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.findRuleNameById(TestConstants.UNKNOWN_RULE_NAME_ID))
+            when(ruleNameServiceMock.findById(TestConstants.UNKNOWN_RULE_NAME_ID))
                     .thenThrow(new IllegalArgumentException());
 
             //WHEN-THEN
@@ -333,7 +333,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrl("/ruleName/list"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .findRuleNameById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -348,7 +348,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .findRuleNameById(anyInt());
+                    .findById(anyInt());
         }
     }
 
@@ -364,7 +364,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName list page with ruleName list updated")
         void updateRuleNameTest_WithSuccess() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.updateRuleName(any(RuleNameDTO.class)))
+            when(ruleNameServiceMock.update(any(RuleNameDTO.class)))
                     .thenReturn(ruleNameDTO);
 
             //WHEN-THEN
@@ -381,7 +381,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrl("/ruleName/list"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .updateRuleName(any(RuleNameDTO.class));
+                    .update(any(RuleNameDTO.class));
         }
 
 
@@ -408,7 +408,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/update"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .updateRuleName(any(RuleNameDTO.class));
+                    .update(any(RuleNameDTO.class));
         }
 
 
@@ -435,7 +435,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/update"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .updateRuleName(any(RuleNameDTO.class));
+                    .update(any(RuleNameDTO.class));
         }
 
 
@@ -446,7 +446,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName/update/{id} page filled with entered ruleName")
         void updateRuleNameTest_WithException() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.updateRuleName(any(RuleNameDTO.class))).thenThrow(new RuntimeException());
+            when(ruleNameServiceMock.update(any(RuleNameDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/ruleName/update/{id}", TestConstants.EXISTING_RULE_NAME_ID)
@@ -462,7 +462,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/update"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .updateRuleName(any(RuleNameDTO.class));
+                    .update(any(RuleNameDTO.class));
         }
 
 
@@ -473,7 +473,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName/update page filled with entered ruleName")
         void updateRuleNameTest_WithNoReturnedRuleNameAfterSaving() throws Exception {
             //GIVEN
-            when(ruleNameServiceMock.updateRuleName(any(RuleNameDTO.class)))
+            when(ruleNameServiceMock.update(any(RuleNameDTO.class)))
                     .thenReturn(null);
 
             //WHEN-THEN
@@ -490,7 +490,7 @@ class RuleNameControllerTest {
                     .andExpect(view().name("ruleName/update"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .updateRuleName(any(RuleNameDTO.class));
+                    .update(any(RuleNameDTO.class));
         }
 
 
@@ -512,7 +512,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .updateRuleName(any(RuleNameDTO.class));
+                    .update(any(RuleNameDTO.class));
         }
     }
 
@@ -534,7 +534,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrl("/ruleName/list"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .deleteRuleName(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -546,7 +546,7 @@ class RuleNameControllerTest {
                 "AND the expected view is the ruleName/list page")
         void deleteRuleNameTest_WithMissingInformation() throws Exception {
             //GIVEN
-            doThrow(new IllegalArgumentException()).when(ruleNameServiceMock).deleteRuleName(anyInt());
+            doThrow(new IllegalArgumentException()).when(ruleNameServiceMock).delete(anyInt());
 
             //WHEN-THEN
             mockMvc.perform(get("/ruleName/delete/{id}", TestConstants.UNKNOWN_RULE_NAME_ID)
@@ -555,7 +555,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrl("/ruleName/list"));
 
             verify(ruleNameServiceMock, Mockito.times(1))
-                    .deleteRuleName(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -570,7 +570,7 @@ class RuleNameControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(ruleNameServiceMock, Mockito.times(0))
-                    .findRuleNameById(anyInt());
+                    .findById(anyInt());
         }
     }
 }

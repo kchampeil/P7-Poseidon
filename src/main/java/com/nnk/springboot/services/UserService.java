@@ -38,7 +38,7 @@ public class UserService implements IUserService {
      * @return the created user
      */
     @Override
-    public Optional<UserDTO> createUser(UserDTO userDTOToCreate) throws Exception {
+    public Optional<UserDTO> create(UserDTO userDTOToCreate) throws Exception {
 
         log.debug(LogConstants.CREATE_USER_CALL + userDTOToCreate.toString());
 
@@ -74,7 +74,7 @@ public class UserService implements IUserService {
      * @return the list of user
      */
     @Override
-    public List<UserDTO> findAllUser() {
+    public List<UserDTO> findAll() {
         log.debug(LogConstants.FIND_USER_ALL_CALL);
 
         List<User> userList = userRepository.findAll();
@@ -96,7 +96,7 @@ public class UserService implements IUserService {
      * @throws IllegalArgumentException if no user found
      */
     @Override
-    public UserDTO findUserById(Integer id) {
+    public UserDTO findById(Integer id) {
         log.debug(LogConstants.FIND_USER_BY_ID_CALL);
 
         Optional<User> user = userRepository.findById(id);
@@ -121,7 +121,7 @@ public class UserService implements IUserService {
      * @return the created user
      */
     @Override
-    public UserDTO updateUser(UserDTO userDTOToUpdate) throws Exception {
+    public UserDTO update(UserDTO userDTOToUpdate) throws Exception {
         log.debug(LogConstants.UPDATE_USER_CALL + userDTOToUpdate.toString());
 
         /* checks that no other user already have the same username */
@@ -158,7 +158,7 @@ public class UserService implements IUserService {
      * @param id of the user to delete
      */
     @Override
-    public void deleteUser(Integer id) {
+    public void delete(Integer id) {
 
         log.debug(LogConstants.DELETE_USER_CALL + id);
 

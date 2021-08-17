@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUserService {
-    Optional<UserDTO> createUser(UserDTO bankAccountDTOToCreate) throws Exception;
+    Optional<UserDTO> create(UserDTO bankAccountDTOToCreate) throws Exception;
 
-    List<UserDTO> findAllUser();
+    List<UserDTO> findAll();
 
-    UserDTO findUserById(Integer id);
+    UserDTO findById(Integer id);
 
-    UserDTO updateUser(UserDTO userDTOToUpdate) throws Exception;
+    UserDTO update(UserDTO userDTOToUpdate) throws Exception;
 
-    void deleteUser(Integer id);
+    void delete(Integer id);
 }

@@ -73,7 +73,7 @@ public class TradeServiceTest {
             when(tradeRepositoryMock.save(any(Trade.class))).thenReturn(tradeInDb);
 
             //WHEN
-            Optional<TradeDTO> createdTradeDTO = tradeService.createTrade(tradeDTOWithValues);
+            Optional<TradeDTO> createdTradeDTO = tradeService.create(tradeDTOWithValues);
 
             //THEN
             assertTrue(createdTradeDTO.isPresent());
@@ -96,7 +96,7 @@ public class TradeServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> tradeService.createTrade(tradeDTOWithValues));
+                    () -> tradeService.create(tradeDTOWithValues));
 
             verify(tradeRepositoryMock, Mockito.times(1))
                     .save(any(Trade.class));
@@ -119,7 +119,7 @@ public class TradeServiceTest {
             when(tradeRepositoryMock.findAll()).thenReturn(tradeList);
 
             //THEN
-            List<TradeDTO> tradeDTOList = tradeService.findAllTrade();
+            List<TradeDTO> tradeDTOList = tradeService.findAll();
             assertEquals(1, tradeDTOList.size());
             assertEquals(tradeInDb.getTradeId(), tradeDTOList.get(0).getTradeId());
 
@@ -136,7 +136,7 @@ public class TradeServiceTest {
             when(tradeRepositoryMock.findAll()).thenReturn(tradeList);
 
             //THEN
-            List<TradeDTO> tradeDTOList = tradeService.findAllTrade();
+            List<TradeDTO> tradeDTOList = tradeService.findAll();
             assertThat(tradeDTOList).isEmpty();
 
             verify(tradeRepositoryMock, Mockito.times(1)).findAll();
@@ -157,7 +157,7 @@ public class TradeServiceTest {
             when(tradeRepositoryMock.findById(anyInt())).thenReturn(Optional.of(tradeInDb));
 
             //THEN
-            TradeDTO tradeDTO = tradeService.findTradeById(TestConstants.EXISTING_TRADE_ID);
+            TradeDTO tradeDTO = tradeService.findById(TestConstants.EXISTING_TRADE_ID);
             assertEquals(tradeInDb.getTradeId(), tradeDTO.getTradeId());
             assertEquals(tradeInDb.getAccount(), tradeDTO.getAccount());
 
@@ -174,7 +174,7 @@ public class TradeServiceTest {
 
             //THEN
             Exception exception = assertThrows(IllegalArgumentException.class,
-                    () -> tradeService.findTradeById(TestConstants.EXISTING_TRADE_ID));
+                    () -> tradeService.findById(TestConstants.EXISTING_TRADE_ID));
             assertEquals(PoseidonExceptionsConstants.TRADE_ID_NOT_VALID
                     + TestConstants.EXISTING_TRADE_ID, exception.getMessage());
 
@@ -197,7 +197,7 @@ public class TradeServiceTest {
             when(tradeRepositoryMock.save(any(Trade.class))).thenReturn(tradeInDb);
 
             //WHEN
-            TradeDTO createdTradeDTO = tradeService.updateTrade(tradeDTOWithValues);
+            TradeDTO createdTradeDTO = tradeService.update(tradeDTOWithValues);
 
             //THEN
             assertEquals(tradeDTOWithValues.toString(), createdTradeDTO.toString());
@@ -218,7 +218,7 @@ public class TradeServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> tradeService.updateTrade(tradeDTOWithValues));
+                    () -> tradeService.update(tradeDTOWithValues));
 
             verify(tradeRepositoryMock, Mockito.times(1))
                     .save(any(Trade.class));
@@ -239,7 +239,7 @@ public class TradeServiceTest {
             when(tradeRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(tradeInDb));
 
             //WHEN
-            tradeService.deleteTrade(tradeInDb.getTradeId());
+            tradeService.delete(tradeInDb.getTradeId());
 
             //THEN
             verify(tradeRepositoryMock, Mockito.times(1))
@@ -260,7 +260,7 @@ public class TradeServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> tradeService.deleteTrade(tradeInDb.getTradeId()));
+                    () -> tradeService.delete(tradeInDb.getTradeId()));
 
             verify(tradeRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -279,7 +279,7 @@ public class TradeServiceTest {
 
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> tradeService.deleteTrade(tradeInDb.getTradeId()));
+                    () -> tradeService.delete(tradeInDb.getTradeId()));
 
             verify(tradeRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -295,7 +295,7 @@ public class TradeServiceTest {
         void deleteTradeTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> tradeService.deleteTrade(null));
+                    () -> tradeService.delete(null));
 
             verify(tradeRepositoryMock, Mockito.times(0))
                     .findById(anyInt());

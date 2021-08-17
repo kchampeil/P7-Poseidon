@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ICurvePointService {
-    Optional<CurvePointDTO> createCurvePoint(CurvePointDTO curvePointDTOToCreate);
+    Optional<CurvePointDTO> create(CurvePointDTO curvePointDTOToCreate);
 
-    List<CurvePointDTO> findAllCurvePoint();
+    List<CurvePointDTO> findAll();
 
-    CurvePointDTO findCurvePointById(Integer id);
+    CurvePointDTO findById(Integer id);
 
-    CurvePointDTO updateCurvePoint(CurvePointDTO curvePointDTOToUpdate);
+    CurvePointDTO update(CurvePointDTO curvePointDTOToUpdate);
 
-    void deleteCurvePoint(Integer id);
+    void delete(Integer id);
 }

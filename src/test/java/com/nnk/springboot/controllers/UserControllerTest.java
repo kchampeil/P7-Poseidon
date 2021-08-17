@@ -76,7 +76,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/list"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .findAllUser();
+                    .findAll();
         }
 
 
@@ -90,7 +90,7 @@ class UserControllerTest {
                     .andExpect(status().isForbidden());
 
             verify(userServiceMock, Mockito.times(0))
-                    .findAllUser();
+                    .findAll();
         }
 
 
@@ -106,7 +106,7 @@ class UserControllerTest {
             verify(userDetailsServiceMock, Mockito.times(0))
                     .loadUserByUsername(anyString());
             verify(userServiceMock, Mockito.times(0))
-                    .findAllUser();
+                    .findAll();
         }
     }
 
@@ -164,7 +164,7 @@ class UserControllerTest {
                 "AND the expected view is the user list page with user list updated")
         void validateTest_WithSuccess() throws Exception {
             //GIVEN
-            when(userServiceMock.createUser(any(UserDTO.class)))
+            when(userServiceMock.create(any(UserDTO.class)))
                     .thenReturn(Optional.of(userDTO));
 
             //WHEN-THEN
@@ -179,7 +179,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrl("/user/list"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .createUser(any(UserDTO.class));
+                    .create(any(UserDTO.class));
         }
 
 
@@ -204,7 +204,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/add"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .createUser(any(UserDTO.class));
+                    .create(any(UserDTO.class));
         }
 
 
@@ -229,7 +229,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/add"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .createUser(any(UserDTO.class));
+                    .create(any(UserDTO.class));
         }
 
 
@@ -240,7 +240,7 @@ class UserControllerTest {
                 "AND the expected view is the user/add page filled with entered user")
         void validateTest_WithException() throws Exception {
             //GIVEN
-            when(userServiceMock.createUser(any(UserDTO.class))).thenThrow(new RuntimeException());
+            when(userServiceMock.create(any(UserDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/user/validate")
@@ -254,7 +254,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/add"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .createUser(any(UserDTO.class));
+                    .create(any(UserDTO.class));
         }
 
 
@@ -265,7 +265,7 @@ class UserControllerTest {
                 "AND the expected view is the user/add page filled with entered user")
         void validateTest_WithNoReturnedUserAfterSaving() throws Exception {
             //GIVEN
-            when(userServiceMock.createUser(any(UserDTO.class)))
+            when(userServiceMock.create(any(UserDTO.class)))
                     .thenReturn(Optional.empty());
 
             //WHEN-THEN
@@ -280,7 +280,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/add"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .createUser(any(UserDTO.class));
+                    .create(any(UserDTO.class));
         }
 
 
@@ -300,7 +300,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .createUser(any(UserDTO.class));
+                    .create(any(UserDTO.class));
         }
     }
 
@@ -316,7 +316,7 @@ class UserControllerTest {
                 "AND the expected view is the user update form initialized")
         void showUpdateFormTest_WithSuccess_LoggedIn() throws Exception {
             //GIVEN
-            when(userServiceMock.findUserById(anyInt()))
+            when(userServiceMock.findById(anyInt()))
                     .thenReturn(userDTO);
 
             //WHEN-THEN
@@ -326,7 +326,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/update"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .findUserById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -337,7 +337,7 @@ class UserControllerTest {
                 "AND the expected view is the user list page")
         void showUpdateFormTest_WithException() throws Exception {
             //GIVEN
-            when(userServiceMock.findUserById(TestConstants.UNKNOWN_USER_ID))
+            when(userServiceMock.findById(TestConstants.UNKNOWN_USER_ID))
                     .thenThrow(new IllegalArgumentException());
 
             //WHEN-THEN
@@ -346,7 +346,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrl("/user/list"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .findUserById(anyInt());
+                    .findById(anyInt());
         }
 
 
@@ -361,7 +361,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .findUserById(anyInt());
+                    .findById(anyInt());
         }
     }
 
@@ -377,7 +377,7 @@ class UserControllerTest {
                 "AND the expected view is the user list page with user list updated")
         void updateUserTest_WithSuccess() throws Exception {
             //GIVEN
-            when(userServiceMock.updateUser(any(UserDTO.class)))
+            when(userServiceMock.update(any(UserDTO.class)))
                     .thenReturn(userDTO);
 
             //WHEN-THEN
@@ -392,7 +392,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrl("/user/list"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .updateUser(any(UserDTO.class));
+                    .update(any(UserDTO.class));
         }
 
 
@@ -417,7 +417,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/update"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .updateUser(any(UserDTO.class));
+                    .update(any(UserDTO.class));
         }
 
 
@@ -442,7 +442,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/update"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .updateUser(any(UserDTO.class));
+                    .update(any(UserDTO.class));
         }
 
 
@@ -453,7 +453,7 @@ class UserControllerTest {
                 "AND the expected view is the user/update/{id} page filled with entered user")
         void updateUserTest_WithException() throws Exception {
             //GIVEN
-            when(userServiceMock.updateUser(any(UserDTO.class))).thenThrow(new RuntimeException());
+            when(userServiceMock.update(any(UserDTO.class))).thenThrow(new RuntimeException());
 
             //WHEN-THEN
             mockMvc.perform(post("/user/update/{id}", TestConstants.EXISTING_USER_ID)
@@ -467,7 +467,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/update"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .updateUser(any(UserDTO.class));
+                    .update(any(UserDTO.class));
         }
 
 
@@ -478,7 +478,7 @@ class UserControllerTest {
                 "AND the expected view is the user/update page filled with entered user")
         void updateUserTest_WithNoReturnedUserAfterSaving() throws Exception {
             //GIVEN
-            when(userServiceMock.updateUser(any(UserDTO.class)))
+            when(userServiceMock.update(any(UserDTO.class)))
                     .thenReturn(null);
 
             //WHEN-THEN
@@ -493,7 +493,7 @@ class UserControllerTest {
                     .andExpect(view().name("user/update"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .updateUser(any(UserDTO.class));
+                    .update(any(UserDTO.class));
         }
 
 
@@ -513,7 +513,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .updateUser(any(UserDTO.class));
+                    .update(any(UserDTO.class));
         }
     }
 
@@ -536,7 +536,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrl("/user/list"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .deleteUser(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -548,7 +548,7 @@ class UserControllerTest {
                 "AND the expected view is the user/list page")
         void deleteUserTest_WithMissingInformation() throws Exception {
             //GIVEN
-            doThrow(new IllegalArgumentException()).when(userServiceMock).deleteUser(anyInt());
+            doThrow(new IllegalArgumentException()).when(userServiceMock).delete(anyInt());
 
             //WHEN-THEN
             mockMvc.perform(get("/user/delete/{id}", TestConstants.UNKNOWN_USER_ID)
@@ -557,7 +557,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrl("/user/list"));
 
             verify(userServiceMock, Mockito.times(1))
-                    .deleteUser(anyInt());
+                    .delete(anyInt());
         }
 
 
@@ -572,7 +572,7 @@ class UserControllerTest {
                     .andExpect(redirectedUrlPattern("**/login"));
 
             verify(userServiceMock, Mockito.times(0))
-                    .findUserById(anyInt());
+                    .findById(anyInt());
         }
     }
 }

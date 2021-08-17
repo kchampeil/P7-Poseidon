@@ -74,7 +74,7 @@ public class RuleNameServiceIT {
     public void createRuleNameIT_WithSuccess() {
 
         //WHEN
-        Optional<RuleNameDTO> ruleNameDTOCreated = ruleNameService.createRuleName(ruleNameDTO);
+        Optional<RuleNameDTO> ruleNameDTOCreated = ruleNameService.create(ruleNameDTO);
 
         //THEN
         assertTrue(ruleNameDTOCreated.isPresent());
@@ -92,7 +92,7 @@ public class RuleNameServiceIT {
     public void findAllRuleNameIT_WithSuccess() {
 
         //WHEN
-        List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAllRuleName();
+        List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAll();
 
         //THEN
         assertThat(ruleNameDTOList.size()).isGreaterThan(0);
@@ -106,7 +106,7 @@ public class RuleNameServiceIT {
     public void findRuleNameByIdIT_WithSuccess() {
 
         //WHEN
-        RuleNameDTO ruleNameDTO = ruleNameService.findRuleNameById(ruleNameInDb.getId());
+        RuleNameDTO ruleNameDTO = ruleNameService.findById(ruleNameInDb.getId());
 
         //THEN
         assertEquals(ruleNameInDb.getId(), ruleNameDTO.getId());
@@ -128,7 +128,7 @@ public class RuleNameServiceIT {
         ruleNameDTO.setDescription(TestConstants.NEW_RULE_NAME_DESCRIPTION);
 
         //WHEN
-        RuleNameDTO ruleNameDTOUpdated = ruleNameService.updateRuleName(ruleNameDTO);
+        RuleNameDTO ruleNameDTOUpdated = ruleNameService.update(ruleNameDTO);
         Optional<RuleName> ruleNameUpdated = ruleNameRepository.findById(ruleNameInDb.getId());
 
         //THEN
@@ -147,7 +147,7 @@ public class RuleNameServiceIT {
     public void deleteRuleNameIT_WithSuccess() {
 
         //WHEN
-        ruleNameService.deleteRuleName(ruleNameInDb.getId());
+        ruleNameService.delete(ruleNameInDb.getId());
         Optional<RuleName> ruleNameDeleted = ruleNameRepository.findById(ruleNameInDb.getId());
 
         //THEN

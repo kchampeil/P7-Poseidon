@@ -73,7 +73,7 @@ public class RatingServiceTest {
             when(ratingRepositoryMock.save(any(Rating.class))).thenReturn(ratingInDb);
 
             //WHEN
-            Optional<RatingDTO> createdRatingDTO = ratingService.createRating(ratingDTOWithValues);
+            Optional<RatingDTO> createdRatingDTO = ratingService.create(ratingDTOWithValues);
 
             //THEN
             assertTrue(createdRatingDTO.isPresent());
@@ -95,7 +95,7 @@ public class RatingServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> ratingService.createRating(ratingDTOWithValues));
+                    () -> ratingService.create(ratingDTOWithValues));
 
             verify(ratingRepositoryMock, Mockito.times(1))
                     .save(any(Rating.class));
@@ -118,7 +118,7 @@ public class RatingServiceTest {
             when(ratingRepositoryMock.findAll()).thenReturn(ratingList);
 
             //THEN
-            List<RatingDTO> ratingDTOList = ratingService.findAllRating();
+            List<RatingDTO> ratingDTOList = ratingService.findAll();
             assertEquals(1, ratingDTOList.size());
             assertEquals(ratingInDb.getId(), ratingDTOList.get(0).getId());
 
@@ -135,7 +135,7 @@ public class RatingServiceTest {
             when(ratingRepositoryMock.findAll()).thenReturn(ratingList);
 
             //THEN
-            List<RatingDTO> ratingDTOList = ratingService.findAllRating();
+            List<RatingDTO> ratingDTOList = ratingService.findAll();
             assertThat(ratingDTOList).isEmpty();
 
             verify(ratingRepositoryMock, Mockito.times(1)).findAll();
@@ -156,7 +156,7 @@ public class RatingServiceTest {
             when(ratingRepositoryMock.findById(anyInt())).thenReturn(Optional.of(ratingInDb));
 
             //THEN
-            RatingDTO ratingDTO = ratingService.findRatingById(TestConstants.EXISTING_RATING_ID);
+            RatingDTO ratingDTO = ratingService.findById(TestConstants.EXISTING_RATING_ID);
             assertEquals(ratingInDb.getId(), ratingDTO.getId());
             assertEquals(ratingInDb.getMoodysRating(), ratingDTO.getMoodysRating());
 
@@ -173,7 +173,7 @@ public class RatingServiceTest {
 
             //THEN
             Exception exception = assertThrows(IllegalArgumentException.class,
-                    () -> ratingService.findRatingById(TestConstants.EXISTING_RATING_ID));
+                    () -> ratingService.findById(TestConstants.EXISTING_RATING_ID));
             assertEquals(PoseidonExceptionsConstants.RATING_ID_NOT_VALID
                     + TestConstants.EXISTING_RATING_ID, exception.getMessage());
 
@@ -195,7 +195,7 @@ public class RatingServiceTest {
             when(ratingRepositoryMock.save(any(Rating.class))).thenReturn(ratingInDb);
 
             //WHEN
-            RatingDTO createdRatingDTO = ratingService.updateRating(ratingDTOWithValues);
+            RatingDTO createdRatingDTO = ratingService.update(ratingDTOWithValues);
 
             //THEN
             assertEquals(ratingDTOWithValues.toString(), createdRatingDTO.toString());
@@ -215,7 +215,7 @@ public class RatingServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> ratingService.updateRating(ratingDTOWithValues));
+                    () -> ratingService.update(ratingDTOWithValues));
 
             verify(ratingRepositoryMock, Mockito.times(1))
                     .save(any(Rating.class));
@@ -236,7 +236,7 @@ public class RatingServiceTest {
             when(ratingRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(ratingInDb));
 
             //WHEN
-            ratingService.deleteRating(ratingInDb.getId());
+            ratingService.delete(ratingInDb.getId());
 
             //THEN
             verify(ratingRepositoryMock, Mockito.times(1))
@@ -257,7 +257,7 @@ public class RatingServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> ratingService.deleteRating(ratingInDb.getId()));
+                    () -> ratingService.delete(ratingInDb.getId()));
 
             verify(ratingRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -276,7 +276,7 @@ public class RatingServiceTest {
 
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> ratingService.deleteRating(ratingInDb.getId()));
+                    () -> ratingService.delete(ratingInDb.getId()));
 
             verify(ratingRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -292,7 +292,7 @@ public class RatingServiceTest {
         void deleteRatingTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> ratingService.deleteRating(null));
+                    () -> ratingService.delete(null));
 
             verify(ratingRepositoryMock, Mockito.times(0))
                     .findById(anyInt());

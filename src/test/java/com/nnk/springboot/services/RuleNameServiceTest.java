@@ -77,7 +77,7 @@ public class RuleNameServiceTest {
             when(ruleNameRepositoryMock.save(any(RuleName.class))).thenReturn(ruleNameInDb);
 
             //WHEN
-            Optional<RuleNameDTO> createdRuleNameDTO = ruleNameService.createRuleName(ruleNameDTOWithValues);
+            Optional<RuleNameDTO> createdRuleNameDTO = ruleNameService.create(ruleNameDTOWithValues);
 
             //THEN
             assertTrue(createdRuleNameDTO.isPresent());
@@ -99,7 +99,7 @@ public class RuleNameServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> ruleNameService.createRuleName(ruleNameDTOWithValues));
+                    () -> ruleNameService.create(ruleNameDTOWithValues));
 
             verify(ruleNameRepositoryMock, Mockito.times(1))
                     .save(any(RuleName.class));
@@ -122,7 +122,7 @@ public class RuleNameServiceTest {
             when(ruleNameRepositoryMock.findAll()).thenReturn(ruleNameList);
 
             //THEN
-            List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAllRuleName();
+            List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAll();
             assertEquals(1, ruleNameDTOList.size());
             assertEquals(ruleNameInDb.getId(), ruleNameDTOList.get(0).getId());
 
@@ -139,7 +139,7 @@ public class RuleNameServiceTest {
             when(ruleNameRepositoryMock.findAll()).thenReturn(ruleNameList);
 
             //THEN
-            List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAllRuleName();
+            List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAll();
             assertThat(ruleNameDTOList).isEmpty();
 
             verify(ruleNameRepositoryMock, Mockito.times(1)).findAll();
@@ -160,7 +160,7 @@ public class RuleNameServiceTest {
             when(ruleNameRepositoryMock.findById(anyInt())).thenReturn(Optional.of(ruleNameInDb));
 
             //THEN
-            RuleNameDTO ruleNameDTO = ruleNameService.findRuleNameById(TestConstants.EXISTING_RULE_NAME_ID);
+            RuleNameDTO ruleNameDTO = ruleNameService.findById(TestConstants.EXISTING_RULE_NAME_ID);
             assertEquals(ruleNameInDb.getId(), ruleNameDTO.getId());
             assertEquals(ruleNameInDb.getName(), ruleNameDTO.getName());
 
@@ -177,7 +177,7 @@ public class RuleNameServiceTest {
 
             //THEN
             Exception exception = assertThrows(IllegalArgumentException.class,
-                    () -> ruleNameService.findRuleNameById(TestConstants.EXISTING_RULE_NAME_ID));
+                    () -> ruleNameService.findById(TestConstants.EXISTING_RULE_NAME_ID));
             assertEquals(PoseidonExceptionsConstants.RULE_NAME_ID_NOT_VALID
                     + TestConstants.EXISTING_RULE_NAME_ID, exception.getMessage());
 
@@ -199,7 +199,7 @@ public class RuleNameServiceTest {
             when(ruleNameRepositoryMock.save(any(RuleName.class))).thenReturn(ruleNameInDb);
 
             //WHEN
-            RuleNameDTO createdRuleNameDTO = ruleNameService.updateRuleName(ruleNameDTOWithValues);
+            RuleNameDTO createdRuleNameDTO = ruleNameService.update(ruleNameDTOWithValues);
 
             //THEN
             assertEquals(ruleNameDTOWithValues.toString(), createdRuleNameDTO.toString());
@@ -219,7 +219,7 @@ public class RuleNameServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> ruleNameService.updateRuleName(ruleNameDTOWithValues));
+                    () -> ruleNameService.update(ruleNameDTOWithValues));
 
             verify(ruleNameRepositoryMock, Mockito.times(1))
                     .save(any(RuleName.class));
@@ -240,7 +240,7 @@ public class RuleNameServiceTest {
             when(ruleNameRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(ruleNameInDb));
 
             //WHEN
-            ruleNameService.deleteRuleName(ruleNameInDb.getId());
+            ruleNameService.delete(ruleNameInDb.getId());
 
             //THEN
             verify(ruleNameRepositoryMock, Mockito.times(1))
@@ -261,7 +261,7 @@ public class RuleNameServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> ruleNameService.deleteRuleName(ruleNameInDb.getId()));
+                    () -> ruleNameService.delete(ruleNameInDb.getId()));
 
             verify(ruleNameRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -280,7 +280,7 @@ public class RuleNameServiceTest {
 
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> ruleNameService.deleteRuleName(ruleNameInDb.getId()));
+                    () -> ruleNameService.delete(ruleNameInDb.getId()));
 
             verify(ruleNameRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -296,7 +296,7 @@ public class RuleNameServiceTest {
         void deleteRuleNameTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> ruleNameService.deleteRuleName(null));
+                    () -> ruleNameService.delete(null));
 
             verify(ruleNameRepositoryMock, Mockito.times(0))
                     .findById(anyInt());

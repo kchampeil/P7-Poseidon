@@ -71,7 +71,7 @@ public class CurvePointServiceTest {
             when(curvePointRepositoryMock.save(any(CurvePoint.class))).thenReturn(curvePointInDb);
 
             //WHEN
-            Optional<CurvePointDTO> createdCurvePointDTO = curvePointService.createCurvePoint(curvePointDTOWithValues);
+            Optional<CurvePointDTO> createdCurvePointDTO = curvePointService.create(curvePointDTOWithValues);
 
             //THEN
             assertTrue(createdCurvePointDTO.isPresent());
@@ -93,7 +93,7 @@ public class CurvePointServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> curvePointService.createCurvePoint(curvePointDTOWithValues));
+                    () -> curvePointService.create(curvePointDTOWithValues));
 
             verify(curvePointRepositoryMock, Mockito.times(1))
                     .save(any(CurvePoint.class));
@@ -116,7 +116,7 @@ public class CurvePointServiceTest {
             when(curvePointRepositoryMock.findAll()).thenReturn(curvePointList);
 
             //THEN
-            List<CurvePointDTO> curvePointDTOList = curvePointService.findAllCurvePoint();
+            List<CurvePointDTO> curvePointDTOList = curvePointService.findAll();
             assertEquals(1, curvePointDTOList.size());
             assertEquals(curvePointInDb.getId(), curvePointDTOList.get(0).getId());
 
@@ -133,7 +133,7 @@ public class CurvePointServiceTest {
             when(curvePointRepositoryMock.findAll()).thenReturn(curvePointList);
 
             //THEN
-            List<CurvePointDTO> curvePointDTOList = curvePointService.findAllCurvePoint();
+            List<CurvePointDTO> curvePointDTOList = curvePointService.findAll();
             assertThat(curvePointDTOList).isEmpty();
 
             verify(curvePointRepositoryMock, Mockito.times(1)).findAll();
@@ -154,7 +154,7 @@ public class CurvePointServiceTest {
             when(curvePointRepositoryMock.findById(anyInt())).thenReturn(Optional.of(curvePointInDb));
 
             //THEN
-            CurvePointDTO curvePointDTO = curvePointService.findCurvePointById(TestConstants.EXISTING_CURVE_POINT_ID);
+            CurvePointDTO curvePointDTO = curvePointService.findById(TestConstants.EXISTING_CURVE_POINT_ID);
             assertEquals(curvePointInDb.getId(), curvePointDTO.getId());
             assertEquals(curvePointInDb.getCurveId(), curvePointDTO.getCurveId());
 
@@ -171,7 +171,7 @@ public class CurvePointServiceTest {
 
             //THEN
             Exception exception = assertThrows(IllegalArgumentException.class,
-                    () -> curvePointService.findCurvePointById(TestConstants.EXISTING_CURVE_POINT_ID));
+                    () -> curvePointService.findById(TestConstants.EXISTING_CURVE_POINT_ID));
             assertEquals(PoseidonExceptionsConstants.CURVE_POINT_ID_NOT_VALID
                     + TestConstants.EXISTING_CURVE_POINT_ID, exception.getMessage());
 
@@ -193,7 +193,7 @@ public class CurvePointServiceTest {
             when(curvePointRepositoryMock.save(any(CurvePoint.class))).thenReturn(curvePointInDb);
 
             //WHEN
-            CurvePointDTO createdCurvePointDTO = curvePointService.updateCurvePoint(curvePointDTOWithValues);
+            CurvePointDTO createdCurvePointDTO = curvePointService.update(curvePointDTOWithValues);
 
             //THEN
             assertEquals(curvePointDTOWithValues.toString(), createdCurvePointDTO.toString());
@@ -213,7 +213,7 @@ public class CurvePointServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> curvePointService.updateCurvePoint(curvePointDTOWithValues));
+                    () -> curvePointService.update(curvePointDTOWithValues));
 
             verify(curvePointRepositoryMock, Mockito.times(1))
                     .save(any(CurvePoint.class));
@@ -234,7 +234,7 @@ public class CurvePointServiceTest {
             when(curvePointRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(curvePointInDb));
 
             //WHEN
-            curvePointService.deleteCurvePoint(curvePointInDb.getId());
+            curvePointService.delete(curvePointInDb.getId());
 
             //THEN
             verify(curvePointRepositoryMock, Mockito.times(1))
@@ -255,7 +255,7 @@ public class CurvePointServiceTest {
 
             //THEN
             assertThrows(RuntimeException.class,
-                    () -> curvePointService.deleteCurvePoint(curvePointInDb.getId()));
+                    () -> curvePointService.delete(curvePointInDb.getId()));
 
             verify(curvePointRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -274,7 +274,7 @@ public class CurvePointServiceTest {
 
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> curvePointService.deleteCurvePoint(curvePointInDb.getId()));
+                    () -> curvePointService.delete(curvePointInDb.getId()));
 
             verify(curvePointRepositoryMock, Mockito.times(1))
                     .findById(anyInt());
@@ -290,7 +290,7 @@ public class CurvePointServiceTest {
         void deleteCurvePointTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
-                    () -> curvePointService.deleteCurvePoint(null));
+                    () -> curvePointService.delete(null));
 
             verify(curvePointRepositoryMock, Mockito.times(0))
                     .findById(anyInt());

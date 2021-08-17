@@ -43,7 +43,7 @@ public class TradeController {
     public String home(Model model) {
         // DONE: find all Trade, add to model
         log.info(LogConstants.TRADE_LIST_REQUEST_RECEIVED, UserUtil.getCurrentUser());
-        model.addAttribute("tradeAll", tradeService.findAllTrade());
+        model.addAttribute("tradeAll", tradeService.findAll());
 
         return "trade/list";
     }
@@ -84,7 +84,7 @@ public class TradeController {
         }
 
         try {
-            Optional<TradeDTO> tradeDTOCreated = tradeService.createTrade(trade);
+            Optional<TradeDTO> tradeDTOCreated = tradeService.create(trade);
 
             if (tradeDTOCreated.isPresent()) {
                 log.info(LogConstants.TRADE_CREATION_REQUEST_OK, tradeDTOCreated.get().getTradeId(),
@@ -126,7 +126,7 @@ public class TradeController {
                 UserUtil.getCurrentUser());
 
         try {
-            model.addAttribute("trade", tradeService.findTradeById(id));
+            model.addAttribute("trade", tradeService.findById(id));
             return "trade/update";
 
         } catch (IllegalArgumentException illegalArgumentException) {
@@ -163,7 +163,7 @@ public class TradeController {
 
         try {
             trade.setTradeId(id);
-            TradeDTO tradeDTOUpdated = tradeService.updateTrade(trade);
+            TradeDTO tradeDTOUpdated = tradeService.update(trade);
 
             log.info(LogConstants.TRADE_UPDATE_REQUEST_OK, tradeDTOUpdated.getTradeId(),
                     UserUtil.getCurrentUser());
@@ -195,7 +195,7 @@ public class TradeController {
         log.info(LogConstants.TRADE_DELETE_REQUEST_RECEIVED, id, UserUtil.getCurrentUser());
 
         try {
-            tradeService.deleteTrade(id);
+            tradeService.delete(id);
             log.info(LogConstants.TRADE_DELETE_REQUEST_OK, id, UserUtil.getCurrentUser());
             redirectAttributes.addFlashAttribute("infoMessage",
                     formatOutputMessage("trade.delete.ok", id.toString()));
