@@ -83,14 +83,14 @@ public class TestConstants {
     /* user */
     public static final Integer NEW_USER_ID = 2021;
     public static final String NEW_USER_USERNAME = "Newbee";
-    public static final String NEW_USER_PASSWORD = "new password";
+    public static final String NEW_USER_PASSWORD = "NewP@ssword0";
     public static final String  NEW_USER_FULLNAME = "my new user";
     public static final String NEW_USER_FULLNAME_WITH_TOO_LONG_SIZE =
             "Fullname with a toooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo long size generate error";
 
     public static final Integer EXISTING_USER_ID = 1;
     public static final String EXISTING_USER_USERNAME = "myfirst";
-    public static final String EXISTING_USER_PASSWORD = "password";
+    public static final String EXISTING_USER_PASSWORD = "ExistingP@ssword1";
     public static final String EXISTING_USER_FULLNAME = "my first user";
     public static final String USER_ROLE_USER = "USER";
     public static final String USER_ROLE_ADMIN = "ADMIN";
