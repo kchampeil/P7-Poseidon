@@ -69,7 +69,7 @@ public class UserServiceIT {
     @DisplayName("WHEN creating a new user with correct informations  " +
             "THEN the returned value is the added user, " +
             "AND the user is added in DB")
-    public void createUserIT_WithSuccess() throws Exception {
+    public void createIT_WithSuccess() throws Exception {
 
         //WHEN
         Optional<UserDTO> userDTOCreated = userService.create(userDTO);
@@ -87,7 +87,7 @@ public class UserServiceIT {
     @Test
     @DisplayName("WHEN asking for the list of all user " +
             "THEN the returned value is the list of all user in DB")
-    public void findAllUserIT_WithSuccess() {
+    public void findAllIT_WithSuccess() {
 
         //WHEN
         List<UserDTO> userDTOList = userService.findAll();
@@ -101,7 +101,7 @@ public class UserServiceIT {
     @Test
     @DisplayName("WHEN asking for a user with a specified id " +
             "THEN the returned value is the user in DB")
-    public void findUserByIdIT_WithSuccess() {
+    public void findByIdIT_WithSuccess() {
 
         //WHEN
         UserDTO userDTO = userService.findById(userInDb.getId());
@@ -119,7 +119,7 @@ public class UserServiceIT {
     @DisplayName("WHEN updating a user with correct informations  " +
             "THEN the returned value is the updated user, " +
             "AND the user is updated in DB")
-    public void updateUserIT_WithSuccess() throws Exception {
+    public void updateIT_WithSuccess() throws Exception {
 
         //GIVEN
         userDTO.setId(userInDb.getId());
@@ -142,7 +142,7 @@ public class UserServiceIT {
     @Tag("SkipCleanUp")
     @DisplayName("WHEN deleting a user with correct informations  " +
             "THEN the user is deleted in DB")
-    public void deleteUserIT_WithSuccess() {
+    public void deleteIT_WithSuccess() {
 
         //WHEN
         userService.delete(userInDb.getId());

@@ -22,9 +22,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
@@ -62,37 +60,15 @@ public class UserServiceTest {
     }
 
     @Nested
-    @DisplayName("CreateUser tests")
-    class CreateUserTest {
-
-        @WithMockUser
-        @Test
-        @DisplayName("GIVEN a new user (DTO) to add " +
-                "WHEN saving this new user " +
-                "THEN the returned value is the added user (DTO)")
-        void createUserTest_WithSuccess() throws Exception {
-            //GIVEN
-            when(userRepositoryMock.save(any(User.class))).thenReturn(userInDb);
-
-            //WHEN
-            Optional<UserDTO> createdUserDTO = userService.create(userDTOWithValues);
-
-            //THEN
-            assertTrue(createdUserDTO.isPresent());
-            assertNotNull(createdUserDTO.get().getId());
-            assertEquals(userDTOWithValues.toString(), createdUserDTO.get().toString());
-
-            verify(userRepositoryMock, Mockito.times(1))
-                    .save(any(User.class));
-        }
-
+    @DisplayName("create tests")
+    class CreateTest {
 
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN saving a nex user " +
                 "THEN an exception is thrown")
-        void createUserTest_WithException() {
+        void createTest_WithException() {
             //GIVEN
             when(userRepositoryMock.save(any(User.class))).thenThrow(new RuntimeException());
 
@@ -107,32 +83,14 @@ public class UserServiceTest {
 
 
     @Nested
-    @DisplayName("findAllUser tests")
-    class FindAllUserTest {
-
-        @Test
-        @DisplayName("GIVEN user in DB " +
-                "WHEN getting all the user " +
-                "THEN the returned value is the list of user")
-        void findAllUserTest_WithDataInDB() {
-            //GIVEN
-            List<User> userList = new ArrayList<>();
-            userList.add(userInDb);
-            when(userRepositoryMock.findAll()).thenReturn(userList);
-
-            //THEN
-            List<UserDTO> userDTOList = userService.findAll();
-            assertEquals(1, userDTOList.size());
-            assertEquals(userInDb.getId(), userDTOList.get(0).getId());
-
-            verify(userRepositoryMock, Mockito.times(1)).findAll();
-        }
+    @DisplayName("findAll tests")
+    class FindAllTest {
 
         @Test
         @DisplayName("GIVEN no user in DB " +
                 "WHEN getting all the user " +
                 "THEN the returned value is an empty list of user")
-        void findAllUserTest_WithNoDataInDB() {
+        void findAllTest_WithNoDataInDB() {
             //GIVEN
             List<User> userList = new ArrayList<>();
             when(userRepositoryMock.findAll()).thenReturn(userList);
@@ -147,30 +105,14 @@ public class UserServiceTest {
 
 
     @Nested
-    @DisplayName("findUserById tests")
-    class FindUserByIdTest {
-
-        @Test
-        @DisplayName("GIVEN user in DB for a specified id" +
-                "WHEN getting the user on id " +
-                "THEN the returned value is the user")
-        void findUserByIdTest_WithDataInDB() {
-            //GIVEN
-            when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.of(userInDb));
-
-            //THEN
-            UserDTO userDTO = userService.findById(TestConstants.EXISTING_USER_ID);
-            assertEquals(userInDb.getId(), userDTO.getId());
-            assertEquals(userInDb.getUsername(), userDTO.getUsername());
-
-            verify(userRepositoryMock, Mockito.times(1)).findById(anyInt());
-        }
+    @DisplayName("findById tests")
+    class FindByIdTest {
 
         @Test
         @DisplayName("GIVEN no user in DB for a specified id " +
                 "WHEN getting all the user " +
                 "THEN the returned value is a null user")
-        void findUserByIdTest_WithNoDataInDB() {
+        void findByIdTest_WithNoDataInDB() {
             //GIVEN
             when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -186,35 +128,15 @@ public class UserServiceTest {
 
 
     @Nested
-    @DisplayName("updateUser tests")
-    class UpdateUserTest {
-
-        @WithMockUser
-        @Test
-        @DisplayName("GIVEN a user to update " +
-                "WHEN updating this user " +
-                "THEN the returned value is the updated user")
-        void updateUserTest_WithSuccess() throws Exception {
-            //GIVEN
-            when(userRepositoryMock.save(any(User.class))).thenReturn(userInDb);
-
-            //WHEN
-            UserDTO createdUserDTO = userService.update(userDTOWithValues);
-
-            //THEN
-            assertEquals(userDTOWithValues.toString(), createdUserDTO.toString());
-
-            verify(userRepositoryMock, Mockito.times(1))
-                    .save(any(User.class));
-        }
-
+    @DisplayName("update tests")
+    class UpdateTest {
 
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN updating a user " +
                 "THEN an exception is thrown")
-        void updateUserTest_WithException() {
+        void updateTest_WithException() {
             //GIVEN
             when(userRepositoryMock.save(any(User.class))).thenThrow(new RuntimeException());
 
@@ -229,33 +151,14 @@ public class UserServiceTest {
 
 
     @Nested
-    @DisplayName("deleteUser tests")
-    class DeleteUserTest {
-
-        @Test
-        @DisplayName("GIVEN a user to delete " +
-                "WHEN deleting this user " +
-                "THEN nothing is returned")
-        void deleteUserTest_WithSuccess() {
-            //GIVEN
-            when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(userInDb));
-
-            //WHEN
-            userService.delete(userInDb.getId());
-
-            //THEN
-            verify(userRepositoryMock, Mockito.times(1))
-                    .findById(anyInt());
-            verify(userRepositoryMock, Mockito.times(1))
-                    .delete(any(User.class));
-        }
-
+    @DisplayName("delete tests")
+    class DeleteTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN deleting a user " +
                 "THEN an exception is thrown")
-        void deleteUserTest_WithException() {
+        void deleteTest_WithException() {
             //GIVEN
             when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(userInDb));
             doThrow(new RuntimeException()).when(userRepositoryMock).delete(any(User.class));
@@ -275,7 +178,7 @@ public class UserServiceTest {
         @DisplayName("GIVEN no user in DB for the specified id " +
                 "WHEN deleting a user " +
                 "THEN an exception is thrown")
-        void deleteUserTest_WithNoDataInDb() {
+        void deleteTest_WithNoDataInDb() {
             //GIVEN
             when(userRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -294,7 +197,7 @@ public class UserServiceTest {
         @DisplayName("GIVEN no id is specified " +
                 "WHEN asking for the deletion of a user " +
                 "THEN an exception is thrown")
-        void deleteUserTest_WithNoGivenId() {
+        void deleteTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
                     () -> userService.delete(null));

@@ -65,7 +65,7 @@ public class CurvePointServiceIT {
     @DisplayName("WHEN creating a new curvePoint with correct informations  " +
             "THEN the returned value is the added curvePoint, " +
             "AND the curvePoint is added in DB")
-    public void createCurvePointIT_WithSuccess() {
+    public void createIT_WithSuccess() {
 
         //WHEN
         Optional<CurvePointDTO> curvePointDTOCreated = curvePointService.create(curvePointDTO);
@@ -83,7 +83,7 @@ public class CurvePointServiceIT {
     @Test
     @DisplayName("WHEN asking for the list of all curvePoint " +
             "THEN the returned value is the list of all curvePoint in DB")
-    public void findAllCurvePointIT_WithSuccess() {
+    public void findAllIT_WithSuccess() {
 
         //WHEN
         List<CurvePointDTO> curvePointDTOList = curvePointService.findAll();
@@ -97,7 +97,7 @@ public class CurvePointServiceIT {
     @Test
     @DisplayName("WHEN asking for a curvePoint with a specified id " +
             "THEN the returned value is the curvePoint in DB")
-    public void findCurvePointByIdIT_WithSuccess() {
+    public void findByIdIT_WithSuccess() {
 
         //WHEN
         CurvePointDTO curvePointDTO = curvePointService.findById(curvePointInDb.getId());
@@ -114,7 +114,7 @@ public class CurvePointServiceIT {
     @DisplayName("WHEN updating a curvePoint with correct informations  " +
             "THEN the returned value is the updated curvePoint, " +
             "AND the curvePoint is updated in DB")
-    public void updateCurvePointIT_WithSuccess() {
+    public void updateIT_WithSuccess() {
 
         //GIVEN
         curvePointDTO.setId(curvePointInDb.getId());
@@ -138,7 +138,7 @@ public class CurvePointServiceIT {
     @Tag("SkipCleanUp")
     @DisplayName("WHEN deleting a curvePoint with correct informations  " +
             "THEN the curvePoint is deleted in DB")
-    public void deleteCurvePointIT_WithSuccess() {
+    public void deleteIT_WithSuccess() {
 
         //WHEN
         curvePointService.delete(curvePointInDb.getId());

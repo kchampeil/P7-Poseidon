@@ -21,9 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
@@ -65,35 +63,14 @@ public class RuleNameServiceTest {
     }
 
     @Nested
-    @DisplayName("CreateRuleName tests")
-    class CreateRuleNameTest {
-
-        @Test
-        @DisplayName("GIVEN a new ruleName (DTO) to add " +
-                "WHEN saving this new ruleName " +
-                "THEN the returned value is the added ruleName (DTO)")
-        void createRuleNameTest_WithSuccess() {
-            //GIVEN
-            when(ruleNameRepositoryMock.save(any(RuleName.class))).thenReturn(ruleNameInDb);
-
-            //WHEN
-            Optional<RuleNameDTO> createdRuleNameDTO = ruleNameService.create(ruleNameDTOWithValues);
-
-            //THEN
-            assertTrue(createdRuleNameDTO.isPresent());
-            assertNotNull(createdRuleNameDTO.get().getId());
-            assertEquals(ruleNameDTOWithValues.toString(), createdRuleNameDTO.get().toString());
-
-            verify(ruleNameRepositoryMock, Mockito.times(1))
-                    .save(any(RuleName.class));
-        }
-
+    @DisplayName("create tests")
+    class CreateTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN saving a nex ruleName " +
                 "THEN an exception is thrown")
-        void createRuleNameTest_WithException() {
+        void createTest_WithException() {
             //GIVEN
             when(ruleNameRepositoryMock.save(any(RuleName.class))).thenThrow(new RuntimeException());
 
@@ -108,32 +85,14 @@ public class RuleNameServiceTest {
 
 
     @Nested
-    @DisplayName("findAllRuleName tests")
-    class FindAllRuleNameTest {
-
-        @Test
-        @DisplayName("GIVEN ruleName in DB " +
-                "WHEN getting all the ruleName " +
-                "THEN the returned value is the list of ruleName")
-        void findAllRuleNameTest_WithDataInDB() {
-            //GIVEN
-            List<RuleName> ruleNameList = new ArrayList<>();
-            ruleNameList.add(ruleNameInDb);
-            when(ruleNameRepositoryMock.findAll()).thenReturn(ruleNameList);
-
-            //THEN
-            List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAll();
-            assertEquals(1, ruleNameDTOList.size());
-            assertEquals(ruleNameInDb.getId(), ruleNameDTOList.get(0).getId());
-
-            verify(ruleNameRepositoryMock, Mockito.times(1)).findAll();
-        }
+    @DisplayName("findAll tests")
+    class FindAllTest {
 
         @Test
         @DisplayName("GIVEN no ruleName in DB " +
                 "WHEN getting all the ruleName " +
                 "THEN the returned value is an empty list of ruleName")
-        void findAllRuleNameTest_WithNoDataInDB() {
+        void findAllTest_WithNoDataInDB() {
             //GIVEN
             List<RuleName> ruleNameList = new ArrayList<>();
             when(ruleNameRepositoryMock.findAll()).thenReturn(ruleNameList);
@@ -148,30 +107,14 @@ public class RuleNameServiceTest {
 
 
     @Nested
-    @DisplayName("findRuleNameById tests")
-    class FindRuleNameByIdTest {
-
-        @Test
-        @DisplayName("GIVEN ruleName in DB for a specified id" +
-                "WHEN getting the ruleName on id " +
-                "THEN the returned value is the ruleName")
-        void findRuleNameByIdTest_WithDataInDB() {
-            //GIVEN
-            when(ruleNameRepositoryMock.findById(anyInt())).thenReturn(Optional.of(ruleNameInDb));
-
-            //THEN
-            RuleNameDTO ruleNameDTO = ruleNameService.findById(TestConstants.EXISTING_RULE_NAME_ID);
-            assertEquals(ruleNameInDb.getId(), ruleNameDTO.getId());
-            assertEquals(ruleNameInDb.getName(), ruleNameDTO.getName());
-
-            verify(ruleNameRepositoryMock, Mockito.times(1)).findById(anyInt());
-        }
+    @DisplayName("findById tests")
+    class FindByIdTest {
 
         @Test
         @DisplayName("GIVEN no ruleName in DB for a specified id " +
                 "WHEN getting all the ruleName " +
                 "THEN the returned value is a null ruleName")
-        void findRuleNameByIdTest_WithNoDataInDB() {
+        void findByIdTest_WithNoDataInDB() {
             //GIVEN
             when(ruleNameRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -187,33 +130,14 @@ public class RuleNameServiceTest {
 
 
     @Nested
-    @DisplayName("updateRuleName tests")
-    class UpdateRuleNameTest {
-
-        @Test
-        @DisplayName("GIVEN a ruleName to update " +
-                "WHEN updating this ruleName " +
-                "THEN the returned value is the updated ruleName")
-        void updateRuleNameTest_WithSuccess() {
-            //GIVEN
-            when(ruleNameRepositoryMock.save(any(RuleName.class))).thenReturn(ruleNameInDb);
-
-            //WHEN
-            RuleNameDTO createdRuleNameDTO = ruleNameService.update(ruleNameDTOWithValues);
-
-            //THEN
-            assertEquals(ruleNameDTOWithValues.toString(), createdRuleNameDTO.toString());
-
-            verify(ruleNameRepositoryMock, Mockito.times(1))
-                    .save(any(RuleName.class));
-        }
-
+    @DisplayName("update tests")
+    class UpdateTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN updating a ruleName " +
                 "THEN an exception is thrown")
-        void updateRuleNameTest_WithException() {
+        void updateTest_WithException() {
             //GIVEN
             when(ruleNameRepositoryMock.save(any(RuleName.class))).thenThrow(new RuntimeException());
 
@@ -228,33 +152,14 @@ public class RuleNameServiceTest {
 
 
     @Nested
-    @DisplayName("deleteRuleName tests")
-    class DeleteRuleNameTest {
-
-        @Test
-        @DisplayName("GIVEN a ruleName to delete " +
-                "WHEN deleting this ruleName " +
-                "THEN nothing is returned")
-        void deleteRuleNameTest_WithSuccess() {
-            //GIVEN
-            when(ruleNameRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(ruleNameInDb));
-
-            //WHEN
-            ruleNameService.delete(ruleNameInDb.getId());
-
-            //THEN
-            verify(ruleNameRepositoryMock, Mockito.times(1))
-                    .findById(anyInt());
-            verify(ruleNameRepositoryMock, Mockito.times(1))
-                    .delete(any(RuleName.class));
-        }
-
+    @DisplayName("delete tests")
+    class DeleteTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN deleting a ruleName " +
                 "THEN an exception is thrown")
-        void deleteRuleNameTest_WithException() {
+        void deleteTest_WithException() {
             //GIVEN
             when(ruleNameRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(ruleNameInDb));
             doThrow(new RuntimeException()).when(ruleNameRepositoryMock).delete(any(RuleName.class));
@@ -274,7 +179,7 @@ public class RuleNameServiceTest {
         @DisplayName("GIVEN no ruleName in DB for the specified id " +
                 "WHEN deleting a ruleName " +
                 "THEN an exception is thrown")
-        void deleteRuleNameTest_WithNoDataInDb() {
+        void deleteTest_WithNoDataInDb() {
             //GIVEN
             when(ruleNameRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -293,7 +198,7 @@ public class RuleNameServiceTest {
         @DisplayName("GIVEN no id is specified " +
                 "WHEN asking for the deletion of a ruleName " +
                 "THEN an exception is thrown")
-        void deleteRuleNameTest_WithNoGivenId() {
+        void deleteTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
                     () -> ruleNameService.delete(null));

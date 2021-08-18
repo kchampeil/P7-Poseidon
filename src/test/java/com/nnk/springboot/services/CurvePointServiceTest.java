@@ -21,9 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
@@ -59,35 +57,14 @@ public class CurvePointServiceTest {
     }
 
     @Nested
-    @DisplayName("CreateCurvePoint tests")
-    class CreateCurvePointTest {
-
-        @Test
-        @DisplayName("GIVEN a new curvePoint (DTO) to add " +
-                "WHEN saving this new curvePoint " +
-                "THEN the returned value is the added curvePoint (DTO)")
-        void createCurvePointTest_WithSuccess() {
-            //GIVEN
-            when(curvePointRepositoryMock.save(any(CurvePoint.class))).thenReturn(curvePointInDb);
-
-            //WHEN
-            Optional<CurvePointDTO> createdCurvePointDTO = curvePointService.create(curvePointDTOWithValues);
-
-            //THEN
-            assertTrue(createdCurvePointDTO.isPresent());
-            assertNotNull(createdCurvePointDTO.get().getId());
-            assertEquals(curvePointDTOWithValues.toString(), createdCurvePointDTO.get().toString());
-
-            verify(curvePointRepositoryMock, Mockito.times(1))
-                    .save(any(CurvePoint.class));
-        }
-
+    @DisplayName("create tests")
+    class CreateTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN saving a nex curvePoint " +
                 "THEN an exception is thrown")
-        void createCurvePointTest_WithException() {
+        void createTest_WithException() {
             //GIVEN
             when(curvePointRepositoryMock.save(any(CurvePoint.class))).thenThrow(new RuntimeException());
 
@@ -102,14 +79,14 @@ public class CurvePointServiceTest {
 
 
     @Nested
-    @DisplayName("findAllCurvePoint tests")
-    class FindAllCurvePointTest {
+    @DisplayName("findAll tests")
+    class FindAllTest {
 
         @Test
         @DisplayName("GIVEN curvePoint in DB " +
                 "WHEN getting all the curvePoint " +
                 "THEN the returned value is the list of curvePoint")
-        void findAllCurvePointTest_WithDataInDB() {
+        void findAllTest_WithDataInDB() {
             //GIVEN
             List<CurvePoint> curvePointList = new ArrayList<>();
             curvePointList.add(curvePointInDb);
@@ -127,7 +104,7 @@ public class CurvePointServiceTest {
         @DisplayName("GIVEN no curvePoint in DB " +
                 "WHEN getting all the curvePoint " +
                 "THEN the returned value is an empty list of curvePoint")
-        void findAllCurvePointTest_WithNoDataInDB() {
+        void findAllTest_WithNoDataInDB() {
             //GIVEN
             List<CurvePoint> curvePointList = new ArrayList<>();
             when(curvePointRepositoryMock.findAll()).thenReturn(curvePointList);
@@ -142,30 +119,14 @@ public class CurvePointServiceTest {
 
 
     @Nested
-    @DisplayName("findCurvePointById tests")
-    class FindCurvePointByIdTest {
-
-        @Test
-        @DisplayName("GIVEN curvePoint in DB for a specified id" +
-                "WHEN getting the curvePoint on id " +
-                "THEN the returned value is the curvePoint")
-        void findCurvePointByIdTest_WithDataInDB() {
-            //GIVEN
-            when(curvePointRepositoryMock.findById(anyInt())).thenReturn(Optional.of(curvePointInDb));
-
-            //THEN
-            CurvePointDTO curvePointDTO = curvePointService.findById(TestConstants.EXISTING_CURVE_POINT_ID);
-            assertEquals(curvePointInDb.getId(), curvePointDTO.getId());
-            assertEquals(curvePointInDb.getCurveId(), curvePointDTO.getCurveId());
-
-            verify(curvePointRepositoryMock, Mockito.times(1)).findById(anyInt());
-        }
+    @DisplayName("findById tests")
+    class FindByIdTest {
 
         @Test
         @DisplayName("GIVEN no curvePoint in DB for a specified id " +
                 "WHEN getting all the curvePoint " +
                 "THEN the returned value is a null curvePoint")
-        void findCurvePointByIdTest_WithNoDataInDB() {
+        void findByIdTest_WithNoDataInDB() {
             //GIVEN
             when(curvePointRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -181,33 +142,14 @@ public class CurvePointServiceTest {
 
 
     @Nested
-    @DisplayName("updateCurvePoint tests")
-    class UpdateCurvePointTest {
-
-        @Test
-        @DisplayName("GIVEN a curvePoint to update " +
-                "WHEN updating this curvePoint " +
-                "THEN the returned value is the updated curvePoint")
-        void updateCurvePointTest_WithSuccess() {
-            //GIVEN
-            when(curvePointRepositoryMock.save(any(CurvePoint.class))).thenReturn(curvePointInDb);
-
-            //WHEN
-            CurvePointDTO createdCurvePointDTO = curvePointService.update(curvePointDTOWithValues);
-
-            //THEN
-            assertEquals(curvePointDTOWithValues.toString(), createdCurvePointDTO.toString());
-
-            verify(curvePointRepositoryMock, Mockito.times(1))
-                    .save(any(CurvePoint.class));
-        }
-
+    @DisplayName("update tests")
+    class UpdateTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN updating a curvePoint " +
                 "THEN an exception is thrown")
-        void updateCurvePointTest_WithException() {
+        void updateTest_WithException() {
             //GIVEN
             when(curvePointRepositoryMock.save(any(CurvePoint.class))).thenThrow(new RuntimeException());
 
@@ -222,33 +164,14 @@ public class CurvePointServiceTest {
 
 
     @Nested
-    @DisplayName("deleteCurvePoint tests")
-    class DeleteCurvePointTest {
-
-        @Test
-        @DisplayName("GIVEN a curvePoint to delete " +
-                "WHEN deleting this curvePoint " +
-                "THEN nothing is returned")
-        void deleteCurvePointTest_WithSuccess() {
-            //GIVEN
-            when(curvePointRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(curvePointInDb));
-
-            //WHEN
-            curvePointService.delete(curvePointInDb.getId());
-
-            //THEN
-            verify(curvePointRepositoryMock, Mockito.times(1))
-                    .findById(anyInt());
-            verify(curvePointRepositoryMock, Mockito.times(1))
-                    .delete(any(CurvePoint.class));
-        }
-
+    @DisplayName("delete tests")
+    class DeleteTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN deleting a curvePoint " +
                 "THEN an exception is thrown")
-        void deleteCurvePointTest_WithException() {
+        void deleteTest_WithException() {
             //GIVEN
             when(curvePointRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(curvePointInDb));
             doThrow(new RuntimeException()).when(curvePointRepositoryMock).delete(any(CurvePoint.class));
@@ -268,7 +191,7 @@ public class CurvePointServiceTest {
         @DisplayName("GIVEN no curvePoint in DB for the specified id " +
                 "WHEN deleting a curvePoint " +
                 "THEN an exception is thrown")
-        void deleteCurvePointTest_WithNoDataInDb() {
+        void deleteTest_WithNoDataInDb() {
             //GIVEN
             when(curvePointRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -287,7 +210,7 @@ public class CurvePointServiceTest {
         @DisplayName("GIVEN no id is specified " +
                 "WHEN asking for the deletion of a curvePoint " +
                 "THEN an exception is thrown")
-        void deleteCurvePointTest_WithNoGivenId() {
+        void deleteTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
                     () -> curvePointService.delete(null));

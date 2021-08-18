@@ -67,7 +67,7 @@ public class BidListServiceIT {
     @DisplayName("WHEN creating a new bidList with correct informations  " +
             "THEN the returned value is the added bidList, " +
             "AND the bidList is added in DB")
-    public void createBidListIT_WithSuccess() {
+    public void createIT_WithSuccess() {
 
         //WHEN
         Optional<BidListDTO> bidListDTOCreated = bidListService.create(bidListDTO);
@@ -85,7 +85,7 @@ public class BidListServiceIT {
     @Test
     @DisplayName("WHEN asking for the list of all bidList " +
             "THEN the returned value is the list of all bidList in DB")
-    public void findAllBidListIT_WithSuccess() {
+    public void findAllIT_WithSuccess() {
 
         //WHEN
         List<BidListDTO> bidListDTOList = bidListService.findAll();
@@ -99,7 +99,7 @@ public class BidListServiceIT {
     @Test
     @DisplayName("WHEN asking for a bidList with a specified id " +
             "THEN the returned value is the bidList in DB")
-    public void findBidListByIdIT_WithSuccess() {
+    public void findByIdIT_WithSuccess() {
 
         //WHEN
         BidListDTO bidListDTO = bidListService.findById(bidListInDb.getBidListId());
@@ -116,7 +116,7 @@ public class BidListServiceIT {
     @DisplayName("WHEN updating a bidList with correct informations  " +
             "THEN the returned value is the updated bidList, " +
             "AND the bidList is updated in DB")
-    public void updateBidListIT_WithSuccess() {
+    public void updateIT_WithSuccess() {
 
         //GIVEN
         bidListDTO.setBidListId(bidListInDb.getBidListId());
@@ -140,7 +140,7 @@ public class BidListServiceIT {
     @Tag("SkipCleanUp")
     @DisplayName("WHEN deleting a bidList with correct informations  " +
             "THEN the bidList is deleted in DB")
-    public void deleteBidListIT_WithSuccess() {
+    public void deleteIT_WithSuccess() {
 
         //WHEN
         bidListService.delete(bidListInDb.getBidListId());

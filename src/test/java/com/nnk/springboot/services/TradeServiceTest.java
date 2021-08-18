@@ -22,9 +22,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
@@ -60,37 +58,15 @@ public class TradeServiceTest {
     }
 
     @Nested
-    @DisplayName("CreateTrade tests")
-    class CreateTradeTest {
-
-        @WithMockUser
-        @Test
-        @DisplayName("GIVEN a new trade (DTO) to add " +
-                "WHEN saving this new trade " +
-                "THEN the returned value is the added trade (DTO)")
-        void createTradeTest_WithSuccess() {
-            //GIVEN
-            when(tradeRepositoryMock.save(any(Trade.class))).thenReturn(tradeInDb);
-
-            //WHEN
-            Optional<TradeDTO> createdTradeDTO = tradeService.create(tradeDTOWithValues);
-
-            //THEN
-            assertTrue(createdTradeDTO.isPresent());
-            assertNotNull(createdTradeDTO.get().getTradeId());
-            assertEquals(tradeDTOWithValues.toString(), createdTradeDTO.get().toString());
-
-            verify(tradeRepositoryMock, Mockito.times(1))
-                    .save(any(Trade.class));
-        }
-
+    @DisplayName("create tests")
+    class CreateTest {
 
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN saving a nex trade " +
                 "THEN an exception is thrown")
-        void createTradeTest_WithException() {
+        void createTest_WithException() {
             //GIVEN
             when(tradeRepositoryMock.save(any(Trade.class))).thenThrow(new RuntimeException());
 
@@ -105,32 +81,14 @@ public class TradeServiceTest {
 
 
     @Nested
-    @DisplayName("findAllTrade tests")
-    class FindAllTradeTest {
-
-        @Test
-        @DisplayName("GIVEN trade in DB " +
-                "WHEN getting all the trade " +
-                "THEN the returned value is the list of trade")
-        void findAllTradeTest_WithDataInDB() {
-            //GIVEN
-            List<Trade> tradeList = new ArrayList<>();
-            tradeList.add(tradeInDb);
-            when(tradeRepositoryMock.findAll()).thenReturn(tradeList);
-
-            //THEN
-            List<TradeDTO> tradeDTOList = tradeService.findAll();
-            assertEquals(1, tradeDTOList.size());
-            assertEquals(tradeInDb.getTradeId(), tradeDTOList.get(0).getTradeId());
-
-            verify(tradeRepositoryMock, Mockito.times(1)).findAll();
-        }
+    @DisplayName("findAll tests")
+    class FindAllTest {
 
         @Test
         @DisplayName("GIVEN no trade in DB " +
                 "WHEN getting all the trade " +
                 "THEN the returned value is an empty list of trade")
-        void findAllTradeTest_WithNoDataInDB() {
+        void findAllTest_WithNoDataInDB() {
             //GIVEN
             List<Trade> tradeList = new ArrayList<>();
             when(tradeRepositoryMock.findAll()).thenReturn(tradeList);
@@ -145,30 +103,14 @@ public class TradeServiceTest {
 
 
     @Nested
-    @DisplayName("findTradeById tests")
-    class FindTradeByIdTest {
-
-        @Test
-        @DisplayName("GIVEN trade in DB for a specified id" +
-                "WHEN getting the trade on id " +
-                "THEN the returned value is the trade")
-        void findTradeByIdTest_WithDataInDB() {
-            //GIVEN
-            when(tradeRepositoryMock.findById(anyInt())).thenReturn(Optional.of(tradeInDb));
-
-            //THEN
-            TradeDTO tradeDTO = tradeService.findById(TestConstants.EXISTING_TRADE_ID);
-            assertEquals(tradeInDb.getTradeId(), tradeDTO.getTradeId());
-            assertEquals(tradeInDb.getAccount(), tradeDTO.getAccount());
-
-            verify(tradeRepositoryMock, Mockito.times(1)).findById(anyInt());
-        }
+    @DisplayName("findById tests")
+    class FindByIdTest {
 
         @Test
         @DisplayName("GIVEN no trade in DB for a specified id " +
                 "WHEN getting all the trade " +
                 "THEN the returned value is a null trade")
-        void findTradeByIdTest_WithNoDataInDB() {
+        void findByIdTest_WithNoDataInDB() {
             //GIVEN
             when(tradeRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -184,35 +126,15 @@ public class TradeServiceTest {
 
 
     @Nested
-    @DisplayName("updateTrade tests")
-    class UpdateTradeTest {
-
-        @WithMockUser
-        @Test
-        @DisplayName("GIVEN a trade to update " +
-                "WHEN updating this trade " +
-                "THEN the returned value is the updated trade")
-        void updateTradeTest_WithSuccess() {
-            //GIVEN
-            when(tradeRepositoryMock.save(any(Trade.class))).thenReturn(tradeInDb);
-
-            //WHEN
-            TradeDTO createdTradeDTO = tradeService.update(tradeDTOWithValues);
-
-            //THEN
-            assertEquals(tradeDTOWithValues.toString(), createdTradeDTO.toString());
-
-            verify(tradeRepositoryMock, Mockito.times(1))
-                    .save(any(Trade.class));
-        }
-
+    @DisplayName("update tests")
+    class UpdateTest {
 
         @WithMockUser
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN updating a trade " +
                 "THEN an exception is thrown")
-        void updateTradeTest_WithException() {
+        void updateTest_WithException() {
             //GIVEN
             when(tradeRepositoryMock.save(any(Trade.class))).thenThrow(new RuntimeException());
 
@@ -227,33 +149,14 @@ public class TradeServiceTest {
 
 
     @Nested
-    @DisplayName("deleteTrade tests")
-    class DeleteTradeTest {
-
-        @Test
-        @DisplayName("GIVEN a trade to delete " +
-                "WHEN deleting this trade " +
-                "THEN nothing is returned")
-        void deleteTradeTest_WithSuccess() {
-            //GIVEN
-            when(tradeRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(tradeInDb));
-
-            //WHEN
-            tradeService.delete(tradeInDb.getTradeId());
-
-            //THEN
-            verify(tradeRepositoryMock, Mockito.times(1))
-                    .findById(anyInt());
-            verify(tradeRepositoryMock, Mockito.times(1))
-                    .delete(any(Trade.class));
-        }
-
+    @DisplayName("delete tests")
+    class DeleteTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN deleting a trade " +
                 "THEN an exception is thrown")
-        void deleteTradeTest_WithException() {
+        void deleteTest_WithException() {
             //GIVEN
             when(tradeRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(tradeInDb));
             doThrow(new RuntimeException()).when(tradeRepositoryMock).delete(any(Trade.class));
@@ -273,7 +176,7 @@ public class TradeServiceTest {
         @DisplayName("GIVEN no trade in DB for the specified id " +
                 "WHEN deleting a trade " +
                 "THEN an exception is thrown")
-        void deleteTradeTest_WithNoDataInDb() {
+        void deleteTest_WithNoDataInDb() {
             //GIVEN
             when(tradeRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -292,7 +195,7 @@ public class TradeServiceTest {
         @DisplayName("GIVEN no id is specified " +
                 "WHEN asking for the deletion of a trade " +
                 "THEN an exception is thrown")
-        void deleteTradeTest_WithNoGivenId() {
+        void deleteTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
                     () -> tradeService.delete(null));

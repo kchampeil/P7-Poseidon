@@ -67,7 +67,7 @@ public class RatingServiceIT {
     @DisplayName("WHEN creating a new rating with correct informations  " +
             "THEN the returned value is the added rating, " +
             "AND the rating is added in DB")
-    public void createRatingIT_WithSuccess() {
+    public void createIT_WithSuccess() {
 
         //WHEN
         Optional<RatingDTO> ratingDTOCreated = ratingService.create(ratingDTO);
@@ -85,7 +85,7 @@ public class RatingServiceIT {
     @Test
     @DisplayName("WHEN asking for the list of all rating " +
             "THEN the returned value is the list of all rating in DB")
-    public void findAllRatingIT_WithSuccess() {
+    public void findAllIT_WithSuccess() {
 
         //WHEN
         List<RatingDTO> ratingDTOList = ratingService.findAll();
@@ -99,7 +99,7 @@ public class RatingServiceIT {
     @Test
     @DisplayName("WHEN asking for a rating with a specified id " +
             "THEN the returned value is the rating in DB")
-    public void findRatingByIdIT_WithSuccess() {
+    public void findByIdIT_WithSuccess() {
 
         //WHEN
         RatingDTO ratingDTO = ratingService.findById(ratingInDb.getId());
@@ -117,7 +117,7 @@ public class RatingServiceIT {
     @DisplayName("WHEN updating a rating with correct informations  " +
             "THEN the returned value is the updated rating, " +
             "AND the rating is updated in DB")
-    public void updateRatingIT_WithSuccess() {
+    public void updateIT_WithSuccess() {
 
         //GIVEN
         ratingDTO.setId(ratingInDb.getId());
@@ -140,7 +140,7 @@ public class RatingServiceIT {
     @Tag("SkipCleanUp")
     @DisplayName("WHEN deleting a rating with correct informations  " +
             "THEN the rating is deleted in DB")
-    public void deleteRatingIT_WithSuccess() {
+    public void deleteIT_WithSuccess() {
 
         //WHEN
         ratingService.delete(ratingInDb.getId());

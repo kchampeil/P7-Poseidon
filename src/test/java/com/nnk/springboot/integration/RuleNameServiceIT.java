@@ -71,7 +71,7 @@ public class RuleNameServiceIT {
     @DisplayName("WHEN creating a new ruleName with correct informations  " +
             "THEN the returned value is the added ruleName, " +
             "AND the ruleName is added in DB")
-    public void createRuleNameIT_WithSuccess() {
+    public void createIT_WithSuccess() {
 
         //WHEN
         Optional<RuleNameDTO> ruleNameDTOCreated = ruleNameService.create(ruleNameDTO);
@@ -89,7 +89,7 @@ public class RuleNameServiceIT {
     @Test
     @DisplayName("WHEN asking for the list of all ruleName " +
             "THEN the returned value is the list of all ruleName in DB")
-    public void findAllRuleNameIT_WithSuccess() {
+    public void findAllIT_WithSuccess() {
 
         //WHEN
         List<RuleNameDTO> ruleNameDTOList = ruleNameService.findAll();
@@ -103,7 +103,7 @@ public class RuleNameServiceIT {
     @Test
     @DisplayName("WHEN asking for a ruleName with a specified id " +
             "THEN the returned value is the ruleName in DB")
-    public void findRuleNameByIdIT_WithSuccess() {
+    public void findByIdIT_WithSuccess() {
 
         //WHEN
         RuleNameDTO ruleNameDTO = ruleNameService.findById(ruleNameInDb.getId());
@@ -121,7 +121,7 @@ public class RuleNameServiceIT {
     @DisplayName("WHEN updating a ruleName with correct informations  " +
             "THEN the returned value is the updated ruleName, " +
             "AND the ruleName is updated in DB")
-    public void updateRuleNameIT_WithSuccess() {
+    public void updateIT_WithSuccess() {
 
         //GIVEN
         ruleNameDTO.setId(ruleNameInDb.getId());
@@ -144,7 +144,7 @@ public class RuleNameServiceIT {
     @Tag("SkipCleanUp")
     @DisplayName("WHEN deleting a ruleName with correct informations  " +
             "THEN the ruleName is deleted in DB")
-    public void deleteRuleNameIT_WithSuccess() {
+    public void deleteIT_WithSuccess() {
 
         //WHEN
         ruleNameService.delete(ruleNameInDb.getId());

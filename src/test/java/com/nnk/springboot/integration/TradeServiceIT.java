@@ -67,7 +67,7 @@ public class TradeServiceIT {
     @DisplayName("WHEN creating a new trade with correct informations  " +
             "THEN the returned value is the added trade, " +
             "AND the trade is added in DB")
-    public void createTradeIT_WithSuccess() {
+    public void createIT_WithSuccess() {
 
         //WHEN
         Optional<TradeDTO> tradeDTOCreated = tradeService.create(tradeDTO);
@@ -85,7 +85,7 @@ public class TradeServiceIT {
     @Test
     @DisplayName("WHEN asking for the list of all trade " +
             "THEN the returned value is the list of all trade in DB")
-    public void findAllTradeIT_WithSuccess() {
+    public void findAllIT_WithSuccess() {
 
         //WHEN
         List<TradeDTO> tradeDTOList = tradeService.findAll();
@@ -99,7 +99,7 @@ public class TradeServiceIT {
     @Test
     @DisplayName("WHEN asking for a trade with a specified id " +
             "THEN the returned value is the trade in DB")
-    public void findTradeByIdIT_WithSuccess() {
+    public void findByIdIT_WithSuccess() {
 
         //WHEN
         TradeDTO tradeDTO = tradeService.findById(tradeInDb.getTradeId());
@@ -117,7 +117,7 @@ public class TradeServiceIT {
     @DisplayName("WHEN updating a trade with correct informations  " +
             "THEN the returned value is the updated trade, " +
             "AND the trade is updated in DB")
-    public void updateTradeIT_WithSuccess() {
+    public void updateIT_WithSuccess() {
 
         //GIVEN
         tradeDTO.setTradeId(tradeInDb.getTradeId());
@@ -140,7 +140,7 @@ public class TradeServiceIT {
     @Tag("SkipCleanUp")
     @DisplayName("WHEN deleting a trade with correct informations  " +
             "THEN the trade is deleted in DB")
-    public void deleteTradeIT_WithSuccess() {
+    public void deleteIT_WithSuccess() {
 
         //WHEN
         tradeService.delete(tradeInDb.getTradeId());

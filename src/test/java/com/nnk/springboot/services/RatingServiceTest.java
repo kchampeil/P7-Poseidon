@@ -21,9 +21,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
@@ -61,35 +59,14 @@ public class RatingServiceTest {
     }
 
     @Nested
-    @DisplayName("CreateRating tests")
-    class CreateRatingTest {
-
-        @Test
-        @DisplayName("GIVEN a new rating (DTO) to add " +
-                "WHEN saving this new rating " +
-                "THEN the returned value is the added rating (DTO)")
-        void createRatingTest_WithSuccess() {
-            //GIVEN
-            when(ratingRepositoryMock.save(any(Rating.class))).thenReturn(ratingInDb);
-
-            //WHEN
-            Optional<RatingDTO> createdRatingDTO = ratingService.create(ratingDTOWithValues);
-
-            //THEN
-            assertTrue(createdRatingDTO.isPresent());
-            assertNotNull(createdRatingDTO.get().getId());
-            assertEquals(ratingDTOWithValues.toString(), createdRatingDTO.get().toString());
-
-            verify(ratingRepositoryMock, Mockito.times(1))
-                    .save(any(Rating.class));
-        }
-
+    @DisplayName("create tests")
+    class CreateTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN saving a nex rating " +
                 "THEN an exception is thrown")
-        void createRatingTest_WithException() {
+        void createTest_WithException() {
             //GIVEN
             when(ratingRepositoryMock.save(any(Rating.class))).thenThrow(new RuntimeException());
 
@@ -104,32 +81,14 @@ public class RatingServiceTest {
 
 
     @Nested
-    @DisplayName("findAllRating tests")
-    class FindAllRatingTest {
-
-        @Test
-        @DisplayName("GIVEN rating in DB " +
-                "WHEN getting all the rating " +
-                "THEN the returned value is the list of rating")
-        void findAllRatingTest_WithDataInDB() {
-            //GIVEN
-            List<Rating> ratingList = new ArrayList<>();
-            ratingList.add(ratingInDb);
-            when(ratingRepositoryMock.findAll()).thenReturn(ratingList);
-
-            //THEN
-            List<RatingDTO> ratingDTOList = ratingService.findAll();
-            assertEquals(1, ratingDTOList.size());
-            assertEquals(ratingInDb.getId(), ratingDTOList.get(0).getId());
-
-            verify(ratingRepositoryMock, Mockito.times(1)).findAll();
-        }
+    @DisplayName("findAll tests")
+    class FindAllTest {
 
         @Test
         @DisplayName("GIVEN no rating in DB " +
                 "WHEN getting all the rating " +
                 "THEN the returned value is an empty list of rating")
-        void findAllRatingTest_WithNoDataInDB() {
+        void findAllTest_WithNoDataInDB() {
             //GIVEN
             List<Rating> ratingList = new ArrayList<>();
             when(ratingRepositoryMock.findAll()).thenReturn(ratingList);
@@ -144,30 +103,14 @@ public class RatingServiceTest {
 
 
     @Nested
-    @DisplayName("findRatingById tests")
-    class FindRatingByIdTest {
-
-        @Test
-        @DisplayName("GIVEN rating in DB for a specified id" +
-                "WHEN getting the rating on id " +
-                "THEN the returned value is the rating")
-        void findRatingByIdTest_WithDataInDB() {
-            //GIVEN
-            when(ratingRepositoryMock.findById(anyInt())).thenReturn(Optional.of(ratingInDb));
-
-            //THEN
-            RatingDTO ratingDTO = ratingService.findById(TestConstants.EXISTING_RATING_ID);
-            assertEquals(ratingInDb.getId(), ratingDTO.getId());
-            assertEquals(ratingInDb.getMoodysRating(), ratingDTO.getMoodysRating());
-
-            verify(ratingRepositoryMock, Mockito.times(1)).findById(anyInt());
-        }
+    @DisplayName("findById tests")
+    class FindByIdTest {
 
         @Test
         @DisplayName("GIVEN no rating in DB for a specified id " +
                 "WHEN getting all the rating " +
                 "THEN the returned value is a null rating")
-        void findRatingByIdTest_WithNoDataInDB() {
+        void findByIdTest_WithNoDataInDB() {
             //GIVEN
             when(ratingRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -183,33 +126,14 @@ public class RatingServiceTest {
 
 
     @Nested
-    @DisplayName("updateRating tests")
-    class UpdateRatingTest {
-
-        @Test
-        @DisplayName("GIVEN a rating to update " +
-                "WHEN updating this rating " +
-                "THEN the returned value is the updated rating")
-        void updateRatingTest_WithSuccess() {
-            //GIVEN
-            when(ratingRepositoryMock.save(any(Rating.class))).thenReturn(ratingInDb);
-
-            //WHEN
-            RatingDTO createdRatingDTO = ratingService.update(ratingDTOWithValues);
-
-            //THEN
-            assertEquals(ratingDTOWithValues.toString(), createdRatingDTO.toString());
-
-            verify(ratingRepositoryMock, Mockito.times(1))
-                    .save(any(Rating.class));
-        }
-
+    @DisplayName("update tests")
+    class UpdateTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN updating a rating " +
                 "THEN an exception is thrown")
-        void updateRatingTest_WithException() {
+        void updateTest_WithException() {
             //GIVEN
             when(ratingRepositoryMock.save(any(Rating.class))).thenThrow(new RuntimeException());
 
@@ -224,33 +148,14 @@ public class RatingServiceTest {
 
 
     @Nested
-    @DisplayName("deleteRating tests")
-    class DeleteRatingTest {
-
-        @Test
-        @DisplayName("GIVEN a rating to delete " +
-                "WHEN deleting this rating " +
-                "THEN nothing is returned")
-        void deleteRatingTest_WithSuccess() {
-            //GIVEN
-            when(ratingRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(ratingInDb));
-
-            //WHEN
-            ratingService.delete(ratingInDb.getId());
-
-            //THEN
-            verify(ratingRepositoryMock, Mockito.times(1))
-                    .findById(anyInt());
-            verify(ratingRepositoryMock, Mockito.times(1))
-                    .delete(any(Rating.class));
-        }
-
+    @DisplayName("delete tests")
+    class DeleteTest {
 
         @Test
         @DisplayName("GIVEN an exception " +
                 "WHEN deleting a rating " +
                 "THEN an exception is thrown")
-        void deleteRatingTest_WithException() {
+        void deleteTest_WithException() {
             //GIVEN
             when(ratingRepositoryMock.findById(anyInt())).thenReturn(Optional.ofNullable(ratingInDb));
             doThrow(new RuntimeException()).when(ratingRepositoryMock).delete(any(Rating.class));
@@ -270,7 +175,7 @@ public class RatingServiceTest {
         @DisplayName("GIVEN no rating in DB for the specified id " +
                 "WHEN deleting a rating " +
                 "THEN an exception is thrown")
-        void deleteRatingTest_WithNoDataInDb() {
+        void deleteTest_WithNoDataInDb() {
             //GIVEN
             when(ratingRepositoryMock.findById(anyInt())).thenReturn(Optional.empty());
 
@@ -289,7 +194,7 @@ public class RatingServiceTest {
         @DisplayName("GIVEN no id is specified " +
                 "WHEN asking for the deletion of a rating " +
                 "THEN an exception is thrown")
-        void deleteRatingTest_WithNoGivenId() {
+        void deleteTest_WithNoGivenId() {
             //THEN
             assertThrows(IllegalArgumentException.class,
                     () -> ratingService.delete(null));
