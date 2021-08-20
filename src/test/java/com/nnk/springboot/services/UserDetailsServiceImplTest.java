@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 class UserDetailsServiceImplTest {
 
     @MockBean
-    UserRepository userRepositoryMock;
+    private UserRepository userRepositoryMock;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;

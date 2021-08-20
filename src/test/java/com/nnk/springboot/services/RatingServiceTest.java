@@ -32,10 +32,10 @@ import static org.mockito.Mockito.when;
 public class RatingServiceTest {
 
     @MockBean
-    RatingRepository ratingRepositoryMock;
+    private RatingRepository ratingRepositoryMock;
 
     @Autowired
-    IRatingService ratingService;
+    private IRatingService ratingService;
 
     private static RatingDTO ratingDTOWithValues;
 

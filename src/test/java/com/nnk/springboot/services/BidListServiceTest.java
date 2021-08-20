@@ -33,10 +33,10 @@ import static org.mockito.Mockito.when;
 class BidListServiceTest {
 
     @MockBean
-    BidListRepository bidListRepositoryMock;
+    private BidListRepository bidListRepositoryMock;
 
     @Autowired
-    IBidListService bidListService;
+    private IBidListService bidListService;
 
     private static BidListDTO bidListDTOWithValues;
 

@@ -28,10 +28,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class RuleNameServiceIT {
     @Autowired
-    IRuleNameService ruleNameService;
+    private IRuleNameService ruleNameService;
 
     @Autowired
-    RuleNameRepository ruleNameRepository;
+    private RuleNameRepository ruleNameRepository;
 
     private RuleName ruleNameInDb;
     private RuleNameDTO ruleNameDTO;

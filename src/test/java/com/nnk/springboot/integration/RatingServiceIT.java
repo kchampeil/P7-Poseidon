@@ -28,10 +28,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class RatingServiceIT {
     @Autowired
-    IRatingService ratingService;
+    private IRatingService ratingService;
 
     @Autowired
-    RatingRepository ratingRepository;
+    private RatingRepository ratingRepository;
 
     private Rating ratingInDb;
     private RatingDTO ratingDTO;

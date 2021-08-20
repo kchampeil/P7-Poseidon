@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class UserServiceIT {
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     private User userInDb;
     private UserDTO userDTO;

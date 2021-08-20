@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class BidListServiceIT {
     @Autowired
-    IBidListService bidListService;
+    private IBidListService bidListService;
 
     @Autowired
-    BidListRepository bidListRepository;
+    private BidListRepository bidListRepository;
 
     private BidList bidListInDb;
     private BidListDTO bidListDTO;

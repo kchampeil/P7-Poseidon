@@ -28,10 +28,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class CurvePointServiceIT {
     @Autowired
-    ICurvePointService curvePointService;
+    private ICurvePointService curvePointService;
 
     @Autowired
-    CurvePointRepository curvePointRepository;
+    private CurvePointRepository curvePointRepository;
 
     private CurvePoint curvePointInDb;
     private CurvePointDTO curvePointDTO;

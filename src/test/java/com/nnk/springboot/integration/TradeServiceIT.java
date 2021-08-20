@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 public class TradeServiceIT {
     @Autowired
-    ITradeService tradeService;
+    private ITradeService tradeService;
 
     @Autowired
-    TradeRepository tradeRepository;
+    private TradeRepository tradeRepository;
 
     private Trade tradeInDb;
     private TradeDTO tradeDTO;

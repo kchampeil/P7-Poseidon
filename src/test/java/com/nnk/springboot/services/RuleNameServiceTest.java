@@ -32,10 +32,10 @@ import static org.mockito.Mockito.when;
 public class RuleNameServiceTest {
 
     @MockBean
-    RuleNameRepository ruleNameRepositoryMock;
+    private RuleNameRepository ruleNameRepositoryMock;
 
     @Autowired
-    IRuleNameService ruleNameService;
+    private IRuleNameService ruleNameService;
 
     private static RuleNameDTO ruleNameDTOWithValues;
 

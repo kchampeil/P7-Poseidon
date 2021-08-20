@@ -32,10 +32,10 @@ import static org.mockito.Mockito.when;
 public class CurvePointServiceTest {
 
     @MockBean
-    CurvePointRepository curvePointRepositoryMock;
+    private CurvePointRepository curvePointRepositoryMock;
 
     @Autowired
-    ICurvePointService curvePointService;
+    private ICurvePointService curvePointService;
 
     private static CurvePointDTO curvePointDTOWithValues;
 

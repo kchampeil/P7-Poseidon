@@ -33,10 +33,10 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     @MockBean
-    UserRepository userRepositoryMock;
+    private UserRepository userRepositoryMock;
 
     @Autowired
-    IUserService userService;
+    private IUserService userService;
 
     private static UserDTO userDTOWithValues;
 

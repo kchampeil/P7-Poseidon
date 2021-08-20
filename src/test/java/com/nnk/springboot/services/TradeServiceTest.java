@@ -33,10 +33,10 @@ import static org.mockito.Mockito.when;
 public class TradeServiceTest {
 
     @MockBean
-    TradeRepository tradeRepositoryMock;
+    private TradeRepository tradeRepositoryMock;
 
     @Autowired
-    ITradeService tradeService;
+    private ITradeService tradeService;
 
     private static TradeDTO tradeDTOWithValues;
 
