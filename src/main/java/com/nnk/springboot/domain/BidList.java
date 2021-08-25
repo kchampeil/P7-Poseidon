@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -45,60 +44,48 @@ public class BidList {
     @Column(name = "ask")
     private Double ask;
 
-    @Size(max = 125)
     @Column(name = "benchmark", length = 125)
     private String benchmark;
 
     @Column(name = "bidListDate")
     private LocalDateTime bidListDate;
 
-    @Size(max = 125)
     @Column(name = "commentary", length = 125)
     private String commentary;
 
-    @Size(max = 125)
     @Column(name = "security", length = 125)
     private String security;
 
-    @Size(max = 10)
     @Column(name = "status", length = 10)
     private String status;
 
-    @Size(max = 125)
     @Column(name = "trader", length = 125)
     private String trader;
 
-    @Size(max = 125)
     @Column(name = "book", length = 125)
     private String book;
 
-    @Size(max = 125)
     @Column(name = "creationName", length = 125)
     private String creationName;
 
     @Column(name = "creationDate")
     private LocalDateTime creationDate;
 
-    @Size(max = 125)
     @Column(name = "revisionName", length = 125)
     private String revisionName;
 
     @Column(name = "revisionDate")
     private LocalDateTime revisionDate;
 
-    @Size(max = 125)
     @Column(name = "dealName", length = 125)
     private String dealName;
 
-    @Size(max = 125)
     @Column(name = "dealType", length = 125)
     private String dealType;
 
-    @Size(max = 125)
     @Column(name = "sourceListId", length = 125)
     private String sourceListId;
 
-    @Size(max = 125)
     @Column(name = "side", length = 125)
     private String side;
 }
